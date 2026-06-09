@@ -1,3 +1,5 @@
+-- Catatan: Tambah RLS untuk security. di tabel editor auth-profiles.
+
 -- create table profiles
 create table if not exists public.profiles (
   id uuid not null references auth.users on delete cascade,

@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from '@/components/ui/sidebar';
 import { HugeiconsIcon } from '@hugeicons/react';
@@ -19,19 +20,24 @@ export function NavMain({
     }[];
   }[];
 }) {
+  const pathname = usePathname();
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
-          // Cek apakah menu memiliki sub-item
           const hasSubItems = item.items && item.items.length > 0;
 
-          // Jika TIDAK memiliki sub-item (seperti Dashboard), render tombol biasa
           if (!hasSubItems) {
+            const isActive = 
+              item.url === '/' 
+                ? pathname === item.url 
+                : item.url !== '#' && pathname.startsWith(item.url);
+
             return (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild tooltip={item.title} isActive={item.isActive}>
+                <SidebarMenuButton asChild tooltip={item.title} isActive={isActive || item.isActive}>
                   <a href={item.url}>
                     {item.icon}
                     <span>{item.title}</span>
@@ -41,9 +47,10 @@ export function NavMain({
             );
           }
 
-          // Jika memiliki sub-item, render sebagai Collapsible
+          const isGroupActive = item.items?.some((sub) => sub.url !== '#' && pathname.startsWith(sub.url)) || item.isActive;
+
           return (
-            <Collapsible key={item.title} asChild defaultOpen={item.isActive} className="group/collapsible">
+            <Collapsible key={item.title} asChild defaultOpen={isGroupActive} className="group/collapsible">
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton tooltip={item.title}>
@@ -54,15 +61,21 @@ export function NavMain({
                 </CollapsibleTrigger>
                 <CollapsibleContent>
                   <SidebarMenuSub>
-                    {item.items?.map((subItem) => (
-                      <SidebarMenuSubItem key={subItem.title}>
-                        <SidebarMenuSubButton asChild>
-                          <a href={subItem.url}>
-                            <span>{subItem.title}</span>
-                          </a>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
+                    {item.items?.map((subItem) => {
+                      const isSubActive = subItem.url === '/' 
+                        ? pathname === subItem.url 
+                        : subItem.url !== '#' && pathname.startsWith(subItem.url);
+
+                      return (
+                        <SidebarMenuSubItem key={subItem.title}>
+                          <SidebarMenuSubButton asChild isActive={isSubActive}>
+                            <a href={subItem.url}>
+                              <span>{subItem.title}</span>
+                            </a>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      );
+                    })}
                   </SidebarMenuSub>
                 </CollapsibleContent>
               </SidebarMenuItem>

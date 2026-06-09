@@ -54,7 +54,6 @@ const data = {
       title: 'Dashboard',
       url: '/dashboard',
       icon: <HugeiconsIcon icon={DashboardSquare01Icon} strokeWidth={2} />,
-      isActive: true,
       items: [],
     },
     {
@@ -62,8 +61,8 @@ const data = {
       url: '#',
       icon: <HugeiconsIcon icon={News01Icon} strokeWidth={2} />,
       items: [
-        { title: 'Tambah Berita Baru', url: '#' },
-        { title: 'Semua Berita', url: '#' },
+        { title: 'Semua Berita', url: '/all-news' },
+        { title: 'Tambah Berita Baru', url: '/add-news' },
         { title: 'Kategori Berita', url: '#' },
         { title: 'Komentar Publik', url: '#' },
       ],

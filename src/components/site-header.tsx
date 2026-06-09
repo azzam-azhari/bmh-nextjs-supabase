@@ -1,7 +1,7 @@
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { ModeToggle } from './ui/mode-toggle';
-import DashboardBreadcrumb from '@/app/(admin)/_components/breadcrumbb';
+import DashboardBreadcrumb from '@/app/(admin)/_components/breadcrumb';
 // import { Breadcrumb } from './ui/breadcrumb';
 
 export function SiteHeader() {
