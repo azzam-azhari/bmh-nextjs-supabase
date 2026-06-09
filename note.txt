@@ -1,0 +1,3 @@
+wpu: auth system 1
+
+_components : selama didalamnya gak ada file page.tsx gak akan bisa diakses
