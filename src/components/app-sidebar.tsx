@@ -27,6 +27,9 @@ import {
   BookOpen02Icon,
 } from '@hugeicons/core-free-icons';
 
+// Tambahkan import Image dari next/image jika ingin menggunakan komponen Image dari Next.js (lebih optimal)
+// import Image from 'next/image';
+
 const data = {
   user: {
     name: 'shadcn',
@@ -35,8 +38,9 @@ const data = {
   },
   teams: [
     {
-      name: 'Acme Inc',
-      logo: <HugeiconsIcon icon={LayoutBottomIcon} strokeWidth={2} />,
+      name: 'BMH',
+      // Ganti string path dengan elemen img
+      logo: <img src="/bmh.jpg" alt="Logo BMH" className="w-8 h-8 object-contain rounded-md" />, // Ganti className sesuai kebutuhan styling
       plan: 'Enterprise',
     },
     {
