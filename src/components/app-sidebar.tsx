@@ -40,8 +40,8 @@ const data = {
     {
       name: 'BMH',
       // Ganti string path dengan elemen img
-      logo: <img src="/bmh.jpg" alt="Logo BMH" className="w-8 h-8 object-contain rounded-md" />, // Ganti className sesuai kebutuhan styling
-      plan: 'Enterprise',
+      logo: <img src="/bmh.jpg" alt="Logo BMH" className="size-full rounded-[inherit] object-cover" />,
+      plan: 'Administrator',
     },
     {
       name: 'Acme Corp.',
@@ -57,7 +57,7 @@ const data = {
   navMain: [
     {
       title: 'Dashboard',
-      url: '#',
+      url: '/dashboard',
       icon: <HugeiconsIcon icon={DashboardSquare01Icon} strokeWidth={2} />,
       isActive: true,
       items: [],
@@ -115,8 +115,8 @@ const data = {
       url: '#',
       icon: <HugeiconsIcon icon={Settings05Icon} strokeWidth={2} />,
       items: [
-        { title: 'Manajemen User', url: '#' },
-        { title: 'Hak Akses', url: '#' },
+        { title: 'Manajemen User', url: '/user-management' },
+        { title: 'Hak Akses', url: '/permissions' },
       ],
     },
   ],
