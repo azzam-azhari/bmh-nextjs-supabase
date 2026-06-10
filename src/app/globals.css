@@ -3,7 +3,9 @@
 @import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
+/* Mendefinisikan class 'dark' untuk mode gelap */
 
+/* Blok ini menghubungkan CSS variable dengan utility class milik Tailwind (contoh: bg-background) */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -48,60 +50,105 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* :root adalah tema default (Light Mode). 
+   oklch() adalah format warna modern berbasis Lightness, Chroma, dan Hue. */
 :root {
   --background: oklch(1 0 0);
+  /* Warna latar belakang utama website (Putih) */
   --foreground: oklch(0.145 0 0);
+  /* Warna teks utama (Hitam/Gelap) */
   --card: oklch(1 0 0);
+  /* Warna latar belakang untuk komponen Card */
   --card-foreground: oklch(0.145 0 0);
+  /* Warna teks di dalam Card */
   --popover: oklch(1 0 0);
+  /* Warna latar menu popover/dropdown */
   --popover-foreground: oklch(0.145 0 0);
+  /* Warna teks pada popover */
   --primary: oklch(0.205 0 0);
+  /* Warna utama aplikasi (misal: tombol utama) */
   --primary-foreground: oklch(0.985 0 0);
+  /* Warna teks di atas warna primary */
   --secondary: oklch(0.97 0 0);
+  /* Warna elemen sekunder (misal: tombol alternatif) */
   --secondary-foreground: oklch(0.205 0 0);
+  /* Warna teks pada elemen sekunder */
   --muted: oklch(0.97 0 0);
+  /* Warna elemen yang tidak mencolok/redup */
   --muted-foreground: oklch(0.556 0 0);
+  /* Warna teks redup (misal: teks deskripsi/placeholder) */
   --accent: oklch(0.97 0 0);
+  /* Warna aksen (biasanya untuk state hover) */
   --accent-foreground: oklch(0.205 0 0);
+  /* Warna teks saat elemen terkena hover/aksen */
   --destructive: oklch(0.577 0.245 27.325);
+  /* Warna peringatan/error (biasanya merah) */
   --border: oklch(0.922 0 0);
+  /* Warna garis pembatas (border) default */
   --input: oklch(0.922 0 0);
+  /* Warna garis pembatas khusus untuk form input */
   --ring: oklch(0.708 0 0);
+  /* Warna bayangan (outline) saat elemen sedang fokus */
   --chart-1: oklch(0.87 0 0);
+  /* Warna ke-1 untuk grafik/chart */
   --chart-2: oklch(0.556 0 0);
+  /* Warna ke-2 untuk grafik/chart */
   --chart-3: oklch(0.439 0 0);
+  /* Warna ke-3 untuk grafik/chart */
   --chart-4: oklch(0.371 0 0);
+  /* Warna ke-4 untuk grafik/chart */
   --chart-5: oklch(0.269 0 0);
+  /* Warna ke-5 untuk grafik/chart */
   --radius: 0.625rem;
+  /* Ukuran default untuk sudut melengkung (border-radius) */
   /* --radius: 0.3rem; */
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* --sidebar: oklch(0.985 0 0); */
+  --sidebar: oklch(94.509% 0.00076 11.928 / 0.981);
+  --sidebar-foreground: oklch(0.25 0 0);
+  /* Teks abu-abu gelap agar lebih lembut di mata daripada hitam pekat */
+  --sidebar-primary: oklch(0.15 0 0);
+  /* Latar menu aktif gelap tegas (hampir hitam) */
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  /* Teks putih bersih pada menu aktif */
+  --sidebar-accent: oklch(0.90 0 0);
+  /* Latar hover sedikit lebih gelap dari background */
+  --sidebar-accent-foreground: oklch(0.15 0 0);
+  /* Teks hover tetap gelap */
+  --sidebar-border: oklch(0.88 0 0);
+  /* Garis batas (border) halus/samar */
+  --sidebar-ring: oklch(0.75 0 0);
+  /* Warna fokus/ring yang tidak mencolok */
 }
 
+/* Konfigurasi warna untuk Mode Gelap (Dark Mode) */
 .dark {
   --background: oklch(0.145 0 0);
+  /* Latar belakang aplikasi menjadi gelap */
   --foreground: oklch(0.985 0 0);
+  /* Teks menjadi terang/putih */
   --card: oklch(0.205 0 0);
+  /* Latar Card menjadi gelap */
   --card-foreground: oklch(0.985 0 0);
+  /* Teks dalam Card menjadi terang */
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
+  /* Tombol utama menjadi lebih terang */
   --primary-foreground: oklch(0.205 0 0);
+  /* Teks tombol utama gelap */
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
+  /* Teks deskripsi disesuaikan kontrasnya */
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
+  /* Merah yang lebih sesuai untuk dark mode */
   --border: oklch(1 0 0 / 10%);
+  /* Garis batas menggunakan warna putih transparan 10% */
   --input: oklch(1 0 0 / 15%);
+  /* Border input menggunakan warna putih transparan 15% */
   --ring: oklch(0.556 0 0);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
@@ -115,17 +162,23 @@
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
+  /* Border sidebar putih transparan 10% */
   --sidebar-ring: oklch(0.556 0 0);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    /* Menerapkan warna border & ring default ke semua elemen */
   }
+
   body {
     @apply bg-background text-foreground;
+    /* Mengaktifkan warna background dan teks sesuai tema otomatis */
   }
+
   html {
     @apply font-sans;
+    /* Menerapkan jenis huruf (font) sans-serif secara global */
   }
 }

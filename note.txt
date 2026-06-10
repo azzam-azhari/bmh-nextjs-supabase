@@ -1,23 +1,22 @@
 wpu: auth system 1, 2..., 4...
      dashboard - state-management...  Fetsch data...
 
+     pagination belum
+
 
 _components : selama didalamnya gak ada file page.tsx gak akan bisa diakses
 
 
 
 
-
-
+Note list:
+- Layout pada (admin) dan layout pada /app  | apakah ada conflig  |  <ReactQueryProvider> pindahkan ke admin
 
 
 
 
 RLS Supabase:
 Catatan: Tambah RLS untuk security "SELECT". di tabel editor auth-profiles.
-
-
-
 
 
 

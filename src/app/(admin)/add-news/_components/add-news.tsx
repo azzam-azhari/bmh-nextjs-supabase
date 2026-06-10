@@ -31,7 +31,9 @@ export default function AddNews() {
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6">
-      <div className="flex items-center justify-between">
+
+      {/* HEADER STANDAR */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 w-full">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Add News</h1>
           <p className="text-sm text-muted-foreground">
@@ -64,7 +66,7 @@ export default function AddNews() {
                 <Label htmlFor="title">Title</Label>
                 <Input id="title" placeholder="Enter news title" />
               </div>
-              
+
               <div className="flex flex-col gap-2">
                 <Label htmlFor="author">Author</Label>
                 <Input id="author" placeholder="John Doe" />
@@ -122,20 +124,19 @@ export default function AddNews() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div 
-                className={`mt-2 flex justify-center rounded-lg border border-dashed px-6 py-10 transition-colors ${
-                  dragActive ? "border-primary bg-primary/5" : "border-muted-foreground/25"
-                }`}
+              <div
+                className={`mt-2 flex justify-center rounded-lg border border-dashed px-6 py-10 transition-colors ${dragActive ? "border-primary bg-primary/5" : "border-muted-foreground/25"
+                  }`}
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
               >
                 <div className="text-center">
-                  <HugeiconsIcon 
-                    icon={ImageUploadIcon} 
-                    strokeWidth={1.5} 
-                    className="mx-auto h-12 w-12 text-muted-foreground/50" 
+                  <HugeiconsIcon
+                    icon={ImageUploadIcon}
+                    strokeWidth={1.5}
+                    className="mx-auto h-12 w-12 text-muted-foreground/50"
                   />
                   <div className="mt-4 flex text-sm leading-6 text-muted-foreground justify-center">
                     <label

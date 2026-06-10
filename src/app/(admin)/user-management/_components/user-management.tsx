@@ -61,11 +61,18 @@ export default function UserManagement() {
     return (
         <div className="flex flex-1 flex-col">
             <div className="@container/main flex flex-1 flex-col gap-2">
-                <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-4 lg:px-6">
-                    <div className="flex flex-col lg:flex-row gap-2 justify-between w-full">
-                        <h1 className="text-2xl font-bold">User Management</h1>
-                        <div className="flex gap-2">
-                            <Input placeholder="Search by name" />
+                <div className="flex flex-col gap-4 p-4 md:gap-6 md:p-6">
+
+                    {/* HEADER STANDAR */}
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 w-full">
+                        <div>
+                            <h1 className="text-2xl font-bold tracking-tight">User Management</h1>
+                            <p className="text-sm text-muted-foreground">
+                                Manage your website users and their roles.
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Input placeholder="Search by name" className="max-w-xs" />
                             <Dialog>
                                 <DialogTrigger asChild>
                                     <Button variant="outline">Create</Button>
@@ -73,6 +80,8 @@ export default function UserManagement() {
                             </Dialog>
                         </div>
                     </div>
+                    {/* END HEADER STANDAR */}
+
                     <DataTableUser
                         header={HEADER_TABLE_USER}
                         data={filteredData}
