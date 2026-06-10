@@ -1,5 +1,26 @@
 wpu: auth system 1, 2..., 4...
-     dashboard - state-management...
+     dashboard - state-management...  Fetsch data...
 
 
 _components : selama didalamnya gak ada file page.tsx gak akan bisa diakses
+
+
+
+
+
+
+
+
+
+
+RLS Supabase:
+Catatan: Tambah RLS untuk security "SELECT". di tabel editor auth-profiles.
+
+
+
+
+
+
+login:
+admin@bmh.or.id
+adminbmh

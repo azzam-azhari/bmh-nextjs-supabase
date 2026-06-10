@@ -1,6 +1,6 @@
 
 import { SectionCards } from '@/app/(admin)/dashboard/_components/section-cards';
-import { DataTableNews } from '@/components/data-table-news';
+import { DataTableNews } from '@/app/(admin)/all-news/_components/data-table-news';
 import dummyNewsData from '../data-dummy-news.json';
 
 export default function AllNews() {

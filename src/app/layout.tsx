@@ -7,6 +7,7 @@ import { ThemeProvider } from '@/providers/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import AuthStoreProvider from '@/providers/auth-store-provider';
 import { cookies } from 'next/headers';
+import ReactQueryProvider from '@/providers/react-query-provider';
 
 const figtree = Figtree({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -37,13 +38,20 @@ export default async function RootLayout({
   return (
     <html lang="en" className={cn('h-full', 'antialiased', geistSans.variable, geistMono.variable, 'font-sans', figtree.variable)} suppressHydrationWarning>
       <body className="min-h-full flex flex-col">
-        <AuthStoreProvider profile={profile} >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            <TooltipProvider>
-              {children}
-              <Toaster />
-            </TooltipProvider>
-          </ThemeProvider> </AuthStoreProvider>
+        <ReactQueryProvider>
+          <AuthStoreProvider profile={profile} >
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange>
+              <TooltipProvider>
+                {children}
+                <Toaster />
+              </TooltipProvider>
+            </ThemeProvider>
+          </AuthStoreProvider>
+        </ReactQueryProvider>
 
       </body>
     </html>
