@@ -12,7 +12,8 @@ _components : selama didalamnya gak ada file page.tsx gak akan bisa diakses
 
 Note list:
 - Layout pada (admin) dan layout pada /app  | apakah ada conflig  |  <ReactQueryProvider> pindahkan ke admin
-
+- Header dan footer pindah ke layout
+- translate step: https://chat.qwen.ai/s/t_06383894-9ae8-4249-8f59-b3564c9ea6b4?fev=0.2.63
 
 
 
@@ -24,3 +25,18 @@ Catatan: Tambah RLS untuk security "SELECT". di tabel editor auth-profiles.
 login:
 admin@bmh.or.id
 adminbmh
+
+Translate API: https://chat.qwen.ai/s/t_9b461522-a982-4900-be6c-8e269fbbc671?fev=0.2.63
+
+// Butuh API Key dari Google Cloud
+const response = await fetch(
+  `https://translation.googleapis.com/language/translate/v2?key=${process.env.GOOGLE_API_KEY}`,
+  {
+    method: 'POST',
+    body: JSON.stringify({
+      q: text,
+      source: 'id',
+      target: targetLang,
+    }),
+  }
+);
