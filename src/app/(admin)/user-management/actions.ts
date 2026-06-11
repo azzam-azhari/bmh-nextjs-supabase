@@ -10,7 +10,6 @@ export async function createUser(prevState: AuthFormState, formData: FormData) {
         password: formData.get('password'),
         name: formData.get('name'),
         role: formData.get('role'),
-        // avatar_url: formData.get('avatar_url'),
     });
 
     if (!validatedFields.success) {
@@ -23,17 +22,17 @@ export async function createUser(prevState: AuthFormState, formData: FormData) {
         };
     }
 
-    const supabase = await createClient();
+    // PERBAIKAN 1: Tambahkan { isAdmin: true } agar menggunakan SUPABASE_SERVICE_ROLE_KEY
+    const supabase = await createClient({ isAdmin: true });
 
-    const { error } = await supabase.auth.signUp({
+    // PERBAIKAN 2: Gunakan Admin API (auth.admin.createUser)
+    const { data, error } = await supabase.auth.admin.createUser({
         email: validatedFields.data.email,
         password: validatedFields.data.password,
-        options: {
-            data: {
-                name: validatedFields.data.name,
-                role: validatedFields.data.role,
-                // avatar_url: validatedFields.data.avatar_url,
-            },
+        email_confirm: true, // User langsung aktif tanpa perlu klik link verifikasi email
+        user_metadata: {
+            name: validatedFields.data.name,
+            role: validatedFields.data.role,
         },
     });
 
@@ -46,6 +45,10 @@ export async function createUser(prevState: AuthFormState, formData: FormData) {
             },
         };
     }
+
+    // CATATAN: Jika data user tidak masuk ke tabel 'profiles' secara otomatis,
+    // Anda mungkin perlu menambahkan kode insert manual ke tabel profiles di sini.
+    // Namun, biasanya Database Trigger Supabase tetap berjalan untuk admin.createUser.
 
     return {
         status: 'success',
