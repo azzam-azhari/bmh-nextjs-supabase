@@ -9,20 +9,26 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 
-// Ganti nama komponen lokal agar tidak bentrok
-const CountryFlagIcon = ({ countryCode }: { countryCode: string }) => {
-    const getFlagEmoji = (code: string) => {
-        const codePoints = code
-            .toUpperCase()
-            .split('')
-            .map(char => 127397 + char.charCodeAt(0));
-        return String.fromCodePoint(...codePoints);
-    };
+// Komponen untuk menampilkan gambar bendera
+const CountryFlagImage = ({ countryCode, altText }: { countryCode: string, altText: string }) => {
+    // Sesuaikan path ini dengan struktur folder Anda di /public
+    // Misalnya, jika Anda menyimpannya di /public/flags/id.jpg
+    // const imagePath = `/flags/${countryCode.toLowerCase()}.jpg`;
+    // Atau jika langsung di /public
+    const imagePath = `/${countryCode.toLowerCase()}.jpg`;
 
     return (
-        <span className="mr-2 text-lg" aria-label={`Flag of ${countryCode}`}>
-            {getFlagEmoji(countryCode)}
-        </span>
+        <img
+            src={imagePath}
+            alt={altText}
+            className="mr-2 h-4 w-4 object-cover rounded-sm" // Sesuaikan ukuran dan styling
+            onError={(e) => {
+                // Opsional: fallback jika gambar gagal dimuat
+                e.currentTarget.style.display = 'none'; // Sembunyikan placeholder gambar
+                // Atau tampilkan teks alternatif
+                // e.currentTarget.outerHTML = `<span>${altText.charAt(0)}</span>`;
+            }}
+        />
     );
 };
 
@@ -30,9 +36,9 @@ export default function LanguageSwitcher() {
     const [activeLocale, setActiveLocale] = useState('id'); // Sekarang useState dikenali
 
     const languages = [
-        { code: 'id', name: 'Indonesia', flag: 'ID' },
-        { code: 'en', name: 'English', flag: 'GB' },
-        { code: 'ar', name: 'العربية', flag: 'SA' },
+        { code: 'id', name: 'Indonesia', flag: 'id', alt: 'Flag of Indonesia' }, // Ubah flag ke lowercase
+        { code: 'en', name: 'English', flag: 'eng', alt: 'Flag of United Kingdom' }, // Ubah flag ke nama file
+        { code: 'ar', name: 'العربية', flag: 'ar', alt: 'Flag of Saudi Arabia' }, // Ubah flag ke nama file
     ];
 
     const currentLang = languages.find(lang => lang.code === activeLocale);
@@ -49,7 +55,7 @@ export default function LanguageSwitcher() {
                     <Languages className="h-4 w-4 mr-1" />
                     {currentLang ? (
                         <>
-                            <CountryFlagIcon countryCode={currentLang.flag} /> {/* Gunakan nama yang baru */}
+                            <CountryFlagImage countryCode={currentLang.flag} altText={currentLang.alt} /> {/* Gunakan komponen gambar */}
                             {currentLang.code.toUpperCase()}
                         </>
                     ) : 'Lang'}
@@ -62,7 +68,7 @@ export default function LanguageSwitcher() {
                         onClick={() => handleLanguageChange(lang.code)}
                         className="cursor-pointer"
                     >
-                        <CountryFlagIcon countryCode={lang.flag} /> {/* Gunakan nama yang baru */}
+                        <CountryFlagImage countryCode={lang.flag} altText={lang.alt} /> {/* Gunakan komponen gambar */}
                         {lang.name} ({lang.code.toUpperCase()})
                     </DropdownMenuItem>
                 ))}

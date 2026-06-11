@@ -13,6 +13,8 @@ import { login } from '../actions';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
+import Link from 'next/link';
+
 export default function Login() {
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchemaForm),
@@ -54,9 +56,14 @@ export default function Login() {
           <form onSubmit={onSubmit} className="space-y-4">
             <FormInput form={form} name="email" label="Email" placeholder="Insert email here" type="email" />
             <FormInput form={form} name="password" label="Password" placeholder="******" type="password" />
-            <Button type="submit">{isPendingLogin ? <Loader2 className="animate-spin" /> : 'Login'}</Button>
+            <Button type="submit" className="w-full">{isPendingLogin ? <Loader2 className="animate-spin" /> : 'Login'}</Button>
           </form>
         </Form>
+        <div className="mt-4 text-center text-sm">
+          <Link href="/" className="text-muted-foreground hover:underline">
+            Kembali ke Beranda
+          </Link>
+        </div>
       </CardContent>
     </Card>
   );

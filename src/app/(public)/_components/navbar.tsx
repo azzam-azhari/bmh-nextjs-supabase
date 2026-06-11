@@ -41,10 +41,26 @@ export default function Navbar() {
                             <SheetTitle className="sr-only">Menu Navigasi</SheetTitle>
 
                             {/* Mobile Header */}
-                            <div className="border-b p-6">
-                                <Link href="/" className="flex items-center space-x-2" onClick={() => setIsOpen(false)}>
-                                    <span className="text-xl font-bold tracking-tight">BMH</span>
-                                </Link>
+                            <div className="border-b p-6 flex flex-col gap-4"> {/* Tambahkan flex-col dan gap untuk tata letak vertikal */}
+                                <div className="flex justify-between items-start"> {/* Bungkus logo dan tombol tutup jika ada */}
+                                    <Link href="/" className="flex items-center space-x-2" onClick={() => setIsOpen(false)}>
+                                        <span className="text-xl font-bold tracking-tight">BMH</span>
+                                    </Link>
+                                    {/* Opsional: Tombol Tutup Sheet di pojok kanan atas header */}
+                                    {/* <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        aria-label="Close menu"
+                                        className="h-8 w-8"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <X className="h-4 w-4" /> 
+                                    </Button> */}
+                                </div>
+                                {/* Tempatkan LanguageSwitcher di sini */}
+                                <div className="mt-2"> {/* Beri sedikit margin atas jika perlu */}
+                                    <LanguageSwitcher />
+                                </div>
                             </div>
 
                             {/* Mobile Nav Links */}
