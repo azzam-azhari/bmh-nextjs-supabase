@@ -1,5 +1,5 @@
 import { AppSidebar } from '@/components/common/app-sidebar';
-import { SiteHeader } from '@/components/site-header';
+import { SiteHeader } from '@/app/(admin)/_components/site-header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 
 export default function AdminLayout({

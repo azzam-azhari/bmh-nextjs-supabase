@@ -2,6 +2,7 @@ wpu: auth system 1, 2..., 4...
      dashboard - state-management...  Fetsch data...
 
      pagination belum
+     search debounce
 
 
 _components : selama didalamnya gak ada file page.tsx gak akan bisa diakses

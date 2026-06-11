@@ -37,7 +37,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={cn('h-full', 'antialiased', geistSans.variable, geistMono.variable, 'font-sans', figtree.variable)} suppressHydrationWarning>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <ReactQueryProvider>
           <AuthStoreProvider profile={profile} >
             <ThemeProvider

@@ -489,9 +489,9 @@ export function DataTable({
                           {header.isPlaceholder
                             ? null
                             : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
                         </TableHead>
                       )
                     })}
@@ -554,10 +554,7 @@ export function DataTable({
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex w-fit items-center justify-center text-sm font-medium">
-              Page {table.getState().pagination.pageIndex + 1} of{" "}
-              {table.getPageCount()}
-            </div>
+
             <div className="ml-auto flex items-center gap-2 lg:ml-0">
               <Button
                 variant="outline"
@@ -578,6 +575,10 @@ export function DataTable({
                 <span className="sr-only">Go to previous page</span>
                 <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} />
               </Button>
+              <div className="flex w-fit items-center justify-center text-sm font-medium">
+                Page {table.getState().pagination.pageIndex + 1} of{" "}
+                {table.getPageCount()}
+              </div>
               <Button
                 variant="outline"
                 className="size-8"

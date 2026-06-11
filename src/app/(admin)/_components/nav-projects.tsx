@@ -20,11 +20,11 @@ export function NavProjects({
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Projects</SidebarGroupLabel>
+      <SidebarGroupLabel>Aplikasi</SidebarGroupLabel>
       <SidebarMenu>
         {projects.map((item) => {
-          const isActive = item.url === '/' 
-            ? pathname === item.url 
+          const isActive = item.url === '/'
+            ? pathname === item.url
             : item.url !== '#' && pathname.startsWith(item.url);
 
           return (

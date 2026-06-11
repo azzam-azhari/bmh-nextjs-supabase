@@ -2,10 +2,10 @@
 
 import * as React from 'react';
 
-import { NavMain } from '@/components/nav-main';
-import { NavProjects } from '@/components/nav-projects';
-import { NavUser } from '@/components/nav-user';
-import { TeamSwitcher } from '@/components/team-switcher';
+import { NavMain } from '@/app/(admin)/_components/nav-main';
+import { NavProjects } from '@/app/(admin)/_components/nav-projects';
+import { NavUser } from '@/app/(admin)/_components/nav-user';
+import { TeamSwitcher } from '@/app/(admin)/_components/team-switcher';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '@/components/ui/sidebar';
 
 // ✅ HugeiconsIcon renderer dari @hugeicons/react
@@ -72,8 +72,8 @@ const data = {
       url: '#',
       icon: <HugeiconsIcon icon={MicroscopeIcon} strokeWidth={2} />,
       items: [
-        { title: 'Tambah Riset', url: '#' },
         { title: 'Semua Riset', url: '#' },
+        { title: 'Tambah Riset', url: '#' },
       ],
     },
     {
@@ -81,8 +81,8 @@ const data = {
       url: '#',
       icon: <HugeiconsIcon icon={BookOpen02Icon} strokeWidth={2} />,
       items: [
-        { title: 'Tambah Majalah Baru', url: '#' },
         { title: 'Arsip Majalah', url: '#' },
+        { title: 'Tambah Majalah Baru', url: '#' },
       ],
     },
     {
@@ -90,8 +90,8 @@ const data = {
       url: '#',
       icon: <HugeiconsIcon icon={Edit01Icon} strokeWidth={2} />,
       items: [
-        { title: 'Tambah Artikel', url: '#' },
         { title: 'Semua Artikel', url: '#' },
+        { title: 'Tambah Artikel', url: '#' },
         { title: 'Kategori Artikel', url: '#' },
       ],
     },
@@ -117,7 +117,7 @@ const data = {
   projects: [
     {
       name: 'Website Utama',
-      url: '#',
+      url: '/news',
       icon: <HugeiconsIcon icon={WebDesign01Icon} strokeWidth={2} />,
     },
     {

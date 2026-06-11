@@ -24,15 +24,15 @@ export function NavMain({
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>Menu Utama</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
           const hasSubItems = item.items && item.items.length > 0;
 
           if (!hasSubItems) {
-            const isActive = 
-              item.url === '/' 
-                ? pathname === item.url 
+            const isActive =
+              item.url === '/'
+                ? pathname === item.url
                 : item.url !== '#' && pathname.startsWith(item.url);
 
             return (
@@ -62,8 +62,8 @@ export function NavMain({
                 <CollapsibleContent>
                   <SidebarMenuSub>
                     {item.items?.map((subItem) => {
-                      const isSubActive = subItem.url === '/' 
-                        ? pathname === subItem.url 
+                      const isSubActive = subItem.url === '/'
+                        ? pathname === subItem.url
                         : subItem.url !== '#' && pathname.startsWith(subItem.url);
 
                       return (
