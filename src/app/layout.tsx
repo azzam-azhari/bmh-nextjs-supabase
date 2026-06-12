@@ -1,25 +1,18 @@
+// app/layout.tsx
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Figtree } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { ThemeProvider } from '@/providers/theme-provider';
-import { Toaster } from '@/components/ui/sonner';
+// import { ThemeProvider } from '@/providers/theme-provider'; // <-- HAPUS/COMMENT
+// import { Toaster } from '@/components/ui/sonner'; // <-- HAPUS/COMMENT (Pindah ke admin & auth)
 import AuthStoreProvider from '@/providers/auth-store-provider';
 import { cookies } from 'next/headers';
 import ReactQueryProvider from '@/providers/react-query-provider';
 
 const figtree = Figtree({ subsets: ['latin'], variable: '--font-sans' });
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
+const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
+const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
@@ -32,28 +25,20 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const cookiesStore = await cookies();
   const profile = JSON.parse(cookiesStore.get('user_profile')?.value ?? '{}');
 
   return (
+    // suppressHydrationWarning TETAP DIPERTAHANKAN karena ThemeProvider akan memodifikasi tag <html>
     <html lang="en" className={cn('h-full', 'antialiased', geistSans.variable, geistMono.variable, 'font-sans', figtree.variable)} suppressHydrationWarning>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <ReactQueryProvider>
           <AuthStoreProvider profile={profile} >
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange>
-              <TooltipProvider>
-                {children}
-                <Toaster />
-              </TooltipProvider>
-            </ThemeProvider>
+            <TooltipProvider>
+              {children}
+            </TooltipProvider>
           </AuthStoreProvider>
         </ReactQueryProvider>
-
       </body>
     </html>
   );

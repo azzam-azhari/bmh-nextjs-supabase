@@ -14,6 +14,9 @@ Note list:
 - Layout pada (admin) dan layout pada /app  | apakah ada conflig  |  <ReactQueryProvider> pindahkan ke admin
 - Header dan footer pindah ke layout
 - translate step: https://chat.qwen.ai/s/t_06383894-9ae8-4249-8f59-b3564c9ea6b4?fev=0.2.63
+- Tema hanya di dashboard admin
+
+api key ide: sk-ws-H.ILXIMD.JPlE.MEQCIClJYiZ9yRmoO4c310PNmht8T9XUMwdP83pZlkLZNhi6AiBRNiP8nx2E-IUaAV2m2Hrj0sNBIO5adc6kiQUIBNjMDA
 
 
 

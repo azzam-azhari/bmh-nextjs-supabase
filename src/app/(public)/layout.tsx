@@ -2,6 +2,7 @@
 import type { Metadata, Viewport } from 'next';
 import Navbar from '@/app/(public)/_components/navbar';
 import Footer from '@/app/(public)/_components/footer';
+import { ForceLightMode } from '@/app/(public)/_components/force-light-mode'; // <-- Import komponen baru
 
 export const metadata: Metadata = {
     title: {
@@ -40,17 +41,16 @@ export default function PublicLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="id" suppressHydrationWarning>
-            {/* Tambahkan suppressHydrationWarning ke <body> untuk mencegah peringatan mismatch */}
-            <body className="flex min-h-screen flex-col bg-background text-foreground" suppressHydrationWarning>
+        <>
+            <ForceLightMode />
+            {/* JANGAN gunakan <html> dan <body> di sini. Gunakan div wrapper */}
+            <div className="flex min-h-screen flex-col bg-background text-foreground">
                 <Navbar />
-                {/* Main area fleksibel yang mengambil ruang kosong */}
-                {/* Menyesuaikan padding dan lebar maksimum untuk layar besar */}
                 <main className="flex-1 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-6">
                     {children}
                 </main>
                 <Footer />
-            </body>
-        </html>
+            </div>
+        </>
     );
 }
