@@ -9,8 +9,7 @@ import { Menu, Search, User } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils'; // Pastikan Anda memiliki cn dari shadcn (lib/utils.ts)
 import LanguageSwitcher from './language-switcher';
-
-// import { LanguageSwitcher } from './LanguageSwitcher'; // Uncomment jika sudah dibuat
+import { useAuthStore } from '@/stores/auth-store';
 
 const navLinks = [
     { href: '/', label: 'Beranda' },
@@ -23,6 +22,27 @@ const navLinks = [
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname(); // Untuk mendeteksi halaman aktif
+    const profile = useAuthStore((state) => state.profile);
+
+    const isLoggedIn = !!profile.id;
+    const dashboardRoles = ['admin', 'publikasi', 'writer', 'riset', 'seklem'];
+    const isDashboardRole = profile.role ? dashboardRoles.includes(profile.role.toLowerCase()) : false;
+
+    let buttonText = 'Masuk';
+    let buttonHref = '/login';
+
+    if (isLoggedIn) {
+        if (isDashboardRole) {
+            buttonText = 'Dashboard';
+            buttonHref = '/dashboard';
+        } else if (profile.role?.toLowerCase() === 'user') {
+            buttonText = 'Profil';
+            buttonHref = '/profile';
+        } else {
+            buttonText = 'Dashboard';
+            buttonHref = '/dashboard';
+        }
+    }
 
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -41,25 +61,11 @@ export default function Navbar() {
                             <SheetTitle className="sr-only">Menu Navigasi</SheetTitle>
 
                             {/* Mobile Header */}
-                            <div className="border-b p-6 flex flex-col gap-4"> {/* Tambahkan flex-col dan gap untuk tata letak vertikal */}
-                                <div className="flex justify-between items-start"> {/* Bungkus logo dan tombol tutup jika ada */}
+                            <div className="border-b p-6">
+                                <div className="flex justify-between items-start">
                                     <Link href="/" className="flex items-center space-x-2" onClick={() => setIsOpen(false)}>
                                         <span className="text-xl font-bold tracking-tight">BMH</span>
                                     </Link>
-                                    {/* Opsional: Tombol Tutup Sheet di pojok kanan atas header */}
-                                    {/* <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        aria-label="Close menu"
-                                        className="h-8 w-8"
-                                        onClick={() => setIsOpen(false)}
-                                    >
-                                        <X className="h-4 w-4" /> 
-                                    </Button> */}
-                                </div>
-                                {/* Tempatkan LanguageSwitcher di sini */}
-                                <div className="mt-2"> {/* Beri sedikit margin atas jika perlu */}
-                                    <LanguageSwitcher />
                                 </div>
                             </div>
 
@@ -86,8 +92,8 @@ export default function Navbar() {
                             {/* Mobile Footer */}
                             <div className="border-t p-4 mt-auto">
                                 <Button variant="outline" className="w-full justify-center gap-2 h-11" asChild>
-                                    <Link href="/login" onClick={() => setIsOpen(false)}>
-                                        <User className="h-4 w-4" /> Masuk / Daftar
+                                    <Link href={buttonHref} onClick={() => setIsOpen(false)}>
+                                        <User className="h-4 w-4" /> {isLoggedIn ? buttonText : 'Masuk / Daftar'}
                                     </Link>
                                 </Button>
                             </div>
@@ -129,7 +135,7 @@ export default function Navbar() {
                     <LanguageSwitcher />
 
                     <Button size="sm" className="hidden md:flex h-9 lg:h-10 px-4 lg:px-6 text-xs lg:text-sm" asChild>
-                        <Link href="/login">Masuk</Link>
+                        <Link href={buttonHref}>{buttonText}</Link>
                     </Button>
                 </div>
             </div>
