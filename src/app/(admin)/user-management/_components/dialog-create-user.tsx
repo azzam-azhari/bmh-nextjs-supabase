@@ -1,5 +1,3 @@
-'use client';
-
 import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,6 +12,7 @@ import { Form } from '@/components/ui/form';
 import {
     INITIAL_CREATE_USER_FORM,
     INITIAL_STATE_CREATE_USER,
+    ROLE_LIST,
 } from '@/constants/auth-constant';
 import {
     CreateUserForm,
@@ -21,10 +20,14 @@ import {
 } from '@/validations/auth-validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
-import { startTransition, useActionState, useEffect, useRef } from 'react';
+import { startTransition, useActionState, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { createUser } from '../actions';
 import { toast } from 'sonner';
+// import FormSelect from '@/components/common/form-select';
+// import FormImage from '@/components/common/form-image';
+import { Preview } from '@/types/general';
+import FormUser from './form-user';
 
 export default function DialogCreateUser({ refetch }: { refetch: () => void }) {
     const form = useForm<CreateUserForm>({
@@ -32,14 +35,15 @@ export default function DialogCreateUser({ refetch }: { refetch: () => void }) {
         defaultValues: INITIAL_CREATE_USER_FORM,
     });
 
-    const closeBtnRef = useRef<HTMLButtonElement>(null);
     const [createUserState, createUserAction, isPendingCreateUser] =
         useActionState(createUser, INITIAL_STATE_CREATE_USER);
+
+    const [preview, setPreview] = useState<Preview | undefined>(undefined);
 
     const onSubmit = form.handleSubmit((data) => {
         const formData = new FormData();
         Object.entries(data).forEach(([key, value]) => {
-            formData.append(key, value);
+            formData.append(key, key === 'avatar_url' ? preview!.file ?? '' : value);
         });
 
         startTransition(() => {
@@ -57,67 +61,20 @@ export default function DialogCreateUser({ refetch }: { refetch: () => void }) {
         if (createUserState?.status === 'success') {
             toast.success('Create User Success');
             form.reset();
-            // Tutup dialog dengan trigger click pada close button
-            closeBtnRef.current?.click();
-            // Refetch data user
+            setPreview(undefined);
+            document.querySelector<HTMLButtonElement>('[data-state="open"]')?.click();
             refetch();
         }
-    }, [createUserState, form, refetch]);
+    }, [createUserState]);
 
     return (
-        <DialogContent className="sm:max-w-[425px]">
-            <Form {...form}>
-                <DialogHeader>
-                    <DialogTitle>Create User</DialogTitle>
-                    <DialogDescription>Register a new user</DialogDescription>
-                </DialogHeader>
-                <form onSubmit={onSubmit} className="space-y-4">
-                    <FormInput
-                        form={form}
-                        name="name"
-                        label="Name"
-                        placeholder="Insert your name"
-                    />
-                    <FormInput
-                        form={form}
-                        name="email"
-                        label="Email"
-                        placeholder="Insert email here"
-                        type="email"
-                    />
-                    <FormInput
-                        form={form}
-                        name="role"
-                        label="Role"
-                        placeholder="Insert your role"
-                    />
-                    <FormInput
-                        form={form}
-                        name="password"
-                        label="Password"
-                        placeholder="******"
-                        type="password"
-                    />
-                    <DialogFooter>
-                        {/* Hidden close button yang akan di-trigger setelah sukses */}
-                        <DialogClose asChild>
-                            <button type="button" ref={closeBtnRef} className="hidden" />
-                        </DialogClose>
-                        <DialogClose asChild>
-                            <Button type="button" variant="outline">
-                                Cancel
-                            </Button>
-                        </DialogClose>
-                        <Button type="submit" disabled={isPendingCreateUser}>
-                            {isPendingCreateUser ? (
-                                <Loader2 className="animate-spin" />
-                            ) : (
-                                'Create'
-                            )}
-                        </Button>
-                    </DialogFooter>
-                </form>
-            </Form>
-        </DialogContent>
+        <FormUser
+            form={form}
+            onSubmit={onSubmit}
+            isLoading={isPendingCreateUser}
+            type="Create"
+            preview={preview}
+            setPreview={setPreview}
+        />
     );
 }

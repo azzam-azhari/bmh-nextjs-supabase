@@ -3,7 +3,10 @@ wpu: auth system 1, 2..., 4...
 
      pagination belum
      search debounce
-
+form selec .......
+input file handle....
+refactor create user
+update user belum
 
 _components : selama didalamnya gak ada file page.tsx gak akan bisa diakses
 
@@ -22,6 +25,14 @@ api key ide: sk-ws-H.ILXIMD.JPlE.MEQCIClJYiZ9yRmoO4c310PNmht8T9XUMwdP83pZlkLZNhi
 
 RLS Supabase:
 Catatan: Tambah RLS untuk security "SELECT". di tabel editor auth-profiles.
+
+enable signin di auth provider
+
+cara upload Image: kelas :input  file handle
+actions/storage-action.ts
+validation/auth-validation.ts
+lib/utils.ts
+policy storage all access
 
 
 

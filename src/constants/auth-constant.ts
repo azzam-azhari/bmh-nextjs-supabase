@@ -38,3 +38,30 @@ export const INITIAL_STATE_CREATE_USER = {
     _form: [],
   },
 };
+
+export const ROLE_LIST = [
+  {
+    value: 'admin',
+    label: 'Admin',
+  },
+  {
+    value: 'publikasi',
+    label: 'Publikasi',
+  },
+  {
+    value: 'writer',
+    label: 'Writer',
+  },
+  {
+    value: 'riset',
+    label: 'Riset',
+  },
+  {
+    value: 'seklem',
+    label: 'Seklem',
+  },
+  {
+    value: 'user',
+    label: 'User',
+  },
+];
