@@ -1,6 +1,7 @@
-// src/app/(public)/_components/language-switcher.tsx
-import { Languages } from 'lucide-react'; // Hapus FlagIcon dari sini
-import { useState } from 'react'; // Tambahkan import ini
+'use client';
+import { Languages } from 'lucide-react';
+import { useState } from 'react';
+import Image from 'next/image'; // 1. Import next/image
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -9,36 +10,31 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 
-// Komponen untuk menampilkan gambar bendera
-const CountryFlagImage = ({ countryCode, altText }: { countryCode: string, altText: string }) => {
-    // Sesuaikan path ini dengan struktur folder Anda di /public
-    // Misalnya, jika Anda menyimpannya di /public/flags/id.jpg
-    // const imagePath = `/flags/${countryCode.toLowerCase()}.jpg`;
-    // Atau jika langsung di /public
-    const imagePath = `/${countryCode.toLowerCase()}.jpg`;
-
+// 2. Komponen untuk menampilkan gambar bendera menggunakan next/image
+const CountryFlagImage = ({ src, altText }: { src: string; altText: string }) => {
     return (
-        <img
-            src={imagePath}
+        <Image
+            src={src}
             alt={altText}
-            className="mr-2 h-4 w-4 object-cover rounded-sm" // Sesuaikan ukuran dan styling
+            width={20}
+            height={20}
+            className="mr-2 h-5 w-5 object-cover rounded-sm border-1 border-gray-200"
             onError={(e) => {
-                // Opsional: fallback jika gambar gagal dimuat
-                e.currentTarget.style.display = 'none'; // Sembunyikan placeholder gambar
-                // Atau tampilkan teks alternatif
-                // e.currentTarget.outerHTML = `<span>${altText.charAt(0)}</span>`;
+                // Fallback: sembunyikan gambar jika path salah atau file tidak ada
+                e.currentTarget.style.display = 'none';
             }}
         />
     );
 };
 
 export default function LanguageSwitcher() {
-    const [activeLocale, setActiveLocale] = useState('id'); // Sekarang useState dikenali
+    const [activeLocale, setActiveLocale] = useState('id');
 
+    // Pastikan nama file di array ini SAMA PERSIS dengan file di folder /public
     const languages = [
-        { code: 'id', name: 'Indonesia', flag: 'id', alt: 'Flag of Indonesia' }, // Ubah flag ke lowercase
-        { code: 'en', name: 'English', flag: 'eng', alt: 'Flag of United Kingdom' }, // Ubah flag ke nama file
-        { code: 'ar', name: 'العربية', flag: 'ar', alt: 'Flag of Saudi Arabia' }, // Ubah flag ke nama file
+        { code: 'id', name: 'Indonesia', flag: '/flag/id.png', alt: 'Flag of Indonesia' },
+        { code: 'en', name: 'English', flag: '/flag/eng.png', alt: 'Flag of United Kingdom' },
+        { code: 'ar', name: 'العربية', flag: '/flag/ar.png', alt: 'Flag of Saudi Arabia' },
     ];
 
     const currentLang = languages.find(lang => lang.code === activeLocale);
@@ -55,7 +51,7 @@ export default function LanguageSwitcher() {
                     <Languages className="h-4 w-4 mr-1" />
                     {currentLang ? (
                         <>
-                            <CountryFlagImage countryCode={currentLang.flag} altText={currentLang.alt} /> {/* Gunakan komponen gambar */}
+                            <CountryFlagImage src={currentLang.flag} altText={currentLang.alt} />
                             {currentLang.code.toUpperCase()}
                         </>
                     ) : 'Lang'}
@@ -66,9 +62,9 @@ export default function LanguageSwitcher() {
                     <DropdownMenuItem
                         key={lang.code}
                         onClick={() => handleLanguageChange(lang.code)}
-                        className="cursor-pointer"
+                        className="cursor-pointer flex items-center" // 3. Tambahkan flex items-center agar icon dan teks sejajar vertikal
                     >
-                        <CountryFlagImage countryCode={lang.flag} altText={lang.alt} /> {/* Gunakan komponen gambar */}
+                        <CountryFlagImage src={lang.flag} altText={lang.alt} />
                         {lang.name} ({lang.code.toUpperCase()})
                     </DropdownMenuItem>
                 ))}
