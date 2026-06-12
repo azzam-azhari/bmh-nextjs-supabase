@@ -2,13 +2,21 @@ import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { ModeToggle } from '../../../components/ui/mode-toggle';
 import DashboardBreadcrumb from '@/app/(admin)/_components/breadcrumb';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 // import { Breadcrumb } from './ui/breadcrumb';
 
 export function SiteHeader() {
   return (
     <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
-        <SidebarTrigger className="-ml-1 hover:cursor-pointer" />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <SidebarTrigger className="-ml-1 hover:cursor-pointer" />
+          </TooltipTrigger>
+          <TooltipContent side="right">
+            <p>Ctrl+B</p>
+          </TooltipContent>
+        </Tooltip>
         <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-8" />
         {/* <Breadcrumb /> */}
         <DashboardBreadcrumb className="text-base font-medium" />

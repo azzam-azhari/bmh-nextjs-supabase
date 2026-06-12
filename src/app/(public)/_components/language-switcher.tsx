@@ -1,5 +1,5 @@
 'use client';
-import { Languages } from 'lucide-react';
+
 import { useState } from 'react';
 import Image from 'next/image'; // 1. Import next/image
 import {
@@ -33,8 +33,8 @@ export default function LanguageSwitcher() {
     // Pastikan nama file di array ini SAMA PERSIS dengan file di folder /public
     const languages = [
         { code: 'id', name: 'Indonesia', flag: '/flag/id.png', alt: 'Flag of Indonesia' },
-        { code: 'en', name: 'English', flag: '/flag/eng.png', alt: 'Flag of United Kingdom' },
-        { code: 'ar', name: 'العربية', flag: '/flag/ar.png', alt: 'Flag of Saudi Arabia' },
+        { code: 'eng', name: 'English', flag: '/flag/eng.png', alt: 'Flag of United Kingdom' },
+        { code: 'arb', name: 'العربية', flag: '/flag/ar.png', alt: 'Flag of Saudi Arabia' },
     ];
 
     const currentLang = languages.find(lang => lang.code === activeLocale);
@@ -47,8 +47,7 @@ export default function LanguageSwitcher() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="hidden sm:flex gap-2 h-9 lg:h-10 text-xs lg:text-sm">
-                    <Languages className="h-4 w-4 mr-1" />
+                <Button variant="outline" size="sm" className="hidden sm:flex gap-2 h-9 lg:h-10 text-xs lg:text-sm border">
                     {currentLang ? (
                         <>
                             <CountryFlagImage src={currentLang.flag} altText={currentLang.alt} />
