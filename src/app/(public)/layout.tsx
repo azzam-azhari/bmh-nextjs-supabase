@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import Navbar from '@/app/(public)/_components/navbar';
 import Footer from '@/app/(public)/_components/footer';
 import { ForceLightMode } from '@/app/(public)/_components/force-light-mode'; // <-- Import komponen baru
+import Home from './page';
 
 export const metadata: Metadata = {
     title: {
@@ -46,7 +47,8 @@ export default function PublicLayout({
             {/* JANGAN gunakan <html> dan <body> di sini. Gunakan div wrapper */}
             <div className="flex min-h-screen flex-col bg-background text-foreground">
                 <Navbar />
-                <main className="flex-1 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-6">
+
+                <main className="">
                     {children}
                 </main>
                 <Footer />

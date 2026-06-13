@@ -35,7 +35,7 @@ const data = {
     {
       name: 'BMH',
       // Ganti string path dengan elemen img
-      logo: <img src="/bmh.jpg" alt="Logo BMH" className="size-full rounded-[inherit] object-cover" />,
+      logo: <img src="/logo/bmh.jpg" alt="Logo BMH" className="size-full rounded-[inherit] object-cover" />,
       plan: 'Administrator',
     },
     {
