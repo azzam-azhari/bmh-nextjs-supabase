@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton"; // <-- Import Skeleton
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ArrowLeftDoubleIcon,
@@ -62,26 +63,31 @@ export default function DataTableUser({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {paginatedData.map((row, rowIndex) => (
-              <TableRow key={`tr-${rowIndex}`}>
-                {row.map((column, columnIndex) => (
-                  <TableCell key={`tc-${rowIndex}-${columnIndex}`}>
-                    {column}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-            {totalItems === 0 && !isLoading && (
+            {/* Logika render disesuaikan untuk Skeleton */}
+            {isLoading ? (
+              Array.from({ length: pageSize }).map((_, rowIndex) => (
+                <TableRow key={`skeleton-row-${rowIndex}`}>
+                  {header.map((_, colIndex) => (
+                    <TableCell key={`skeleton-col-${rowIndex}-${colIndex}`}>
+                      <Skeleton className="h-5 w-full rounded-md" />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : paginatedData.length > 0 ? (
+              paginatedData.map((row, rowIndex) => (
+                <TableRow key={`tr-${rowIndex}`}>
+                  {row.map((column, columnIndex) => (
+                    <TableCell key={`tc-${rowIndex}-${columnIndex}`}>
+                      {column}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
               <TableRow>
                 <TableCell colSpan={header.length} className="h-24 text-center">
                   No Result Data
-                </TableCell>
-              </TableRow>
-            )}
-            {isLoading && (
-              <TableRow>
-                <TableCell colSpan={header.length} className="h-24 text-center">
-                  Loading...
                 </TableCell>
               </TableRow>
             )}
@@ -91,7 +97,6 @@ export default function DataTableUser({
 
       {/* Pagination */}
       <div className="flex items-center justify-end pt-4">
-
         <div className="flex w-full items-center gap-8 lg:w-fit">
           <div className="hidden items-center gap-2 lg:flex">
             <Label htmlFor="rows-per-page-user" className="text-sm font-medium">

@@ -1,4 +1,6 @@
--- Catatan: Tambah RLS untuk security. di tabel editor auth-profiles.
+-- RLS Supabase:
+-- Catatan: Tambah RLS untuk security "SELECT". di tabel editor auth-profiles.
+--enable signin di auth provider
 
 -- create table profiles
 create table if not exists public.profiles (
@@ -51,3 +53,5 @@ drop trigger if exists on_auth_user_deleted on auth.users;
 create trigger on_auth_user_deleted
   after delete on auth.users
   for each row execute procedure public.handle_delete_user();
+
+
