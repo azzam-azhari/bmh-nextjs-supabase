@@ -28,6 +28,7 @@ api key ide: sk-ws-H.ILXIMD.JPlE.MEQCIClJYiZ9yRmoO4c310PNmht8T9XUMwdP83pZlkLZNhi
 
 RLS Supabase:
 Catatan: Tambah RLS untuk security "SELECT". di tabel editor auth-profiles.
+auth-policies-select- all-unchecklist 
 
 enable signin di auth provider
 
