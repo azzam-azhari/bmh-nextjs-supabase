@@ -2,8 +2,7 @@
 import type { Metadata, Viewport } from 'next';
 import Navbar from '@/app/(public)/_components/navbar';
 import Footer from '@/app/(public)/_components/footer';
-import { ForceLightMode } from '@/app/(public)/_components/force-light-mode'; // <-- Import komponen baru
-import Home from './page';
+import { ForceLightMode } from '@/app/(public)/_components/force-light-mode';
 
 export const metadata: Metadata = {
     title: {
@@ -11,7 +10,7 @@ export const metadata: Metadata = {
         template: '%s | Baitul Maal Hidayatullah',
     },
     description: 'Lembaga Amil Zakat Nasional Baitul Maal Hidayatullah',
-    keywords: ['BMH', 'berita', 'Zakat', 'Infaq', 'Sedekah', 'Baitul Maal Hidayatullah', 'LAZ', 'ZISWAF', 'filantropi', 'sedekah online', 'donasi online', 'filantropi Islam'],
+    keywords: ['BMH', 'berita', 'Zakat', 'Infaq', 'Sedekah', 'Baitul Maal Hidayatullah', 'LAZ', 'ZISWAF', 'filantropi', 'sedekah online', 'donasi online', 'filantropi Islam', 'program BMH', 'kegiatan BMH', 'program amal', 'amal BMH', 'amal online', 'donasi BMH', 'donasi online', 'Program BMH', 'Kegiatan BMH', 'Program Amal', 'Amal BMH', 'Amal Online', 'Donasi BMH', 'Donasi Online', 'program zakat', 'program infaq', 'program sedekah', 'program amal', 'program beasiswa', 'program kemanusiaan', 'program lingkungan', 'program peduli', 'program bantuan', 'program bantuan bencana', 'program bantuan umkm', 'program bantuan pendidikan', 'program bantuan kesehatan', 'program bantuan yatim', 'program bantuan dhuafa', 'program bantuan fakir', 'program bantuan miskin', 'program bantuan yatim piatu', 'program bantuan dhuafa fakir', 'program bantuan yatim piatu fakir', 'program bantuan yatim piatu dhuafa', 'program bantuan yatim piatu dhuafa fakir'],
     authors: [{ name: 'Baitul Maal Hidayatullah' }],
     openGraph: {
         type: 'website',
@@ -45,11 +44,10 @@ export default function PublicLayout({
     return (
         <>
             <ForceLightMode />
-            {/* JANGAN gunakan <html> dan <body> di sini. Gunakan div wrapper */}
             <div className="flex min-h-screen flex-col bg-background text-foreground">
                 <Navbar />
 
-                <main className="">
+                <main>
                     {children}
                 </main>
                 <Footer />
