@@ -90,7 +90,6 @@ export async function updateUser(prevState: AuthFormState, formData: FormData) {
         avatar_url: formData.get('avatar_url'),
     });
 
-
     if (!validatedFields.success) {
         return {
             status: 'error',
@@ -103,12 +102,19 @@ export async function updateUser(prevState: AuthFormState, formData: FormData) {
 
     if (validatedFields.data.avatar_url instanceof File) {
         const oldAvatarUrl = formData.get('old_avatar_url') as string;
+
+        // PENCEGAHAN ERROR: Cek apakah url lama valid sebelum di-split
+        const filePathToRemove = oldAvatarUrl && oldAvatarUrl.includes('/images/')
+            ? oldAvatarUrl.split('/images/')[1]
+            : undefined;
+
         const { errors, data } = await uploadFile(
             'images',
             'users',
             validatedFields.data.avatar_url,
-            oldAvatarUrl.split('/images/')[1]
+            filePathToRemove
         );
+
         if (errors) {
             return {
                 status: 'error',
@@ -129,18 +135,39 @@ export async function updateUser(prevState: AuthFormState, formData: FormData) {
     }
 
     const supabase = await createClient({ isAdmin: true });
+    const userId = formData.get('id') as string;
 
-    const { error } = await supabase
+    // 1. UPDATE TABEL PROFILES
+    const { error: profileError } = await supabase
         .from('profiles')
         .update({ name: validatedFields.data.name, role: validatedFields.data.role, avatar_url: validatedFields.data.avatar_url })
-        .eq('id', formData.get('id'))
+        .eq('id', userId);
 
-    if (error) {
+    if (profileError) {
         return {
             status: 'error',
             errors: {
                 ...prevState.errors,
-                _form: [error.message],
+                _form: [profileError.message],
+            },
+        };
+    }
+
+    // 2. UPDATE USER METADATA (Ini yang membuat nav-user terupdate)
+    const { error: authError } = await supabase.auth.admin.updateUserById(userId, {
+        user_metadata: {
+            name: validatedFields.data.name,
+            role: validatedFields.data.role,
+            avatar_url: validatedFields.data.avatar_url
+        }
+    });
+
+    if (authError) {
+        return {
+            status: 'error',
+            errors: {
+                ...prevState.errors,
+                _form: [authError.message],
             },
         };
     }

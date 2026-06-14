@@ -62,6 +62,7 @@ export function NavUser() {
                         fill
                         sizes="32px"
                         className="object-cover"
+                        unoptimized
                       />
                     ) : (
                       <AvatarFallback className="rounded-full uppercase">

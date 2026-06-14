@@ -18,6 +18,7 @@ import { Preview } from '@/types/general';
 import FormUser from './form-user';
 import { Profile } from '@/types/auth';
 import { Dialog } from '@radix-ui/react-dialog';
+import { useAuthStore } from "@/stores/auth-store";
 
 export default function DialogUpdateUser({
     refetch,
@@ -87,6 +88,36 @@ export default function DialogUpdateUser({
             });
         }
     }, [currentData]);
+    // 2. Ambil data profil user yang sedang login
+    const userLogin = useAuthStore((state) => state.profile);
+
+    useEffect(() => {
+        if (updateUserState?.status === 'error') {
+            toast.error('Update User Failed', {
+                description: updateUserState.errors?._form?.[0],
+            });
+        }
+
+        if (updateUserState?.status === 'success') {
+            toast.success('Update User Success');
+
+            // PERBAIKAN: Jika ID user yang diedit sama dengan ID user yang sedang login, update Zustand store langsung
+            if (userLogin && userLogin.id === currentData?.id) {
+                useAuthStore.setState({
+                    profile: {
+                        ...userLogin,
+                        name: form.getValues('name'),
+                        role: form.getValues('role'),
+                        avatar_url: preview?.displayUrl ?? userLogin.avatar_url,
+                    }
+                });
+            }
+
+            form.reset();
+            handleChangeAction?.(false);
+            refetch();
+        }
+    }, [updateUserState]);
 
     return (
         <Dialog open={open} onOpenChange={handleChangeAction}>
