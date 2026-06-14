@@ -18,7 +18,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
           BMH
         </div>
         {children}
-        <Toaster /> {/* Toaster kini hanya aktif di auth */}
+        <Toaster />
       </div>
     </div>
   );

@@ -28,7 +28,6 @@ export async function login(prevState: AuthFormState, formData: FormData | null)
     };
   }
 
-  // PERBAIKAN DI SINI: Panggil cookies() dan kirim ke createClient()
   const cookieStore = await cookies();
   const supabase = await createClient();
 

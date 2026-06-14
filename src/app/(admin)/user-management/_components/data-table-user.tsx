@@ -67,11 +67,20 @@ export default function DataTableUser({
             {isLoading ? (
               Array.from({ length: pageSize }).map((_, rowIndex) => (
                 <TableRow key={`skeleton-row-${rowIndex}`}>
-                  {header.map((_, colIndex) => (
-                    <TableCell key={`skeleton-col-${rowIndex}-${colIndex}`}>
-                      <Skeleton className="h-5 w-full rounded-md" />
-                    </TableCell>
-                  ))}
+                  {header.map((_, colIndex) => {
+                    // Tentukan lebar skeleton sesuai urutan kolom
+                    // Contoh: kolom 1 kecil (w-12), kolom 2 sangat lebar (w-48), dst.
+                    const skeletonWidths = ['w-7', 'w-48', 'w-40', 'w-12', 'w-7'];
+
+                    // Ambil lebar dari array, jika kolom lebih banyak dari array, gunakan 'w-20' sebagai default
+                    const currentWidth = skeletonWidths[colIndex] || 'w-20';
+
+                    return (
+                      <TableCell key={`skeleton-col-${rowIndex}-${colIndex}`}>
+                        <Skeleton className={`h-5 ${currentWidth} rounded-md`} />
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))
             ) : paginatedData.length > 0 ? (

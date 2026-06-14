@@ -18,7 +18,7 @@ Note list:
 - Header dan footer pindah ke layout
 - translate step: https://chat.qwen.ai/s/t_06383894-9ae8-4249-8f59-b3564c9ea6b4?fev=0.2.63
 - Tema gelap hanya di dashboard admin✅
-- ketika anon (user) login dan logout lagi url button masuk langsung ke /dashboard, pingdahkan ke /login 
+- ketika anon (user) login dan logout lagi url button masuk langsung ke /dashboard, pingdahkan ke /login ✅
 - Setelah create user harus di refresh
 - Coocies nya user bener² hilang
 

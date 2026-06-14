@@ -10,14 +10,15 @@ export const metadata: Metadata = {
         default: 'Baitul Maal Hidayatullah',
         template: '%s | Baitul Maal Hidayatullah',
     },
-    description: 'Portal berita resmi BMH - Menyajikan informasi terkini, riset, dan pengembangan',
-    keywords: ['BMH', 'berita', 'riset', 'pengembangan', 'portal berita'],
-    authors: [{ name: 'BMH' }],
+    description: 'Lembaga Amil Zakat Nasional Baitul Maal Hidayatullah',
+    keywords: ['BMH', 'berita', 'Zakat', 'Infaq', 'Sedekah', 'Baitul Maal Hidayatullah', 'LAZ', 'ZISWAF', 'filantropi', 'sedekah online', 'donasi online', 'filantropi Islam'],
+    authors: [{ name: 'Baitul Maal Hidayatullah' }],
     openGraph: {
         type: 'website',
         locale: 'id_ID',
-        siteName: 'BMH',
-        url: 'https://bmh.or.id',
+        siteName: 'Baitul Maal Hidayatullah',
+        url: 'https://bmh-one.vercel.app',
+        // url: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
         images: [
             {
                 url: '/bmh.jpg',

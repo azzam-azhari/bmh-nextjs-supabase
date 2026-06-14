@@ -20,6 +20,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { Skeleton } from "@/components/ui/skeleton" // 1. Import Skeleton
 import { HugeiconsIcon } from "@hugeicons/react"
 import { UnfoldMoreIcon, SparklesIcon, CheckmarkBadgeIcon, CreditCardIcon, NotificationIcon, LogoutIcon } from "@hugeicons/core-free-icons"
 import { signOut } from '@/actions/auth-action';
@@ -29,34 +30,52 @@ export function NavUser() {
   const { isMobile } = useSidebar()
   const profile = useAuthStore((state) => state.profile);
 
+  // 2. Buat kondisi loading (misal jika nama belum ada)
+  const isLoading = !profile || !profile.name;
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild disabled={isLoading}>
             <SidebarMenuButton
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              {/* 2. Ubah Avatar pertama (di tombol sidebar) */}
-              <Avatar className="relative h-8 w-8 rounded-lg overflow-hidden">
-                {profile.avatar_url ? (
-                  <Image
-                    src={profile.avatar_url}
-                    alt={profile.name || "Avatar"}
-                    fill
-                    sizes="32px"
-                    className="object-cover"
-                  />
-                ) : (
-                  <AvatarFallback className="rounded-lg">{profile.name?.charAt(0)}</AvatarFallback>
-                )}
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <h4 className="truncate font-medium">{profile.name}</h4>
-                <p className="text-muted-foreground truncate text-xs capitalize">{profile.role}</p>
-              </div>
-              <HugeiconsIcon icon={UnfoldMoreIcon} strokeWidth={2} className="ml-auto size-4" />
+              {/* 3. Tampilkan Skeleton jika loading, Tampilkan Avatar jika selesai */}
+              {isLoading ? (
+                <>
+                  <Skeleton className="h-8 w-8 rounded-full" />
+                  <div className="grid flex-1 gap-1 text-left text-sm leading-tight">
+                    <Skeleton className="h-4 w-28" />
+                    <Skeleton className="h-3 w-16" />
+                  </div>
+                  <Skeleton className="ml-auto size-4" />
+                </>
+              ) : (
+                <>
+                  <Avatar className="relative h-8 w-8 rounded-full overflow-hidden">
+                    {profile.avatar_url ? (
+                      <Image
+                        src={profile.avatar_url}
+                        alt={profile.name || "Avatar"}
+                        fill
+                        sizes="32px"
+                        className="object-cover"
+                      />
+                    ) : (
+                      <AvatarFallback className="rounded-full uppercase">
+                        {profile?.name?.substring(0, 2)}
+                      </AvatarFallback>
+                    )}
+                  </Avatar>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <h4 className="truncate font-medium">{profile.name}</h4>
+                    <p className="text-muted-foreground truncate text-xs capitalize">{profile.role}</p>
+                  </div>
+                  <HugeiconsIcon icon={UnfoldMoreIcon} strokeWidth={2} className="ml-auto size-4" />
+                </>
+              )}
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -67,10 +86,8 @@ export function NavUser() {
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-
-                {/* 3. Ubah Avatar kedua (di dalam dropdown) */}
-                <Avatar className="relative h-8 w-8 rounded-lg overflow-hidden">
-                  {profile.avatar_url ? (
+                <Avatar className="relative h-8 w-8 rounded-full overflow-hidden">
+                  {profile?.avatar_url ? (
                     <Image
                       src={profile.avatar_url}
                       alt={profile.name || "Avatar"}
@@ -79,13 +96,14 @@ export function NavUser() {
                       className="object-cover"
                     />
                   ) : (
-                    <AvatarFallback className="rounded-lg">{profile.name?.charAt(0)}</AvatarFallback>
+                    <AvatarFallback className="rounded-full uppercase">
+                      {profile?.name?.substring(0, 2)}
+                    </AvatarFallback>
                   )}
                 </Avatar>
-
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <h4 className="truncate font-medium">{profile.name}</h4>
-                  <p className="text-muted-foreground truncate text-xs capitalize">{profile.role}</p>
+                  <h4 className="truncate font-medium">{profile?.name}</h4>
+                  <p className="text-muted-foreground truncate text-xs capitalize">{profile?.role}</p>
                 </div>
               </div>
             </DropdownMenuLabel>
