@@ -40,22 +40,32 @@ export default function DialogUpdateUser({
 
     const [preview, setPreview] = useState<Preview | undefined>(undefined);
 
+    const userLogin = useAuthStore((state) => state.profile);
+
     const onSubmit = form.handleSubmit((data) => {
         const formData = new FormData();
 
-        if (preview?.file) {
-            Object.entries(data).forEach(([key, value]) => {
-                // Penegasan preview.file as File dan value ?? ''
-                formData.append(key, key === 'avatar_url' ? (preview.file as File) : (value ?? ''));
-            });
-            formData.append('old_avatar_url', currentData?.avatar_url ?? '');
-        } else {
-            Object.entries(data).forEach(([key, value]) => {
-                // Tambahkan fallback string kosong
-                formData.append(key, key === 'avatar_url' ? (currentData?.avatar_url ?? '') : (value ?? ''));
-            });
+        formData.append('name', data.name);
+        formData.append('role', data.role);
+        if (data.avatar_url) {
+            formData.append('avatar_url', data.avatar_url);
+        }
+        if (currentData?.avatar_url) {
+            formData.append('old_avatar_url', currentData.avatar_url as string);
         }
         formData.append('id', currentData?.id ?? '');
+
+        // OPTIMISTIC UPDATE: Tampilan NavUser langsung berubah instan saat tombol diklik
+        if (userLogin && userLogin.id === currentData?.id) {
+            useAuthStore.setState({
+                profile: {
+                    ...userLogin,
+                    name: data.name,
+                    role: data.role,
+                    avatar_url: preview?.displayUrl ?? userLogin.avatar_url,
+                }
+            });
+        }
 
         startTransition(() => {
             updateUserAction(formData);
@@ -65,12 +75,27 @@ export default function DialogUpdateUser({
     useEffect(() => {
         if (updateUserState?.status === 'error') {
             toast.error('Update User Failed', {
-                description: updateUserState.errors?._form?.[0],
+                description: updateUserState.errors?._form?.[0] || 'Terjadi kesalahan pada server.',
             });
+            // Revert optimistic update if needed or just refetch
+            refetch();
         }
 
         if (updateUserState?.status === 'success') {
             toast.success('Update User Success');
+            
+            if (userLogin && userLogin.id === currentData?.id) {
+                // Ensure store has the latest confirmed data just in case
+                useAuthStore.setState({
+                    profile: {
+                        ...userLogin,
+                        name: form.getValues('name'),
+                        role: form.getValues('role'),
+                        avatar_url: preview?.displayUrl ?? userLogin.avatar_url,
+                    }
+                });
+            }
+
             form.reset();
             handleChangeAction?.(false);
             refetch();
@@ -88,36 +113,6 @@ export default function DialogUpdateUser({
             });
         }
     }, [currentData]);
-    // 2. Ambil data profil user yang sedang login
-    const userLogin = useAuthStore((state) => state.profile);
-
-    useEffect(() => {
-        if (updateUserState?.status === 'error') {
-            toast.error('Update User Failed', {
-                description: updateUserState.errors?._form?.[0],
-            });
-        }
-
-        if (updateUserState?.status === 'success') {
-            toast.success('Update User Success');
-
-            // PERBAIKAN: Jika ID user yang diedit sama dengan ID user yang sedang login, update Zustand store langsung
-            if (userLogin && userLogin.id === currentData?.id) {
-                useAuthStore.setState({
-                    profile: {
-                        ...userLogin,
-                        name: form.getValues('name'),
-                        role: form.getValues('role'),
-                        avatar_url: preview?.displayUrl ?? userLogin.avatar_url,
-                    }
-                });
-            }
-
-            form.reset();
-            handleChangeAction?.(false);
-            refetch();
-        }
-    }, [updateUserState]);
 
     return (
         <Dialog open={open} onOpenChange={handleChangeAction}>
