@@ -6,6 +6,6 @@ export type formState = {
 };
 
 export type Preview = {
-  file: File
+  file?: File
   displayUrl: string
 }

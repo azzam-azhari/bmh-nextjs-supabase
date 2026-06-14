@@ -62,6 +62,7 @@ export default function UserManagement() {
         type: 'update' | 'delete';
     } | null>(null);
 
+    const [openCreate, setOpenCreate] = useState(false);
     const handleChangeAction = (open: boolean) => {
         if (!open) setSelectedAction(null);
     };
@@ -126,11 +127,11 @@ export default function UserManagement() {
                                 className="max-w-xs"
                                 onChange={(e) => handleChangeSearch(e.target.value)}
                             />
-                            <Dialog>
+                            <Dialog open={openCreate} onOpenChange={setOpenCreate}>
                                 <DialogTrigger asChild>
                                     <Button variant="outline">Create</Button>
                                 </DialogTrigger>
-                                <DialogCreateUser refetch={refetch} />
+                                <DialogCreateUser refetch={refetch} setOpen={setOpenCreate} />
                             </Dialog>
                         </div>
                     </div>

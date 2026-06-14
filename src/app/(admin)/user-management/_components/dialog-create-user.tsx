@@ -26,7 +26,13 @@ import { toast } from 'sonner';
 import { Preview } from '@/types/general';
 import FormUser from './form-user';
 
-export default function DialogCreateUser({ refetch }: { refetch: () => void }) {
+export default function DialogCreateUser({
+    refetch,
+    setOpen
+}: {
+    refetch: () => void;
+    setOpen: (open: boolean) => void
+}) {
     const form = useForm<CreateUserForm>({
         resolver: zodResolver(createUserSchema),
         defaultValues: INITIAL_CREATE_USER_FORM,
@@ -59,7 +65,9 @@ export default function DialogCreateUser({ refetch }: { refetch: () => void }) {
             toast.success('Create User Success');
             form.reset();
             setPreview(undefined);
-            document.querySelector<HTMLButtonElement>('[data-state="open"]')?.click();
+
+            setOpen(false);
+
             refetch();
         }
     }, [createUserState]);

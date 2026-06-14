@@ -41,17 +41,17 @@ export default function DialogUpdateUser({
 
     const onSubmit = form.handleSubmit((data) => {
         const formData = new FormData();
-        if (currentData?.avatar_url !== data.avatar_url) {
+
+        if (preview?.file) {
             Object.entries(data).forEach(([key, value]) => {
-                formData.append(
-                    key,
-                    key === 'avatar_url' ? preview!.file ?? '' : value,
-                );
+                // Penegasan preview.file as File dan value ?? ''
+                formData.append(key, key === 'avatar_url' ? (preview.file as File) : (value ?? ''));
             });
             formData.append('old_avatar_url', currentData?.avatar_url ?? '');
         } else {
-            Object.entries(data).forEach(([Key, value]) => {
-                formData.append(Key, value);
+            Object.entries(data).forEach(([key, value]) => {
+                // Tambahkan fallback string kosong
+                formData.append(key, key === 'avatar_url' ? (currentData?.avatar_url ?? '') : (value ?? ''));
             });
         }
         formData.append('id', currentData?.id ?? '');
@@ -82,7 +82,7 @@ export default function DialogUpdateUser({
             form.setValue('role', currentData.role as string);
             form.setValue('avatar_url', currentData.avatar_url as string);
             setPreview({
-                file: new File([], currentData.avatar_url as string),
+                file: undefined,
                 displayUrl: currentData.avatar_url as string,
             });
         }
