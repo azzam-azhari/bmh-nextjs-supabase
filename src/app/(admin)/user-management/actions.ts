@@ -60,6 +60,7 @@ export async function createUser(prevState: AuthFormState, formData: FormData) {
         user_metadata: {
             name: validatedFields.data.name,
             role: validatedFields.data.role,
+            avatar_url: validatedFields.data.avatar_url,
         },
     });
 
@@ -88,6 +89,7 @@ export async function updateUser(prevState: AuthFormState, formData: FormData) {
         role: formData.get('role'),
         avatar_url: formData.get('avatar_url'),
     });
+
 
     if (!validatedFields.success) {
         return {
