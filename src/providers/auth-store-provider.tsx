@@ -18,7 +18,29 @@ export default function AuthStoreProvider({
             useAuthStore.getState().setUser(user);
             useAuthStore.getState().setProfile(profile);
         });
-    });
+
+        if (!profile?.id) return;
+
+        const subscription = supabase
+            .channel(`public:profiles:${profile.id}`)
+            .on(
+                'postgres_changes',
+                {
+                    event: 'UPDATE',
+                    schema: 'public',
+                    table: 'profiles',
+                    filter: `id=eq.${profile.id}`,
+                },
+                (payload) => {
+                    useAuthStore.getState().setProfile(payload.new as Profile);
+                }
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(subscription);
+        };
+    }, [profile.id]);
 
     return <>{children}</>;
 }

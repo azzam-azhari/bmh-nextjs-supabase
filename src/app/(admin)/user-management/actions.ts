@@ -4,6 +4,7 @@ import { deleteFile, uploadFile } from '@/actions/storage-action';
 import { createClient } from '@/lib/supabase/server';
 import { AuthFormState } from '@/types/auth';
 import { createUserSchema, updateUserSchema } from '@/validations/auth-validation';
+import { cookies } from 'next/headers';
 
 export async function createUser(prevState: AuthFormState, formData: FormData) {
     let validatedFields = createUserSchema.safeParse({
@@ -170,6 +171,34 @@ export async function updateUser(prevState: AuthFormState, formData: FormData) {
                 _form: [authError.message],
             },
         };
+    }
+
+    // 3. UPDATE COOKIE JIKA YANG DIUPDATE ADALAH USER YANG SEDANG LOGIN
+    // Karena action ini dijalankan di server, kita tidak bisa ambil session dari client,
+    // jadi kita ambil dari `supabase.auth.getUser()`. Namun perlu diingat bahwa
+    // supabase auth client yang ada di atas dibuat dengan `isAdmin: true` (Service Role),
+    // sehingga auth context dari session user yang login harus diambil dengan auth biasa.
+
+    // Mari buat client biasa khusus untuk cek session (menggunakan session cookies).
+    const supabaseClient = await createClient();
+    const { data: { user: currentUser } } = await supabaseClient.auth.getUser();
+
+    if (currentUser?.id === userId) {
+        const { data: updatedProfile } = await supabaseClient
+            .from('profiles')
+            .select('*')
+            .eq('id', userId)
+            .single();
+
+        if (updatedProfile) {
+            const cookieStore = await cookies();
+            cookieStore.set('user_profile', JSON.stringify(updatedProfile), {
+                httpOnly: true,
+                path: '/',
+                sameSite: 'lax',
+                maxAge: 60 * 60 * 24 * 365,
+            });
+        }
     }
 
     return {
