@@ -21,6 +21,7 @@ export default function AuthStoreProvider({
 
         if (!profile?.id) return;
 
+        // Realtime untuk update avatar dan role
         const subscription = supabase
             .channel(`public:profiles:${profile.id}`)
             .on(

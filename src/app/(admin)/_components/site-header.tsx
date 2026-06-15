@@ -13,7 +13,7 @@ export function SiteHeader() {
           <TooltipTrigger asChild>
             <SidebarTrigger className="-ml-1 hover:cursor-pointer" />
           </TooltipTrigger>
-          <TooltipContent side="right">
+          <TooltipContent side="right" className="hidden lg:block">
             <p>Ctrl+B</p>
           </TooltipContent>
         </Tooltip>
