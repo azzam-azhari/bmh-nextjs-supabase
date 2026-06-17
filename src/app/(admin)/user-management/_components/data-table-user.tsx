@@ -36,7 +36,7 @@ export default function DataTableUser({
   isLoading?: boolean;
 }) {
   const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(10);
 
   const totalItems = data?.length || 0;
   const pageCount = Math.ceil(totalItems / pageSize) || 1;
@@ -123,7 +123,7 @@ export default function DataTableUser({
               </SelectTrigger>
               <SelectContent side="top">
                 <SelectGroup>
-                  {[5, 10, 20, 30, 40, 50].map((size) => (
+                  {[10, 20, 30, 40, 50].map((size) => (
                     <SelectItem key={size} value={`${size}`}>
                       {size}
                     </SelectItem>

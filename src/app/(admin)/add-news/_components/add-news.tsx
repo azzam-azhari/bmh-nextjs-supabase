@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,8 +8,33 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ImageUploadIcon, CheckmarkCircle01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
+import { createClient } from "@/lib/supabase/client";
 
 export default function AddNews() {
+  // 1. Siapkan "Kotak Penyimpanan" (State) untuk data kategori
+  const [kategoriList, setKategoriList] = useState<{ id: string | number; nama_kategori: string }[]>([]);
+
+  // Panggil satpam/koneksi Supabase
+  const supabase = createClient();
+
+  // 2. Fungsi untuk mengambil data dari Supabase secara otomatis saat halaman dibuka
+  useEffect(() => {
+    const ambilDataKategori = async () => {
+      // "Hai Supabase, tolong ambilkan id dan nama_kategori dari tabel kategori"
+      const { data, error } = await supabase
+        .from('kategori')
+        .select('id, nama_kategori');
+
+      if (error) {
+        console.error("Gagal mengambil kategori:", error);
+      } else if (data) {
+        // Masukkan data dari database ke "Kotak Penyimpanan" kita
+        setKategoriList(data);
+      }
+    };
+
+    ambilDataKategori();
+  }, []); // Kurung siku kosong artinya: "Jalankan fungsi ini SEKALI SAJA saat halaman pertama kali diload"
   const [dragActive, setDragActive] = useState(false);
 
   const handleDrag = (e: React.DragEvent) => {
@@ -79,18 +104,22 @@ export default function AddNews() {
                 </div>
                 <div className="flex flex-col gap-2">
                   <Label htmlFor="category">Category</Label>
-                  <Select>
+
+                  {/* Nantinya value yang disimpan adalah ID kategori (angka), bukan teksnya */}
+                  <Select onValueChange={(value) => console.log("Kategori ID yang dipilih:", value)}>
                     <SelectTrigger id="category">
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem value="teknologi">Teknologi</SelectItem>
-                        <SelectItem value="ekonomi">Ekonomi</SelectItem>
-                        <SelectItem value="bisnis">Bisnis</SelectItem>
-                        <SelectItem value="internal">Internal</SelectItem>
-                        <SelectItem value="nasional">Nasional</SelectItem>
-                        <SelectItem value="internasional">Internasional</SelectItem>
+
+                        {/* 3. Di sinilah sihirnya terjadi! Kita gunakan .map() untuk melooping (mengulang) baris data */}
+                        {kategoriList.map((kat) => (
+                          <SelectItem key={kat.id} value={kat.id.toString()}>
+                            {kat.nama_kategori}
+                          </SelectItem>
+                        ))}
+
                       </SelectGroup>
                     </SelectContent>
                   </Select>

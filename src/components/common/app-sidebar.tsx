@@ -63,7 +63,7 @@ const data = {
       items: [
         { title: 'Semua Berita', url: '/all-news' },
         { title: 'Tambah Berita Baru', url: '/add-news' },
-        { title: 'Kategori Berita', url: '#' },
+        { title: 'Kategori Berita', url: '/categories' },
         { title: 'Komentar Publik', url: '#' },
       ],
     },

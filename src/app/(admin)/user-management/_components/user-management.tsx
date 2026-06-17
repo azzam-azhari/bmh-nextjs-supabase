@@ -1,7 +1,6 @@
 'use client';
 
 import DropdownAction from '@/components/common/dropdown-action';
-import DataTableUser from './data-table-user';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -14,8 +13,9 @@ import { Pencil, Trash2Icon } from 'lucide-react';
 import useDataTable from '@/hooks/use-data-table';
 import DialogCreateUser from './dialog-create-user';
 import DialogUpdateUser from './dialog-update-user';
-import { Profile } from '@/types/auth';
 import DialogDeleteUser from './dialog-delete-user';
+import DataTableUser from './data-table-user';
+import { Profile } from '@/types/auth';
 
 export default function UserManagement() {
     const supabase = createClient();
