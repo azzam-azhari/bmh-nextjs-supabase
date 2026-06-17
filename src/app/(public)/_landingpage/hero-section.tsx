@@ -1,7 +1,7 @@
+import { HugeiconsIcon } from "@hugeicons/react";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRight01Icon, UserGroupIcon, EarthIcon, TrendingUp } from "@hugeicons/core-free-icons";
 
 
