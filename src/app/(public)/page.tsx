@@ -2,6 +2,7 @@
 import FaqSection from './_landingpage/faq-section';
 import NewsSection from './_landingpage/news-section';
 import HeroSection from './_landingpage/hero-section';
+import Perwakilan from './_landingpage/perwakilan';
 
 
 export default function Home() {
@@ -14,8 +15,12 @@ export default function Home() {
       {/* Latest News Section */}
       <NewsSection />
 
+      {/* Perwakilan */}
+      <Perwakilan />
+
       {/* FAQ Section */}
       <FaqSection />
+
 
 
     </main>
