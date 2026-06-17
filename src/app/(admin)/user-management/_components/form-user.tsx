@@ -13,7 +13,9 @@ import {
 import { Form } from '@/components/ui/form';
 import { ROLE_LIST } from '@/constants/auth-constant';
 import { Preview } from '@/types/general';
-import { Loader2 } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Loading01Icon } from "@hugeicons/core-free-icons";
+
 import { FormEvent } from 'react';
 import { FieldValues, Path, UseFormReturn } from 'react-hook-form';
 
@@ -86,7 +88,7 @@ export default function FormUser<T extends FieldValues>({
                             <Button variant="outline">Cancel</Button>
                         </DialogClose>
                         <Button type="submit">
-                            {isLoading ? <Loader2 className="animate-spin" /> : type}
+                            {isLoading ? <HugeiconsIcon icon={Loading01Icon} className="animate-spin"  /> : type}
                         </Button>
                     </DialogFooter>
                 </form>

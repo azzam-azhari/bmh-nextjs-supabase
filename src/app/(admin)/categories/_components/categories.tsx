@@ -8,7 +8,9 @@ import { createClient } from '@/lib/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import { Pencil, Trash2Icon } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { PencilEdit01Icon, Delete02Icon } from "@hugeicons/core-free-icons";
+
 import useDataTable from '@/hooks/use-data-table';
 import DialogCreateCategory from './dialog-create-category';
 import DialogUpdateCategory from './dialog-update-category';
@@ -98,7 +100,7 @@ export default function CategoryManagement() {
                             />
                             <Dialog open={openCreate} onOpenChange={setOpenCreate}>
                                 <DialogTrigger asChild>
-                                    <Button variant="outline">Create Category</Button>
+                                    <Button className="bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 hover:cursor-pointer">Buat Kategori Baru</Button>
                                 </DialogTrigger>
                                 <DialogCreateCategory refetch={refetch} setOpen={setOpenCreate} />
                             </Dialog>

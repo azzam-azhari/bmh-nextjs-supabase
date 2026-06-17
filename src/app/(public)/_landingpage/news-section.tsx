@@ -2,9 +2,11 @@ import Link from 'next/link';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-// import { ArrowRight, Calendar } from 'lucide-react';
+// import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowRight01Icon, Calendar01Icon } from "@hugeicons/core-free-icons";
+
 // import { latestNews } from '@/lib/db';
-import { ArrowRight, Calendar } from 'lucide-react';
+
 
 // Data dummy untuk 3 berita terbaru
 const latestNews = [
@@ -56,7 +58,7 @@ export default function NewsSection() {
                     <Button variant="outline" className="w-full sm:w-auto gap-2 text-sm sm:text-base lg:text-lg px-4 py-2 lg:px-5 lg:py-2.5" asChild>
                         <Link href="/news">
                             Lihat Semua Berita
-                            <ArrowRight className="h-4 w-4 lg:h-5 lg:w-5" />
+                            <HugeiconsIcon icon={ArrowRight01Icon} className="h-4 w-4 lg:h-5 lg:w-5"  />
                         </Link>
                     </Button>
                 </div>
@@ -96,7 +98,7 @@ export default function NewsSection() {
                             {/* Footer */}
                             <CardFooter className="border-t pt-3 pb-4 px-4 sm:px-5 lg:px-6">
                                 <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm lg:text-base text-muted-foreground">
-                                    <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4 lg:h-5 lg:w-5" />
+                                    <HugeiconsIcon icon={Calendar01Icon} className="h-3.5 w-3.5 sm:h-4 sm:w-4 lg:h-5 lg:w-5"  />
                                     <span>{news.date}</span>
                                 </div>
                             </CardFooter>

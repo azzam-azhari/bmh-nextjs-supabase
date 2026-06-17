@@ -8,7 +8,9 @@ import {
     DialogTitle,
 } from '../ui/dialog';
 import { Button } from '../ui/button';
-import { Loader2 } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Loading01Icon } from "@hugeicons/core-free-icons";
+
 
 export default function DialogDelete({
     open,
@@ -39,7 +41,7 @@ export default function DialogDelete({
                             <Button variant="outline">Cancel</Button>
                         </DialogClose>
                         <Button variant="destructive" formAction={onSubmit}>
-                            {isLoading ? <Loader2 className="animate-spin" /> : 'Delete'}
+                            {isLoading ? <HugeiconsIcon icon={Loading01Icon} className="animate-spin"  /> : 'Delete'}
                         </Button>
                     </DialogFooter>
                 </form>

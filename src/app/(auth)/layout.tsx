@@ -1,5 +1,7 @@
 // app/(auth)/layout.tsx
-import { Building } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Building01Icon } from "@hugeicons/core-free-icons";
+
 import { ReactNode } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 
@@ -13,7 +15,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
       <div className="flex w-full max-w-sm flex-col gap-6">
         <div className="flex items-center gap-2 self-center font-medium">
           <div className="bg-emerald-500 flex p-2 items-center justify-center rounded-md">
-            <Building className="size-4" />
+            <HugeiconsIcon icon={Building01Icon} className="size-4"  />
           </div>
           BMH
         </div>

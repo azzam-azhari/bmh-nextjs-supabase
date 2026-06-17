@@ -1,7 +1,7 @@
 import AllNews from './_components/all-news';
 
 export const metadata = {
-  title: 'BMH | All News',
+  title: 'BMH | Semua Berita',
 };
 
 export default function AllNewsPage() {

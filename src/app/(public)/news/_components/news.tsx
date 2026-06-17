@@ -5,7 +5,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Search, Calendar, User, ArrowRight } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Search01Icon, Calendar01Icon, UserIcon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
+
 
 // Data dummy untuk simulasi berita
 const mockNews = [
@@ -109,7 +111,7 @@ export default function News() {
             <div className="max-w-2xl mx-auto mb-14">
                 <div className="flex flex-col sm:flex-row gap-3">
                     <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <HugeiconsIcon icon={Search01Icon} className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"  />
                         <Input
                             placeholder="Cari berita atau kategori..."
                             className="pl-10 h-11"
@@ -146,11 +148,11 @@ export default function News() {
 
                             <CardFooter className="border-t pt-4 flex items-center justify-between text-sm text-muted-foreground">
                                 <div className="flex items-center gap-1.5">
-                                    <Calendar className="h-3.5 w-3.5" />
+                                    <HugeiconsIcon icon={Calendar01Icon} className="h-3.5 w-3.5"  />
                                     <span>{news.date}</span>
                                 </div>
                                 <div className="flex items-center gap-1.5">
-                                    <User className="h-3.5 w-3.5" />
+                                    <HugeiconsIcon icon={UserIcon} className="h-3.5 w-3.5"  />
                                     <span className="line-clamp-1">{news.author}</span>
                                 </div>
                             </CardFooter>
@@ -166,7 +168,7 @@ export default function News() {
             {/* Pagination / Load More */}
             <div className="flex justify-center">
                 <Button variant="outline" size="lg" className="gap-2">
-                    Muat Lebih Banyak <ArrowRight className="h-4 w-4" />
+                    Muat Lebih Banyak <HugeiconsIcon icon={ArrowRight01Icon} className="h-4 w-4"  />
                 </Button>
             </div>
 

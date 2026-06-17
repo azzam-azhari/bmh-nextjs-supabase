@@ -8,7 +8,9 @@ import {
 } from '../ui/form';
 import { Input } from '../ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { FileImage } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Image01Icon } from "@hugeicons/core-free-icons";
+
 import { getImageData } from '@/lib/utils';
 import { Preview } from '@/types/general';
 
@@ -41,7 +43,7 @@ export default function FormImage<T extends FieldValues>({
                                     className="object-cover"
                                 />
                                 <AvatarFallback className="rounded-lg">
-                                    <FileImage className="w-4 h-4" />
+                                    <HugeiconsIcon icon={Image01Icon} className="w-4 h-4"  />
                                 </AvatarFallback>
                             </Avatar>
                             <Input

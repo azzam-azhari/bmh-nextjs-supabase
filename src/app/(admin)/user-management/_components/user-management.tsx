@@ -9,7 +9,9 @@ import { createClient } from '@/lib/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import { Pencil, Trash2Icon } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { PencilEdit01Icon, Delete02Icon } from "@hugeicons/core-free-icons";
+
 import useDataTable from '@/hooks/use-data-table';
 import DialogCreateUser from './dialog-create-user';
 import DialogUpdateUser from './dialog-update-user';
@@ -83,7 +85,7 @@ export default function UserManagement() {
                         {
                             label: (
                                 <span className="flex items-center gap-2">
-                                    <Pencil size={16} />
+                                    <HugeiconsIcon icon={PencilEdit01Icon} size={16}  />
                                     Edit
                                 </span>
                             ),
@@ -97,7 +99,7 @@ export default function UserManagement() {
                         {
                             label: (
                                 <span className="flex items-center gap-2">
-                                    <Trash2Icon className="text-red-400" size={16} />
+                                    <HugeiconsIcon icon={Delete02Icon} className="text-red-400" size={16}  />
                                     Delete
                                 </span>
                             ),
@@ -122,20 +124,20 @@ export default function UserManagement() {
                 <div className="flex flex-col gap-4 p-4 md:gap-6 md:p-6">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 w-full">
                         <div>
-                            <h1 className="text-2xl font-bold tracking-tight">User Management</h1>
+                            <h1 className="text-2xl font-bold tracking-tight">Manajemen User</h1>
                             <p className="text-sm text-muted-foreground">
-                                Manage your website users and their roles.
+                                Kelola user dan role pada website.
                             </p>
                         </div>
                         <div className="flex items-center gap-2">
                             <Input
-                                placeholder="Search by name"
+                                placeholder="Cari berdasarkan nama"
                                 className="max-w-xs"
                                 onChange={(e) => handleChangeSearch(e.target.value)}
                             />
                             <Dialog open={openCreate} onOpenChange={setOpenCreate}>
                                 <DialogTrigger asChild>
-                                    <Button variant="outline">Create</Button>
+                                    <Button className="bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 hover:cursor-pointer">Tambah User</Button>
                                 </DialogTrigger>
                                 <DialogCreateUser refetch={refetch} setOpen={setOpenCreate} />
                             </Dialog>

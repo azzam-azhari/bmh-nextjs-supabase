@@ -6,7 +6,9 @@ import {
     DropdownMenuItem,
 } from '../ui/dropdown-menu';
 import { Button } from '../ui/button';
-import { EllipsisVertical } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { MoreVerticalIcon } from "@hugeicons/core-free-icons";
+
 
 export default function DropdownAction({
     menu,
@@ -26,7 +28,7 @@ export default function DropdownAction({
                     className="text-muted-foreground size-8"
                     size="icon"
                 >
-                    <EllipsisVertical />
+                    <HugeiconsIcon icon={MoreVerticalIcon}  />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-32">

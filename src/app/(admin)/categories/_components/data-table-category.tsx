@@ -11,12 +11,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HugeiconsIcon } from "@hugeicons/react";
-import {
-  ArrowLeftDoubleIcon, ArrowLeft01Icon,
-  ArrowRight01Icon, ArrowRightDoubleIcon,
-} from "@hugeicons/core-free-icons";
+import { ArrowLeftDoubleIcon, ArrowLeft01Icon, ArrowRight01Icon, ArrowRightDoubleIcon, PencilEdit01Icon, Delete02Icon } from "@hugeicons/core-free-icons";
+
 import DropdownAction from '@/components/common/dropdown-action';
-import { Pencil, Trash2Icon } from 'lucide-react';
+
 import { Category } from '@/types/general';
 
 // ✅ Header sesuai kolom tabel
@@ -91,7 +89,7 @@ export default function DataTableCategory({
                         {
                           label: (
                             <span className="flex items-center gap-2">
-                              <Pencil size={16} />
+                              <HugeiconsIcon icon={PencilEdit01Icon} size={16}  />
                               Edit
                             </span>
                           ),
@@ -100,7 +98,7 @@ export default function DataTableCategory({
                         {
                           label: (
                             <span className="flex items-center gap-2">
-                              <Trash2Icon className="text-red-400" size={16} />
+                              <HugeiconsIcon icon={Delete02Icon} className="text-red-400" size={16}  />
                               Delete
                             </span>
                           ),

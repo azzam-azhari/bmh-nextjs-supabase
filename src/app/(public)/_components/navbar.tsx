@@ -5,7 +5,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
-import { Menu, Search, User } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Menu01Icon, Search01Icon, UserIcon } from "@hugeicons/core-free-icons";
+
 import { useState } from 'react';
 import { cn } from '@/lib/utils'; // Pastikan Anda memiliki cn dari shadcn (lib/utils.ts)
 import LanguageSwitcher from './language-switcher';
@@ -54,7 +56,7 @@ export default function Navbar() {
                     <Sheet open={isOpen} onOpenChange={setIsOpen}>
                         <SheetTrigger asChild className="md:hidden">
                             <Button variant="ghost" size="icon" aria-label="Toggle menu" className="h-10 w-10">
-                                <Menu className="h-5 w-5" />
+                                <HugeiconsIcon icon={Menu01Icon} className="h-5 w-5"  />
                             </Button>
                         </SheetTrigger>
                         <SheetContent side="left" className="w-[280px] sm:w-[320px] p-0 flex flex-col">
@@ -93,7 +95,7 @@ export default function Navbar() {
                             <div className="border-t p-4 mt-auto">
                                 <Button variant="outline" className="w-full justify-center gap-2 h-11" asChild>
                                     <Link href={buttonHref} onClick={() => setIsOpen(false)}>
-                                        <User className="h-4 w-4" /> {isLoggedIn ? buttonText : 'Masuk / Daftar'}
+                                        <HugeiconsIcon icon={UserIcon} className="h-4 w-4"  /> {isLoggedIn ? buttonText : 'Masuk / Daftar'}
                                     </Link>
                                 </Button>
                             </div>
@@ -128,7 +130,7 @@ export default function Navbar() {
                 {/* Right Actions */}
                 <div className="flex items-center gap-1 sm:gap-2 lg:gap-4">
                     <Button variant="ghost" size="icon" aria-label="Search" className="h-9 w-9 lg:h-10 lg:w-10">
-                        <Search className="h-4 w-4 lg:h-5 lg:w-5" />
+                        <HugeiconsIcon icon={Search01Icon} className="h-4 w-4 lg:h-5 lg:w-5"  />
                     </Button>
 
                     {/* Language Switcher - Sekarang ditempatkan langsung di div actions */}

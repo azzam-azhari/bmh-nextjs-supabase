@@ -1,7 +1,9 @@
 // components/public/Footer.tsx
 import Link from 'next/link';
-import { Mail, Phone, MapPin } from 'lucide-react';
-import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Mail01Icon, Call02Icon, Location01Icon, Facebook01Icon, NewTwitterIcon, InstagramIcon, YoutubeIcon } from "@hugeicons/core-free-icons";
+
+
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
@@ -64,15 +66,15 @@ export default function Footer() {
                         <h4 className="text-sm lg:text-base font-semibold">Kontak</h4>
                         <ul className="space-y-3 lg:space-y-4 text-sm lg:text-base text-muted-foreground flex flex-col items-center sm:items-start">
                             <li className="flex items-start gap-2 justify-center sm:justify-start">
-                                <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
+                                <HugeiconsIcon icon={Location01Icon} className="h-4 w-4 mt-0.5 shrink-0"  />
                                 <span className="leading-relaxed">Jl. Raya Condet No.3, Jakarta Timur, Indonesia</span>
                             </li>
                             <li className="flex items-center gap-2">
-                                <Phone className="h-4 w-4 shrink-0" />
+                                <HugeiconsIcon icon={Call02Icon} className="h-4 w-4 shrink-0"  />
                                 <span>(021) 1234-5678</span>
                             </li>
                             <li className="flex items-center gap-2">
-                                <Mail className="h-4 w-4 shrink-0" />
+                                <HugeiconsIcon icon={Mail01Icon} className="h-4 w-4 shrink-0"  />
                                 <span>redaksi@bmh.id</span>
                             </li>
                         </ul>
@@ -82,16 +84,16 @@ export default function Footer() {
                         <h4 className="text-sm lg:text-base font-semibold">Ikuti Kami</h4>
                         <div className="flex gap-3 justify-center sm:justify-start">
                             <a href="#" className="flex h-9 w-9 lg:h-10 lg:w-10 items-center justify-center rounded-full border bg-background hover:bg-accent hover:text-accent-foreground transition-colors" aria-label="Facebook">
-                                <FaFacebookF className="h-4 w-4 lg:h-5 lg:w-5" />
+                                <HugeiconsIcon icon={Facebook01Icon} className="h-4 w-4 lg:h-5 lg:w-5"  />
                             </a>
                             <a href="#" className="flex h-9 w-9 lg:h-10 lg:w-10 items-center justify-center rounded-full border bg-background hover:bg-accent hover:text-accent-foreground transition-colors" aria-label="Twitter">
-                                <FaTwitter className="h-4 w-4 lg:h-5 lg:w-5" />
+                                <HugeiconsIcon icon={NewTwitterIcon} className="h-4 w-4 lg:h-5 lg:w-5"  />
                             </a>
                             <a href="#" className="flex h-9 w-9 lg:h-10 lg:w-10 items-center justify-center rounded-full border bg-background hover:bg-accent hover:text-accent-foreground transition-colors" aria-label="Instagram">
-                                <FaInstagram className="h-4 w-4 lg:h-5 lg:w-5" />
+                                <HugeiconsIcon icon={InstagramIcon} className="h-4 w-4 lg:h-5 lg:w-5"  />
                             </a>
                             <a href="#" className="flex h-9 w-9 lg:h-10 lg:w-10 items-center justify-center rounded-full border bg-background hover:bg-accent hover:text-accent-foreground transition-colors" aria-label="Youtube">
-                                <FaYoutube className="h-4 w-4 lg:h-5 lg:w-5" />
+                                <HugeiconsIcon icon={YoutubeIcon} className="h-4 w-4 lg:h-5 lg:w-5"  />
                             </a>
                         </div>
                     </div>
