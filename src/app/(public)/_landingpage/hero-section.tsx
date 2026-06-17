@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowRight01Icon, Calendar01Icon, TrendingUpIcon, UserGroupIcon, EarthIcon } from "@hugeicons/core-free-icons";
+import { ArrowRight01Icon, UserGroupIcon, EarthIcon, TrendingUp } from "@hugeicons/core-free-icons";
 
 
 
@@ -14,7 +14,7 @@ export default function HeroSection() {
 
                     {/* Badge */}
                     <Badge variant="secondary" className="px-3 py-1.5 text-xs sm:text-sm font-medium">
-                        <HugeiconsIcon icon={TrendingUpIcon} className="mr-1.5 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4"  />
+                        <HugeiconsIcon icon={TrendingUp} className="mr-1.5 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4" />
                         Portal Berita Resmi BMH
                     </Badge>
 
@@ -37,7 +37,7 @@ export default function HeroSection() {
                         <Button size="default" className="gap-2 text-sm sm:text-base px-5 py-5 lg:px-6 lg:py-6" asChild>
                             <Link href="/news">
                                 Baca Berita Terbaru
-                                <HugeiconsIcon icon={ArrowRight01Icon} className="h-4 w-4"  />
+                                <HugeiconsIcon icon={ArrowRight01Icon} className="h-4 w-4" />
                             </Link>
                         </Button>
                         <Button size="default" variant="outline" className="text-sm sm:text-base px-5 py-5 lg:px-6 lg:py-6" asChild>
@@ -51,21 +51,21 @@ export default function HeroSection() {
                     <div className="grid grid-cols-3 gap-4 sm:gap-6 lg:gap-8 pt-6 sm:pt-8 border-t w-full max-w-2xl">
                         <div className="space-y-1.5 sm:space-y-2">
                             <div className="flex items-center justify-center gap-1.5 sm:gap-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
-                                <HugeiconsIcon icon={UserGroupIcon} className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6"  />
+                                <HugeiconsIcon icon={UserGroupIcon} className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
                                 <span>10K+</span>
                             </div>
                             <p className="text-xs sm:text-sm lg:text-base text-muted-foreground">Penerima Manfaat</p>
                         </div>
                         <div className="space-y-1.5 sm:space-y-2">
                             <div className="flex items-center justify-center gap-1.5 sm:gap-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
-                                <HugeiconsIcon icon={EarthIcon} className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6"  />
+                                <HugeiconsIcon icon={EarthIcon} className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
                                 <span>34</span>
                             </div>
                             <p className="text-xs sm:text-sm lg:text-base text-muted-foreground">Provinsi</p>
                         </div>
                         <div className="space-y-1.5 sm:space-y-2">
                             <div className="flex items-center justify-center gap-1.5 sm:gap-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
-                                <HugeiconsIcon icon={TrendingUpIcon} className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6"  />
+                                <HugeiconsIcon icon={TrendingUp} className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
                                 <span>500+</span>
                             </div>
                             <p className="text-xs sm:text-sm lg:text-base text-muted-foreground">Program Aktif</p>
