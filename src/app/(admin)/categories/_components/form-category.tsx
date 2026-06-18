@@ -17,7 +17,7 @@ export default function FormCategory({
     form: UseFormReturn<CreateCategoryForm> | UseFormReturn<UpdateCategoryForm>;
     onSubmit: () => void;
     isLoading: boolean;
-    type: 'Create' | 'Edit';
+    type: 'Buat' | 'Edit';
 }) {
     // Auto-generate slug dari nama_kategori
     const handleNamaChange = (e: React.ChangeEvent<HTMLInputElement>) => {

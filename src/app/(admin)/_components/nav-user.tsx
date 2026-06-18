@@ -25,6 +25,8 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { UnfoldMoreIcon, SparklesIcon, CheckmarkBadgeIcon, CreditCardIcon, NotificationIcon, LogoutIcon } from "@hugeicons/core-free-icons"
 import { signOut } from '@/actions/auth-action';
 import { useAuthStore } from "@/stores/auth-store"
+import { QueryClient } from "@tanstack/react-query"
+import { createClient } from "@/lib/supabase/server"
 
 export function NavUser() {
   const { isMobile } = useSidebar()
