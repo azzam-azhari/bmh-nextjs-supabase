@@ -30,7 +30,7 @@ export function NavDocuments({
     icon: React.ReactNode
   }[]
 }) {
-  const { isMobile } = useSidebar()
+  const { isMobile, setOpenMobile } = useSidebar()
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -38,7 +38,7 @@ export function NavDocuments({
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
+            <SidebarMenuButton asChild onClick={() => setOpenMobile(false)}>
               <Link href={item.url}>
                 {item.icon}
                 <span>{item.name}</span>

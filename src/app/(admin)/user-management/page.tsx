@@ -1,6 +1,6 @@
-// Di page.tsx (Server Component)
-import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
-import { createClient } from '@/lib/supabase/server'; // atau client supabase server Anda
+// app/admin/users/page.tsx
+import { createClient } from '@/lib/supabase/server';
+import { PrefetchQueries } from '@/app/_components/prefetch-query';
 import UserManagement from './_components/user-management';
 
 export const metadata = {
@@ -8,21 +8,25 @@ export const metadata = {
 };
 
 export default async function UserManagementPage() {
-  const queryClient = new QueryClient();
   const supabase = await createClient();
 
-  // Noted: Prefetch data sebelum halaman dikirim ke browser
-  await queryClient.prefetchQuery({
-    queryKey: ['users', 1, 10, ''], // Sesuaikan dengan key useQuery
-    queryFn: async () => {
-      const { data } = await supabase.from('profiles').select('*').range(0, 9).order('created_at', { ascending: false });
-      return data;
-    },
-  });
-
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <PrefetchQueries
+      queries={[
+        {
+          queryKey: ['users', 1, 10, ''],
+          queryFn: async () => {
+            const { data } = await supabase
+              .from('profiles')
+              .select('*')
+              .range(0, 9)
+              .order('created_at', { ascending: false });
+            return data;
+          },
+        },
+      ]}
+    >
       <UserManagement />
-    </HydrationBoundary>
+    </PrefetchQueries>
   );
 }

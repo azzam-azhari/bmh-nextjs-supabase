@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from '@/components/ui/sidebar';
+import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, useSidebar } from '@/components/ui/sidebar';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowRight01Icon } from '@hugeicons/core-free-icons';
 
@@ -22,6 +22,7 @@ export function NavMain({
   }[];
 }) {
   const pathname = usePathname();
+  const { setOpenMobile } = useSidebar();
 
   return (
     <SidebarGroup>
@@ -38,7 +39,7 @@ export function NavMain({
 
             return (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild tooltip={item.title} isActive={isActive || item.isActive}>
+                <SidebarMenuButton asChild tooltip={item.title} isActive={isActive || item.isActive} onClick={() => setOpenMobile(false)}>
                   <Link href={item.url}>
                     {item.icon}
                     <span>{item.title}</span>
@@ -69,7 +70,7 @@ export function NavMain({
 
                       return (
                         <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton asChild isActive={isSubActive}>
+                          <SidebarMenuSubButton asChild isActive={isSubActive} onClick={() => setOpenMobile(false)}>
                             <Link href={subItem.url}>
                               <span>{subItem.title}</span>
                             </Link>

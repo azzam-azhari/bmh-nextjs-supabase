@@ -16,7 +16,7 @@ export function NavProjects({
     icon: React.ReactNode;
   }[];
 }) {
-  const { isMobile } = useSidebar();
+  const { isMobile, setOpenMobile } = useSidebar();
   const pathname = usePathname();
 
   return (
@@ -30,7 +30,7 @@ export function NavProjects({
 
           return (
             <SidebarMenuItem key={item.name}>
-              <SidebarMenuButton asChild isActive={isActive}>
+              <SidebarMenuButton asChild isActive={isActive} onClick={() => setOpenMobile(false)}>
                 <Link href={item.url}>
                   {item.icon}
                   <span>{item.name}</span>
