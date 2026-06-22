@@ -10,12 +10,25 @@ export type Preview = {
   displayUrl: string
 }
 
-
-
 export type Category = {
   id: number;
   nama_kategori: string;
   slug: string;
   jumlah: number;
   created_at: string;
+};
+
+export type News = {
+  id: number;
+  judul: string;
+  slug: string;
+  isi_berita: string | null;
+  gambar_url: string[];
+  kategori?: { nama_kategori: string } | null;
+  penulis_id: string | null;
+  tags: string[];
+  status: 'draft' | 'published' | 'archived';
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
 };

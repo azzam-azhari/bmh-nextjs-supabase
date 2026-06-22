@@ -11,26 +11,67 @@ import {
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowLeftDoubleIcon, ArrowLeft01Icon, ArrowRight01Icon, ArrowRightDoubleIcon, PencilEdit01Icon, Delete02Icon } from "@hugeicons/core-free-icons";
-import DropdownAction from '@/components/common/dropdown-action';
-import { Category } from '@/types/general';
+import DropdownNewsAction from '@/components/common/dropdown-news-action';
+import { News } from '@/types/general';
+import { Badge } from '@/components/ui/badge';
+import {
+  ArrowLeftDoubleIcon, ArrowLeft01Icon, ArrowRight01Icon, ArrowRightDoubleIcon, PencilEdit01Icon, Delete02Icon, ViewIcon,
+  CheckmarkCircle01Icon,
+  Loading03Icon,
+  SentIcon,
+  Cancel01Icon,
+  Edit01Icon,
+} from "@hugeicons/core-free-icons"
 
-// ✅ Header sesuai kolom tabel Kategori
-const HEADERS = ["No", "Nama Kategori", "Slug", "Jumlah", "Dibuat Pada", "Action"];
+// ✅ Header sesuai kolom tabel News
+const HEADERS = ["No", "Judul", "Autor", "Kategori", "Tags", "Dibuat Pada", "Status", "Action"];
 
-// ✅ Skeleton width disesuaikan per kolom Kategori
+// ✅ Skeleton width disesuaikan per kolom News
 const SKELETON_WIDTHS = ['w-7', 'w-48', 'w-40', 'w-12', 'w-28', 'w-8'];
 
-export default function DataTableCategory({
+// Status badge component
+function StatusBadge({ status }: { status: string }) {
+  switch (status) {
+    case "published":
+      return (
+        <Badge variant="outline" className="gap-1 px-1.5 text-emerald-600 border-emerald-200 bg-emerald-50 dark:text-emerald-400 dark:border-emerald-800 dark:bg-emerald-950">
+          <HugeiconsIcon icon={CheckmarkCircle01Icon} strokeWidth={2} className="size-3 fill-emerald-500/20" />
+          Published
+        </Badge>
+      )
+    case "draft":
+      return (
+        <Badge variant="outline" className="gap-1 px-1.5 text-muted-foreground">
+          <HugeiconsIcon icon={Edit01Icon} strokeWidth={2} className="size-3" />
+          Draft
+        </Badge>
+      )
+    case "archived":
+      return (
+        <Badge variant="outline" className="gap-1 px-1.5 text-amber-600 border-amber-200 bg-amber-50 dark:text-amber-400 dark:border-amber-800 dark:bg-amber-950">
+          <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} className="size-3" />
+          Archived
+        </Badge>
+      )
+    default:
+      return (
+        <Badge variant="outline" className="px-1.5 text-muted-foreground capitalize">
+          {status}
+        </Badge>
+      )
+  }
+}
+
+export default function DataTableNewsFix({
   data = [],
   isLoading,
   onEdit,
   onDelete,
 }: {
-  data: Category[];
+  data: News[];
   isLoading?: boolean;
-  onEdit?: (category: Category) => void;
-  onDelete?: (category: Category) => void;
+  onEdit?: (category: News) => void;
+  onDelete?: (category: News) => void;
 }) {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -51,7 +92,7 @@ export default function DataTableCategory({
     });
 
   return (
-    <div className="w-full flex-col justify-start gap-6">
+    <div className="w-full flex-col justify-start gap-6 px-4 lg:px-6">
       <div className="overflow-hidden rounded-lg border">
         <Table>
           <TableHeader className="sticky top-0 z-10 bg-muted">
@@ -76,13 +117,26 @@ export default function DataTableCategory({
               paginatedData.map((row, rowIndex) => (
                 <TableRow key={row.id}>
                   <TableCell>{safePageIndex * pageSize + rowIndex + 1}</TableCell>
-                  <TableCell>{row.nama_kategori}</TableCell>
-                  <TableCell className="text-muted-foreground">{row.slug}</TableCell>
-                  <TableCell>{row.jumlah}</TableCell>
+                  <TableCell>{row.judul}</TableCell>
+                  <TableCell className="text-muted-foreground">{row.penulis_id || '-'}</TableCell>
+                  <TableCell>{row.kategori?.nama_kategori || '-'}</TableCell>
+                  <TableCell>{row.tags?.join(", ") || '-'}</TableCell>
                   <TableCell>{formatDate(row.created_at)}</TableCell>
                   <TableCell>
-                    <DropdownAction
+                    <StatusBadge status={row.status} />
+                  </TableCell>
+                  <TableCell>
+                    <DropdownNewsAction
                       menu={[
+                        {
+                          label: (
+                            <span className="flex items-center gap-2">
+                              <HugeiconsIcon icon={ViewIcon} size={16} />
+                              View
+                            </span>
+                          ),
+                          action: () => console.log('View', row),
+                        },
                         {
                           label: (
                             <span className="flex items-center gap-2">

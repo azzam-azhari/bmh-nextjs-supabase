@@ -51,13 +51,6 @@ export default function FormCategory({
                         label="Slug"
                         placeholder="contoh: teknologi"
                     />
-                    <FormInput
-                        form={form as UseFormReturn<CreateCategoryForm>}
-                        name="jumlah"
-                        label="Jumlah (opsional)"
-                        type="number"
-                        placeholder="0"
-                    />
 
                     <DialogFooter>
                         <DialogClose asChild>

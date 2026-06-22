@@ -8,9 +8,6 @@ import { createClient } from '@/lib/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import { HugeiconsIcon } from "@hugeicons/react";
-import { PencilEdit01Icon, Delete02Icon } from "@hugeicons/core-free-icons";
-
 import useDataTable from '@/hooks/use-data-table';
 import DialogCreateCategory from './dialog-create-category';
 import DialogUpdateCategory from './dialog-update-category';

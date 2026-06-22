@@ -96,6 +96,7 @@ export default function UserManagement() {
                                 })
                             },
                         },
+                        { type: 'separator' },
                         {
                             label: (
                                 <span className="flex items-center gap-2">

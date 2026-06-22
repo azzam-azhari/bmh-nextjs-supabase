@@ -11,7 +11,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { MoreVerticalIcon } from "@hugeicons/core-free-icons";
 
 
-export default function DropdownAction({
+export default function DropdownNewsAction({
     menu,
 }: {
     menu: {

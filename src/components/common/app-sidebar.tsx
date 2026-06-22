@@ -7,8 +7,6 @@ import { NavProjects } from '@/app/(admin)/_components/nav-projects';
 import { NavUser } from '@/app/(admin)/_components/nav-user';
 import { TeamSwitcher } from '@/app/(admin)/_components/team-switcher';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '@/components/ui/sidebar';
-
-// ✅ HugeiconsIcon renderer dari @hugeicons/react
 import { HugeiconsIcon } from '@hugeicons/react';
 
 // ✅ Import yang benar — semua dari @hugeicons/core-free-icons
@@ -64,7 +62,7 @@ const data = {
         { title: 'Semua Berita', url: '/all-news' },
         { title: 'Tambah Berita Baru', url: '/add-news' },
         { title: 'Kategori Berita', url: '/categories' },
-        { title: 'Komentar Publik', url: '#' },
+        { title: 'AllNews', url: '/allnews' },
       ],
     },
     {

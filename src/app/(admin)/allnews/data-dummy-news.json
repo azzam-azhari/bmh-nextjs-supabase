@@ -1,0 +1,452 @@
+[
+  {
+    "id": 1,
+    "title": "Peluncuran Fitur Baru untuk Pengguna Enterprise",
+    "author": "Budi Santoso",
+    "category": "Teknologi",
+    "tags": ["Produk", "Update", "Enterprise"],
+    "date": "2026-06-09",
+    "status": "Published"
+  },
+  {
+    "id": 2,
+    "title": "Laporan Keuangan Q2 2026 Menunjukkan Pertumbuhan Positif",
+    "author": "Siti Rahmawati",
+    "category": "Ekonomi",
+    "tags": ["Keuangan", "Laporan", "Q2"],
+    "date": "2026-06-08",
+    "status": "In Review"
+  },
+  {
+    "id": 3,
+    "title": "Perubahan Kebijakan Cuti Tahunan Karyawan",
+    "author": "HR Department",
+    "category": "Internal",
+    "tags": ["Kebijakan", "HR", "Pengumuman"],
+    "date": "2026-06-07",
+    "status": "Draft"
+  },
+  {
+    "id": 4,
+    "title": "Kemitraan Strategis dengan Perusahaan Teknologi Global",
+    "author": "Andi Wijaya",
+    "category": "Bisnis",
+    "tags": ["Kemitraan", "Global", "Ekspansi"],
+    "date": "2026-06-05",
+    "status": "Published"
+  },
+  {
+    "id": 5,
+    "title": "Peringatan Keamanan: Pembaruan Sistem Wajib",
+    "author": "IT Support",
+    "category": "Teknologi",
+    "tags": ["Keamanan", "Sistem", "Urgent"],
+    "date": "2026-06-04",
+    "status": "Submitted"
+  },
+  {
+    "id": 6,
+    "title": "Liputan Kegiatan CSR Tahunan Perusahaan",
+    "author": "Humas",
+    "category": "Nasional",
+    "tags": ["CSR", "Sosial", "Event"],
+    "date": "2026-06-02",
+    "status": "Rejected"
+  },
+  {
+    "id": 7,
+    "title": "Pelatihan Manajemen Proyek untuk Leader",
+    "author": "Andi Wijaya",
+    "category": "Internal",
+    "tags": ["Pelatihan", "Skill", "Leader"],
+    "date": "2026-06-01",
+    "status": "Published"
+  },
+  {
+    "id": 8,
+    "title": "Menghadapi Era AI: Webinar Bersama Pakar",
+    "author": "Budi Santoso",
+    "category": "Teknologi",
+    "tags": ["AI", "Webinar", "Edukasi"],
+    "date": "2026-05-30",
+    "status": "In Review"
+  },
+  {
+    "id": 9,
+    "title": "Tips Work-Life Balance di Era Remote Working",
+    "author": "Siti Rahmawati",
+    "category": "Kesehatan",
+    "tags": ["Work-Life", "Remote", "Tips"],
+    "date": "2026-05-29",
+    "status": "Draft"
+  },
+  {
+    "id": 10,
+    "title": "Pengembangan Kantor Cabang Baru di Surabaya",
+    "author": "Direksi",
+    "category": "Bisnis",
+    "tags": ["Ekspansi", "Surabaya", "Kantor"],
+    "date": "2026-05-28",
+    "status": "Published"
+  },
+  {
+    "id": 11,
+    "title": "Review Aplikasi Manajemen Tugas Terbaru",
+    "author": "Budi Santoso",
+    "category": "Teknologi",
+    "tags": ["Review", "Aplikasi", "Produktivitas"],
+    "date": "2026-05-27",
+    "status": "Submitted"
+  },
+  {
+    "id": 12,
+    "title": "Tren Ekonomi Makro Kuartal III",
+    "author": "Siti Rahmawati",
+    "category": "Ekonomi",
+    "tags": ["Makro", "Tren", "Analisis"],
+    "date": "2026-05-25",
+    "status": "Published"
+  },
+  {
+    "id": 13,
+    "title": "Penyegaran Tim Sales dan Marketing",
+    "author": "Andi Wijaya",
+    "category": "Internal",
+    "tags": ["Tim", "Sales", "Marketing"],
+    "date": "2026-05-24",
+    "status": "Draft"
+  },
+  {
+    "id": 14,
+    "title": "Menjaga Kesehatan Mental di Lingkungan Kerja",
+    "author": "Klinik Karyawan",
+    "category": "Kesehatan",
+    "tags": ["Mental Health", "Karyawan", "Klinik"],
+    "date": "2026-05-22",
+    "status": "In Review"
+  },
+  {
+    "id": 15,
+    "title": "Update Jadwal Rilis Produk V2.0",
+    "author": "Budi Santoso",
+    "category": "Produk",
+    "tags": ["Rilis", "V2", "Update"],
+    "date": "2026-05-21",
+    "status": "Published"
+  },
+  {
+    "id": 16,
+    "title": "Partisipasi dalam Pameran Teknologi Internasional",
+    "author": "Humas",
+    "category": "Internasional",
+    "tags": ["Pameran", "Teknologi", "Event"],
+    "date": "2026-05-20",
+    "status": "Submitted"
+  },
+  {
+    "id": 17,
+    "title": "Program Vaksinasi Influenza Tahunan",
+    "author": "HR Department",
+    "category": "Kesehatan",
+    "tags": ["Vaksin", "Kesehatan", "Program"],
+    "date": "2026-05-18",
+    "status": "Published"
+  },
+  {
+    "id": 18,
+    "title": "Strategi Pemasaran Digital Tahun Ini",
+    "author": "Andi Wijaya",
+    "category": "Bisnis",
+    "tags": ["Marketing", "Digital", "Strategi"],
+    "date": "2026-05-17",
+    "status": "Draft"
+  },
+  {
+    "id": 19,
+    "title": "Kerja Sama dengan Universitas Terkemuka",
+    "author": "Direksi",
+    "category": "Pendidikan",
+    "tags": ["Kerjasama", "Universitas", "MoU"],
+    "date": "2026-05-15",
+    "status": "In Review"
+  },
+  {
+    "id": 20,
+    "title": "Perombakan Struktur Organisasi Departemen IT",
+    "author": "Budi Santoso",
+    "category": "Internal",
+    "tags": ["Struktur", "Organisasi", "IT"],
+    "date": "2026-05-14",
+    "status": "Published"
+  },
+  {
+    "id": 21,
+    "title": "Analisis Pergerakan Pasar Saham Minggu Ini",
+    "author": "Siti Rahmawati",
+    "category": "Ekonomi",
+    "tags": ["Saham", "Pasar", "Analisis"],
+    "date": "2026-05-12",
+    "status": "Rejected"
+  },
+  {
+    "id": 22,
+    "title": "Olimpiade Olahraga Antar Perusahaan",
+    "author": "Humas",
+    "category": "Olahraga",
+    "tags": ["Olimpiade", "Olahraga", "Kompetisi"],
+    "date": "2026-05-10",
+    "status": "Published"
+  },
+  {
+    "id": 23,
+    "title": "Menyikapi Isu Resesi Global",
+    "author": "Siti Rahmawati",
+    "category": "Ekonomi",
+    "tags": ["Resesi", "Global", "Opini"],
+    "date": "2026-05-09",
+    "status": "Submitted"
+  },
+  {
+    "id": 24,
+    "title": "Penghargaan Karyawan Teladan Kuartal II",
+    "author": "HR Department",
+    "category": "Internal",
+    "tags": ["Penghargaan", "Karyawan", "Q2"],
+    "date": "2026-05-08",
+    "status": "Published"
+  },
+  {
+    "id": 25,
+    "title": "Migrasi Server ke Cloud Data Center",
+    "author": "IT Support",
+    "category": "Teknologi",
+    "tags": ["Migrasi", "Server", "Cloud"],
+    "date": "2026-05-07",
+    "status": "In Review"
+  },
+  {
+    "id": 26,
+    "title": "Kenaikan Anggaran Pemasaran Digital",
+    "author": "Andi Wijaya",
+    "category": "Bisnis",
+    "tags": ["Anggaran", "Marketing", "Ads"],
+    "date": "2026-05-05",
+    "status": "Published"
+  },
+  {
+    "id": 27,
+    "title": "Kompetisi Hackathon Internal Perusahaan",
+    "author": "Budi Santoso",
+    "category": "Teknologi",
+    "tags": ["Hackathon", "Kompetisi", "Code"],
+    "date": "2026-05-04",
+    "status": "Draft"
+  },
+  {
+    "id": 28,
+    "title": "Seminar Nasional Inovasi Finansial",
+    "author": "Siti Rahmawati",
+    "category": "Nasional",
+    "tags": ["Seminar", "Finansial", "Inovasi"],
+    "date": "2026-05-02",
+    "status": "Published"
+  },
+  {
+    "id": 29,
+    "title": "Tips Menjaga Kebugaran Selama Puasa",
+    "author": "Klinik Karyawan",
+    "category": "Kesehatan",
+    "tags": ["Puasa", "Tips", "Kebugaran"],
+    "date": "2026-04-30",
+    "status": "Submitted"
+  },
+  {
+    "id": 30,
+    "title": "Pembukaan Pendaftaran Beasiswa Pendidikan",
+    "author": "Humas",
+    "category": "Pendidikan",
+    "tags": ["Beasiswa", "Pendidikan", "Sosial"],
+    "date": "2026-04-28",
+    "status": "Published"
+  },
+  {
+    "id": 31,
+    "title": "Update Regulasi Impor Barang IT",
+    "author": "Direksi",
+    "category": "Internasional",
+    "tags": ["Regulasi", "Impor", "Pemerintah"],
+    "date": "2026-04-27",
+    "status": "In Review"
+  },
+  {
+    "id": 32,
+    "title": "Implementasi Sistem Absensi Berbasis Wajah",
+    "author": "HR Department",
+    "category": "Internal",
+    "tags": ["Absensi", "Teknologi", "Sistem"],
+    "date": "2026-04-25",
+    "status": "Published"
+  },
+  {
+    "id": 33,
+    "title": "Evaluasi Pencapaian Target Q1",
+    "author": "Andi Wijaya",
+    "category": "Bisnis",
+    "tags": ["Evaluasi", "Target", "Q1"],
+    "date": "2026-04-24",
+    "status": "Draft"
+  },
+  {
+    "id": 34,
+    "title": "Membangun Portofolio Investasi yang Aman",
+    "author": "Siti Rahmawati",
+    "category": "Ekonomi",
+    "tags": ["Investasi", "Portofolio", "Edukasi"],
+    "date": "2026-04-22",
+    "status": "Published"
+  },
+  {
+    "id": 35,
+    "title": "Maintenance Sistem Rutin Akhir Bulan",
+    "author": "IT Support",
+    "category": "Teknologi",
+    "tags": ["Maintenance", "Sistem", "Server"],
+    "date": "2026-04-20",
+    "status": "Submitted"
+  },
+  {
+    "id": 36,
+    "title": "Program Pengurangan Jejak Karbon Kantor",
+    "author": "Humas",
+    "category": "Sosial",
+    "tags": ["Lingkungan", "Karbon", "GoGreen"],
+    "date": "2026-04-18",
+    "status": "In Review"
+  },
+  {
+    "id": 37,
+    "title": "Turnamen Futsal Antar Divisi 2026",
+    "author": "HR Department",
+    "category": "Olahraga",
+    "tags": ["Futsal", "Turnamen", "Karyawan"],
+    "date": "2026-04-16",
+    "status": "Published"
+  },
+  {
+    "id": 38,
+    "title": "Strategi SEO Baru untuk Meningkatkan Trafik",
+    "author": "Budi Santoso",
+    "category": "Teknologi",
+    "tags": ["SEO", "Trafik", "Website"],
+    "date": "2026-04-15",
+    "status": "Draft"
+  },
+  {
+    "id": 39,
+    "title": "Dampak Kenaikan Harga Minyak Dunia",
+    "author": "Siti Rahmawati",
+    "category": "Ekonomi",
+    "tags": ["Minyak", "Harga", "Global"],
+    "date": "2026-04-14",
+    "status": "Published"
+  },
+  {
+    "id": 40,
+    "title": "Penyempurnaan Modul Pelatihan Karyawan Baru",
+    "author": "Andi Wijaya",
+    "category": "Internal",
+    "tags": ["Pelatihan", "Modul", "Onboarding"],
+    "date": "2026-04-12",
+    "status": "In Review"
+  },
+  {
+    "id": 41,
+    "title": "Kampanye Donor Darah Kuartal Kedua",
+    "author": "Klinik Karyawan",
+    "category": "Sosial",
+    "tags": ["Donor Darah", "Kampanye", "Medis"],
+    "date": "2026-04-10",
+    "status": "Published"
+  },
+  {
+    "id": 42,
+    "title": "Penutupan Layanan Versi Lama",
+    "author": "IT Support",
+    "category": "Teknologi",
+    "tags": ["Layanan", "Deprecated", "Update"],
+    "date": "2026-04-09",
+    "status": "Submitted"
+  },
+  {
+    "id": 43,
+    "title": "Ekspansi Bisnis ke Pasar Asia Tenggara",
+    "author": "Direksi",
+    "category": "Internasional",
+    "tags": ["Ekspansi", "Asia Tenggara", "Pasar"],
+    "date": "2026-04-07",
+    "status": "Published"
+  },
+  {
+    "id": 44,
+    "title": "Acara Kumpul Keluarga Karyawan (Family Gathering)",
+    "author": "HR Department",
+    "category": "Internal",
+    "tags": ["Gathering", "Keluarga", "Event"],
+    "date": "2026-04-05",
+    "status": "In Review"
+  },
+  {
+    "id": 45,
+    "title": "Pengenalan Framework UI Baru",
+    "author": "Budi Santoso",
+    "category": "Teknologi",
+    "tags": ["UI", "Framework", "Dev"],
+    "date": "2026-04-03",
+    "status": "Published"
+  },
+  {
+    "id": 46,
+    "title": "Analisis Keberhasilan Kampanye Iklan Q1",
+    "author": "Andi Wijaya",
+    "category": "Bisnis",
+    "tags": ["Iklan", "Kampanye", "Analisis"],
+    "date": "2026-04-02",
+    "status": "Draft"
+  },
+  {
+    "id": 47,
+    "title": "Tantangan Startup di Tahun 2026",
+    "author": "Siti Rahmawati",
+    "category": "Ekonomi",
+    "tags": ["Startup", "Tantangan", "Opini"],
+    "date": "2026-03-30",
+    "status": "Published"
+  },
+  {
+    "id": 48,
+    "title": "Pentingnya Asuransi Kesehatan Pribadi",
+    "author": "Klinik Karyawan",
+    "category": "Kesehatan",
+    "tags": ["Asuransi", "Kesehatan", "Edukasi"],
+    "date": "2026-03-28",
+    "status": "Submitted"
+  },
+  {
+    "id": 49,
+    "title": "Kunjungan Industri ke Pabrik Manufaktur",
+    "author": "Humas",
+    "category": "Pendidikan",
+    "tags": ["Kunjungan", "Industri", "Edukasi"],
+    "date": "2026-03-26",
+    "status": "In Review"
+  },
+  {
+    "id": 50,
+    "title": "Laporan Akhir Tahun 2025: Pencapaian dan Tantangan",
+    "author": "Direksi",
+    "category": "Internal",
+    "tags": ["Laporan", "Akhir Tahun", "Review"],
+    "date": "2026-01-10",
+    "status": "Published"
+  }
+]

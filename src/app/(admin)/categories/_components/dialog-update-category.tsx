@@ -65,7 +65,6 @@ export default function DialogUpdateCategory({
         if (currentData) {
             form.setValue('nama_kategori', currentData.nama_kategori);
             form.setValue('slug', currentData.slug);
-            form.setValue('jumlah', currentData.jumlah);
         }
     }, [currentData, form]);
 
