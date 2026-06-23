@@ -6,6 +6,8 @@ import UserManagement from './_components/user-management';
 export const metadata = {
   title: 'BMH | Manajemen User',
 };
+// ISR (Indefinite Stale-while-revalidate)
+export const revalidate = 3600;
 
 export default async function UserManagementPage() {
   const supabase = await createClient();

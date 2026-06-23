@@ -6,6 +6,8 @@ import CategoryManagement from './_components/categories';
 export const metadata = {
     title: 'BMH | Kategori Berita',
 };
+// ISR (Indefinite Stale-while-revalidate)
+export const revalidate = 3600;
 
 export default async function CategoryManagementPage() {
     const supabase = await createClient();

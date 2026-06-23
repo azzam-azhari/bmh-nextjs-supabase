@@ -117,15 +117,32 @@ export default function DataTableNewsFix({
               paginatedData.map((row, rowIndex) => (
                 <TableRow key={row.id}>
                   <TableCell>{safePageIndex * pageSize + rowIndex + 1}</TableCell>
-                  <TableCell>{row.judul}</TableCell>
-                  <TableCell className="text-muted-foreground">{row.penulis_id || '-'}</TableCell>
-                  <TableCell>{row.kategori?.nama_kategori || '-'}</TableCell>
-                  <TableCell>{row.tags?.join(", ") || '-'}</TableCell>
+
+                  {/* Kolom Judul - DIBATASI, RESPONSIF */}
+                  <TableCell className="max-w-[150px] sm:max-w-[200px] md:max-w-[250px] break-words whitespace-normal overflow-hidden">
+                    {row.judul}
+                  </TableCell>
+
+                  {/* <TableCell className="text-muted-foreground max-w-[80px] truncate" title={row.penulis_id || undefined}>{row.penulis_id || '-'}</TableCell> */}
+                  <TableCell
+                    className="text-muted-foreground max-w-[80px] truncate"
+                    title={row.penulis_nama || undefined}
+                  >
+                    {row.penulis_nama || '-'}
+                  </TableCell>
+                  <TableCell className="max-w-[100px] truncate" title={row.kategori?.nama_kategori || undefined}>{row.kategori?.nama_kategori || '-'}</TableCell>
+
+                  {/* Kolom Tags - DIBATASI, RESPONSIF */}
+                  <TableCell className="max-w-[100px] sm:max-w-[150px] break-words">
+                    {row.tags?.join(", ") || '-'}
+                  </TableCell>
+
                   <TableCell>{formatDate(row.created_at)}</TableCell>
                   <TableCell>
                     <StatusBadge status={row.status} />
                   </TableCell>
                   <TableCell>
+                    {/* Dropdown bisa diubah menjadi tombol ikon di layar kecil */}
                     <DropdownNewsAction
                       menu={[
                         {
