@@ -119,8 +119,8 @@ export default function DataTableNewsFix({
                   <TableCell>{safePageIndex * pageSize + rowIndex + 1}</TableCell>
 
                   {/* Kolom Judul - DIBATASI, RESPONSIF */}
-                  <TableCell className="max-w-[150px] sm:max-w-[200px] md:max-w-[250px] break-words whitespace-normal overflow-hidden">
-                    {row.judul}
+                  <TableCell className="max-w-[170px] sm:max-w-[200px] md:max-w-[250px]">
+                    <span className="line-clamp-2">{row.judul}</span>
                   </TableCell>
 
                   {/* <TableCell className="text-muted-foreground max-w-[80px] truncate" title={row.penulis_id || undefined}>{row.penulis_id || '-'}</TableCell> */}

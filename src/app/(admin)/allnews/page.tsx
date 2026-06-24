@@ -5,6 +5,8 @@ import AllNews from './_components/allnews';
 export const metadata = {
   title: 'BMH | Semua Berita',
 };
+// ISR (Indefinite Stale-while-revalidate)
+export const revalidate = 3600;
 
 export default async function AllNewsPage() {
   const supabase = await createClient();
