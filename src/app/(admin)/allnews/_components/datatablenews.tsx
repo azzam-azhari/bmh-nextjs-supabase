@@ -119,7 +119,7 @@ export default function DataTableNewsFix({
                   <TableCell>{safePageIndex * pageSize + rowIndex + 1}</TableCell>
 
                   {/* Kolom Judul - DIBATASI, RESPONSIF */}
-                  <TableCell className="max-w-[170px] sm:max-w-[200px] md:max-w-[250px]">
+                  <TableCell className="max-w-[333px] sm:max-w-[200px] md:max-w-[250px]">
                     <span className="line-clamp-2">{row.judul}</span>
                   </TableCell>
 
