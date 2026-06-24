@@ -30,7 +30,7 @@ export default function UserManagement() {
         handleChangeSearch,
     } = useDataTable();
 
-    const { data: users, isLoading, refetch } = useQuery({
+    const { data: queryData, isLoading, refetch } = useQuery({
         queryKey: ['users', currentPage, currentLimit, currentSearch],
         queryFn: async () => {
             let query = supabase
@@ -46,19 +46,22 @@ export default function UserManagement() {
             const to = from + currentLimit - 1;
             query = query.range(from, to);
 
-            const { data, error } = await query;
+            const { data, error, count } = await query;
 
             if (error) {
                 toast.error('Get User data failed', {
                     description: error.message,
                 });
-                return null;
+                return { data: null, count: 0 };
             }
 
-            return data;
+            return { data, count };
         },
         staleTime: 1000 * 60 * 5,
     });
+
+    const users = queryData?.data;
+    const totalItems = queryData?.count || 0;
 
     const [selectedAction, setSelectedAction] = useState<{
         data: Profile;
@@ -149,6 +152,11 @@ export default function UserManagement() {
                         header={HEADER_TABLE_USER}
                         data={filteredData}
                         isLoading={isLoading}
+                        totalItems={totalItems}
+                        pageIndex={currentPage - 1} // hook uses 1-indexed, DataTableUser uses 0-indexed
+                        pageSize={currentLimit}
+                        onPageChange={(newIndex) => handleChangePage(newIndex + 1)}
+                        onPageSizeChange={handleChangeLimit}
                     />
                     <DialogUpdateUser
                         open={selectedAction !== null && selectedAction.type === 'update'}

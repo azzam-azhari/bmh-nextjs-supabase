@@ -1,4 +1,4 @@
--- create table profiles
+-- 01. create table profiles
 create table if not exists public.profiles (
   id uuid not null references auth.users on delete cascade,
   name text,

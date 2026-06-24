@@ -30,23 +30,55 @@ export default function DataTableUser({
   header,
   data = [],
   isLoading,
+  totalItems,
+  pageIndex,
+  pageSize,
+  onPageChange,
+  onPageSizeChange,
 }: {
   header: string[];
   data: (string | ReactNode)[][];
   isLoading?: boolean;
+  totalItems?: number;
+  pageIndex?: number; // 0-indexed
+  pageSize?: number;
+  onPageChange?: (pageIndex: number) => void;
+  onPageSizeChange?: (pageSize: number) => void;
 }) {
-  const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
+  const [internalPageIndex, setInternalPageIndex] = useState(0);
+  const [internalPageSize, setInternalPageSize] = useState(10);
 
-  const totalItems = data?.length || 0;
-  const pageCount = Math.ceil(totalItems / pageSize) || 1;
+  const isControlled = pageIndex !== undefined && onPageChange !== undefined;
+  
+  const currentSize = pageSize ?? internalPageSize;
+  const currentIndex = isControlled ? pageIndex : internalPageIndex;
+
+  const total = totalItems ?? data?.length ?? 0;
+  const pageCount = Math.ceil(total / currentSize) || 1;
 
   // Reset pageIndex if it exceeds the new pageCount when data/pageSize changes
-  const safePageIndex = Math.max(0, Math.min(pageIndex, pageCount - 1));
+  const safePageIndex = Math.max(0, Math.min(currentIndex, pageCount - 1));
 
-  const paginatedData = data?.slice(
-    safePageIndex * pageSize,
-    (safePageIndex + 1) * pageSize
+  const handlePageChange = (newIndex: number) => {
+    if (isControlled && onPageChange) {
+      onPageChange(newIndex);
+    } else {
+      setInternalPageIndex(newIndex);
+    }
+  };
+
+  const handlePageSizeChange = (newSize: number) => {
+    if (onPageSizeChange) {
+      onPageSizeChange(newSize);
+    } else {
+      setInternalPageSize(newSize);
+      setInternalPageIndex(0);
+    }
+  };
+
+  const paginatedData = isControlled ? data : data?.slice(
+    safePageIndex * currentSize,
+    (safePageIndex + 1) * currentSize
   ) || [];
 
   return (
@@ -65,7 +97,7 @@ export default function DataTableUser({
           <TableBody>
             {/* Logika render disesuaikan untuk Skeleton */}
             {isLoading ? (
-              Array.from({ length: pageSize }).map((_, rowIndex) => (
+              Array.from({ length: currentSize }).map((_, rowIndex) => (
                 <TableRow key={`skeleton-row-${rowIndex}`}>
                   {header.map((_, colIndex) => {
                     // Tentukan lebar skeleton sesuai urutan kolom
@@ -112,14 +144,13 @@ export default function DataTableUser({
               Rows per page
             </Label>
             <Select
-              value={`${pageSize}`}
+              value={`${currentSize}`}
               onValueChange={(val) => {
-                setPageSize(Number(val));
-                setPageIndex(0);
+                handlePageSizeChange(Number(val));
               }}
             >
               <SelectTrigger size="sm" className="w-20" id="rows-per-page-user">
-                <SelectValue placeholder={`${pageSize}`} />
+                <SelectValue placeholder={`${currentSize}`} />
               </SelectTrigger>
               <SelectContent side="top">
                 <SelectGroup>
@@ -137,7 +168,7 @@ export default function DataTableUser({
             <Button
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex"
-              onClick={() => setPageIndex(0)}
+              onClick={() => handlePageChange(0)}
               disabled={safePageIndex === 0}
             >
               <span className="sr-only">Go to first page</span>
@@ -147,7 +178,7 @@ export default function DataTableUser({
               variant="outline"
               className="size-8"
               size="icon"
-              onClick={() => setPageIndex((prev) => Math.max(0, prev - 1))}
+              onClick={() => handlePageChange(Math.max(0, safePageIndex - 1))}
               disabled={safePageIndex === 0}
             >
               <span className="sr-only">Go to previous page</span>
@@ -160,7 +191,7 @@ export default function DataTableUser({
               variant="outline"
               className="size-8"
               size="icon"
-              onClick={() => setPageIndex((prev) => Math.min(pageCount - 1, prev + 1))}
+              onClick={() => handlePageChange(Math.min(pageCount - 1, safePageIndex + 1))}
               disabled={safePageIndex >= pageCount - 1}
             >
               <span className="sr-only">Go to next page</span>
@@ -170,7 +201,7 @@ export default function DataTableUser({
               variant="outline"
               className="hidden size-8 lg:flex"
               size="icon"
-              onClick={() => setPageIndex(pageCount - 1)}
+              onClick={() => handlePageChange(pageCount - 1)}
               disabled={safePageIndex >= pageCount - 1}
             >
               <span className="sr-only">Go to last page</span>
