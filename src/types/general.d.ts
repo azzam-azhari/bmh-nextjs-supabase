@@ -24,7 +24,8 @@ export type News = {
   slug: string;
   isi_berita: string | null;
   gambar_url: string[];
-  kategori?: { nama_kategori: string } | null;
+  kategori_id: number | null;
+  kategori?: { id: number; nama_kategori: string } | null;
   penulis_id: string | null;
   penulis_nama: string | null;
   tags: string[];

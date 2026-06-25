@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table';
@@ -35,6 +36,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import useDataTable from '@/hooks/use-data-table';
+import { NewsQuickEdit } from './news-quick-edit';
 
 // ✅ Header sesuai kolom tabel News
 const HEADERS = ["", "No", "Judul", "Autor", "Kategori", "Tags", "Dibuat Pada", "Status", "Action"];
@@ -95,11 +97,18 @@ export default function DataTableNewsFix({
     handleChangeSearch,
   } = useDataTable();
 
+  const queryClient = useQueryClient();
+
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
+  const [searchValue, setSearchValue] = useState(currentSearch);
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [visibleColumns, setVisibleColumns] = useState<Set<string>>(new Set(HEADERS));
   const [categories, setCategories] = useState<string[]>([]);
   const supabase = createClient();
+
+  // State untuk Quick Edit Drawer
+  const [quickEditData, setQuickEditData] = useState<News | null>(null);
+  const [isQuickEditOpen, setIsQuickEditOpen] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -178,58 +187,80 @@ export default function DataTableNewsFix({
 
   return (
     <div className="w-full flex-col justify-start gap-6 px-4 lg:px-6">
-      <div className="flex items-center justify-between pb-4">
-        <div className="flex items-center gap-2 flex-1">
+      <div className="flex flex-col gap-3 pb-4 md:flex-row md:items-center md:justify-between">
+        <div className="relative w-full md:max-w-xs">
           <Input
             placeholder="Cari berita..."
-            className="max-w-xs"
-            onChange={(e) => handleChangeSearch(e.target.value)}
+            className="w-full pr-8"
+            value={searchValue}
+            onChange={(e) => {
+              setSearchValue(e.target.value);
+              handleChangeSearch(e.target.value);
+            }}
           />
-          <Label htmlFor="category-filter" className="sr-only">
-            Filter Category
-          </Label>
-          <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger size="sm" className="w-36" id="category-filter">
-              <SelectValue placeholder="Kategori" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="all">Semua Kategori</SelectItem>
-                {categories.map((kategori) => (
-                  <SelectItem key={kategori} value={kategori}>
-                    {kategori}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          {searchValue && (
+            <button
+              onClick={() => {
+                setSearchValue('');
+                handleChangeSearch('');
+              }}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              type="button"
+            >
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} className="size-4" />
+            </button>
+          )}
         </div>
-        <div className="flex items-center gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
-                <HugeiconsIcon icon={LeftToRightListBulletIcon} strokeWidth={2} data-icon="inline-start" />
-                Columns
-                <HugeiconsIcon icon={ArrowDown01Icon} strokeWidth={2} data-icon="inline-end" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-36">
-              {HEADERS.filter(col => col !== "" && col !== "Action" && col !== "No").map((col) => (
-                <DropdownMenuCheckboxItem
-                  key={col}
-                  className="capitalize"
-                  checked={visibleColumns.has(col)}
-                  onCheckedChange={(value) => toggleColumnVisibility(col, !!value)}
-                >
-                  {col}
-                </DropdownMenuCheckboxItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Button variant="outline" size="sm">
-            <HugeiconsIcon icon={Add01Icon} strokeWidth={2} />
-            <span className="hidden lg:inline">Tambah Berita</span>
-          </Button>
+        <div className="grid grid-cols-3 gap-2 w-full md:flex md:w-auto md:items-center md:gap-2">
+          <div className="col-span-1">
+            <Label htmlFor="category-filter" className="sr-only">
+              Filter Category
+            </Label>
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <SelectTrigger size="sm" className="w-full md:w-36" id="category-filter">
+                <SelectValue placeholder="Kategori" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="all">Semua Kategori</SelectItem>
+                  {categories.map((kategori) => (
+                    <SelectItem key={kategori} value={kategori}>
+                      {kategori}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="col-span-1">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="w-full md:w-auto flex justify-center items-center gap-1">
+                  <HugeiconsIcon icon={LeftToRightListBulletIcon} strokeWidth={2} data-icon="inline-start" />
+                  <span className="truncate">Columns</span>
+                  <HugeiconsIcon icon={ArrowDown01Icon} strokeWidth={2} data-icon="inline-end" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-36">
+                {HEADERS.filter(col => col !== "" && col !== "Action" && col !== "No").map((col) => (
+                  <DropdownMenuCheckboxItem
+                    key={col}
+                    className="capitalize"
+                    checked={visibleColumns.has(col)}
+                    onCheckedChange={(value) => toggleColumnVisibility(col, !!value)}
+                  >
+                    {col}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          <div className="col-span-1">
+            <Button variant="outline" size="sm" className="w-full md:w-auto flex justify-center items-center gap-1">
+              <HugeiconsIcon icon={Add01Icon} strokeWidth={2} />
+              <span className="hidden sm:inline">Tambah Berita</span>
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -292,7 +323,15 @@ export default function DataTableNewsFix({
                   {/* Kolom Judul - DIBATASI, RESPONSIF */}
                   {visibleColumns.has("Judul") && (
                     <TableCell className="max-w-[333px] sm:max-w-[200px] md:max-w-[250px]" title={row.judul}>
-                      <span className="line-clamp-2">{row.judul}</span>
+                      <span 
+                        className="line-clamp-2 cursor-pointer hover:underline text-primary transition-all" 
+                        onClick={() => {
+                          setQuickEditData(row);
+                          setIsQuickEditOpen(true);
+                        }}
+                      >
+                        {row.judul}
+                      </span>
                     </TableCell>
                   )}
 
@@ -453,6 +492,16 @@ export default function DataTableNewsFix({
           </div>
         </div>
       </div>
+
+      {/* Drawer Quick Edit */}
+      <NewsQuickEdit 
+        news={quickEditData} 
+        open={isQuickEditOpen} 
+        onOpenChange={setIsQuickEditOpen} 
+        onSaved={() => {
+          queryClient.invalidateQueries({ queryKey: ['news'] });
+        }}
+      />
     </div>
   );
 }

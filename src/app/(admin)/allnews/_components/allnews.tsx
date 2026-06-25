@@ -16,7 +16,7 @@ export default function AllNews() {
         queryFn: async () => {
             const { data, error } = await supabase
                 .from('berita')
-                .select('*, kategori(nama_kategori)')
+                .select('*, kategori(id, nama_kategori)')
                 .order('created_at', { ascending: false });
 
             if (error) {
@@ -36,7 +36,7 @@ export default function AllNews() {
             <div className="@container/main flex flex-1 flex-col gap-2">
                 <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
                     {/* Tetap mempertahankan section cards dan chart area */}
-                    <SectionCardsNewsFix />
+                    <SectionCardsNewsFix news={news} isLoading={isLoading} />
 
                     {/* Menggunakan komponen DataTableNews yang baru */}
                     <DataTableNewsFix data={news || []} isLoading={isLoading} />

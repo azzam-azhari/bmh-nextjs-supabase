@@ -292,14 +292,25 @@ export function DataTableNews({
     <div className="w-full flex-col justify-start gap-6">
       <div className="flex items-center justify-between px-4 pb-4 lg:px-6">
         <div className="flex items-center gap-2 flex-1">
-          <Input
-            placeholder="Cari berita..."
-            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("title")?.setFilterValue(event.target.value)
-            }
-            className="h-9 max-w-sm"
-          />
+          <div className="relative w-full max-w-sm">
+            <Input
+              placeholder="Cari berita..."
+              value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+              onChange={(event) =>
+                table.getColumn("title")?.setFilterValue(event.target.value)
+              }
+              className="h-9 w-full pr-8"
+            />
+            {((table.getColumn("title")?.getFilterValue() as string) ?? "") && (
+              <button
+                onClick={() => table.getColumn("title")?.setFilterValue("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                type="button"
+              >
+                <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} className="size-4" />
+              </button>
+            )}
+          </div>
           <Label htmlFor="category-filter" className="sr-only">
             Filter Category
           </Label>

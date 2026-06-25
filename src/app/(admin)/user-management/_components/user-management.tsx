@@ -10,7 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import { HugeiconsIcon } from "@hugeicons/react";
-import { PencilEdit01Icon, Delete02Icon } from "@hugeicons/core-free-icons";
+import { PencilEdit01Icon, Delete02Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
 
 import useDataTable from '@/hooks/use-data-table';
 import DialogCreateUser from './dialog-create-user';
@@ -29,6 +29,8 @@ export default function UserManagement() {
         handleChangeLimit,
         handleChangeSearch,
     } = useDataTable();
+
+    const [searchValue, setSearchValue] = useState(currentSearch);
 
     const { data: queryData, isLoading, refetch } = useQuery({
         queryKey: ['users', currentPage, currentLimit, currentSearch],
@@ -134,11 +136,29 @@ export default function UserManagement() {
                             </p>
                         </div>
                         <div className="flex items-center gap-2">
-                            <Input
-                                placeholder="Cari berdasarkan nama"
-                                className="max-w-xs"
-                                onChange={(e) => handleChangeSearch(e.target.value)}
-                            />
+                            <div className="relative w-full max-w-xs">
+                                <Input
+                                    placeholder="Cari berdasarkan nama"
+                                    className="w-full pr-8"
+                                    value={searchValue}
+                                    onChange={(e) => {
+                                        setSearchValue(e.target.value);
+                                        handleChangeSearch(e.target.value);
+                                    }}
+                                />
+                                {searchValue && (
+                                    <button
+                                        onClick={() => {
+                                            setSearchValue('');
+                                            handleChangeSearch('');
+                                        }}
+                                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                                        type="button"
+                                    >
+                                        <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} className="size-4" />
+                                    </button>
+                                )}
+                            </div>
                             <Dialog open={openCreate} onOpenChange={setOpenCreate}>
                                 <DialogTrigger asChild>
                                     <Button className="bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 hover:cursor-pointer">Tambah User</Button>

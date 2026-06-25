@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Search01Icon, Calendar01Icon, UserIcon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { Search01Icon, Calendar01Icon, UserIcon, ArrowRight01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
 
 
 // Data dummy untuk simulasi berita
@@ -114,10 +114,19 @@ export default function News() {
                         <HugeiconsIcon icon={Search01Icon} className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"  />
                         <Input
                             placeholder="Cari berita atau kategori..."
-                            className="pl-10 h-11"
+                            className="pl-10 pr-10 h-11"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
+                        {searchQuery && (
+                            <button
+                                onClick={() => setSearchQuery('')}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground hover:cursor-pointer"
+                                type="button"
+                            >
+                                <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} className="size-4" />
+                            </button>
+                        )}
                     </div>
                     <Button size="lg" className="h-11 px-8">
                         Cari Berita
