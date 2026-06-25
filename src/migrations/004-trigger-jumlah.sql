@@ -1,4 +1,5 @@
--- Function dengan filter status published
+-- 04 . trigger jumlah
+
 CREATE OR REPLACE FUNCTION update_jumlah_kategori()
 RETURNS TRIGGER
 LANGUAGE plpgsql
@@ -15,16 +16,13 @@ BEGIN
     END IF;
 
   ELSIF TG_OP = 'UPDATE' THEN
-    -- Kalau status berubah jadi published
     IF OLD.status != 'published' AND NEW.status = 'published' AND NEW.kategori_id IS NOT NULL THEN
       UPDATE kategori SET jumlah = jumlah + 1 WHERE id = NEW.kategori_id;
 
-    -- Kalau status berubah dari published ke draft/archived
     ELSIF OLD.status = 'published' AND NEW.status != 'published' AND OLD.kategori_id IS NOT NULL THEN
       UPDATE kategori SET jumlah = jumlah - 1 WHERE id = OLD.kategori_id;
 
-    -- Kalau kategori diganti (keduanya published)
-    ELSIF OLD.status = 'published' AND NEW.status = 'published' 
+    ELSIF OLD.status = 'published' AND NEW.status = 'published'
       AND OLD.kategori_id IS DISTINCT FROM NEW.kategori_id THEN
       IF OLD.kategori_id IS NOT NULL THEN
         UPDATE kategori SET jumlah = jumlah - 1 WHERE id = OLD.kategori_id;
@@ -39,7 +37,8 @@ BEGIN
 END;
 $$;
 
--- Trigger
+-- DROP dulu baru CREATE
+DROP TRIGGER IF EXISTS trg_jumlah_kategori ON berita;
 CREATE TRIGGER trg_jumlah_kategori
 AFTER INSERT OR DELETE OR UPDATE OF kategori_id, status
 ON berita

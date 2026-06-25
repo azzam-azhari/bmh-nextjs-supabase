@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -120,7 +121,13 @@ export default function DataTableUser({
                 <TableRow key={`tr-${rowIndex}`}>
                   {row.map((column, columnIndex) => (
                     <TableCell key={`tc-${rowIndex}-${columnIndex}`}>
-                      {column}
+                      {header[columnIndex]?.toLowerCase() === 'role' && column ? (
+                        <Badge variant="secondary" className="px-2 font-normal">
+                          {column}
+                        </Badge>
+                      ) : (
+                        column
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>

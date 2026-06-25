@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
+import { createClient } from '@/lib/supabase/client';
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table';
@@ -10,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Checkbox } from "@/components/ui/checkbox";
 import { HugeiconsIcon } from "@hugeicons/react";
 import DropdownNewsAction from '@/components/common/dropdown-news-action';
 import { News } from '@/types/general';
@@ -21,13 +23,24 @@ import {
   SentIcon,
   Cancel01Icon,
   Edit01Icon,
+  LeftToRightListBulletIcon,
+  ArrowDown01Icon,
+  Add01Icon,
 } from "@hugeicons/core-free-icons"
+import { Input } from '@/components/ui/input';
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import useDataTable from '@/hooks/use-data-table';
 
 // ✅ Header sesuai kolom tabel News
-const HEADERS = ["No", "Judul", "Autor", "Kategori", "Tags", "Dibuat Pada", "Status", "Action"];
+const HEADERS = ["", "No", "Judul", "Autor", "Kategori", "Tags", "Dibuat Pada", "Status", "Action"];
 
 // ✅ Skeleton width disesuaikan per kolom News
-const SKELETON_WIDTHS = ['w-7', 'w-48', 'w-40', 'w-12', 'w-28', 'w-8'];
+const SKELETON_WIDTHS = ['w-5', 'w-7', 'w-48', 'w-40', 'w-12', 'w-28', 'w-8'];
 
 // Status badge component
 function StatusBadge({ status }: { status: string }) {
@@ -73,17 +86,56 @@ export default function DataTableNewsFix({
   onEdit?: (category: News) => void;
   onDelete?: (category: News) => void;
 }) {
-  const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
+  const {
+    currentPage,
+    currentLimit,
+    currentSearch,
+    handleChangePage,
+    handleChangeLimit,
+    handleChangeSearch,
+  } = useDataTable();
 
-  const totalItems = data.length;
-  const pageCount = Math.ceil(totalItems / pageSize) || 1;
-  const safePageIndex = Math.max(0, Math.min(pageIndex, pageCount - 1));
+  const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [visibleColumns, setVisibleColumns] = useState<Set<string>>(new Set(HEADERS));
+  const [categories, setCategories] = useState<string[]>([]);
+  const supabase = createClient();
 
-  const paginatedData = data.slice(
-    safePageIndex * pageSize,
-    (safePageIndex + 1) * pageSize
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const { data, error } = await supabase.from('kategori').select('nama_kategori');
+      if (data && !error) {
+        setCategories(data.map(cat => cat.nama_kategori));
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  const filteredData = useMemo(() => {
+    return data.filter((item) => {
+      const matchSearch = item.judul.toLowerCase().includes(currentSearch.toLowerCase());
+      const matchCategory = categoryFilter === 'all' || item.kategori?.nama_kategori === categoryFilter;
+      return matchSearch && matchCategory;
+    });
+  }, [data, currentSearch, categoryFilter]);
+
+  const totalItems = filteredData.length;
+  const pageCount = Math.ceil(totalItems / currentLimit) || 1;
+  const safePageIndex = Math.max(0, Math.min(currentPage - 1, pageCount - 1));
+
+  const paginatedData = filteredData.slice(
+    safePageIndex * currentLimit,
+    (safePageIndex + 1) * currentLimit
   );
+
+  const toggleColumnVisibility = (column: string, isVisible: boolean) => {
+    setVisibleColumns((prev) => {
+      const next = new Set(prev);
+      if (isVisible) next.add(column);
+      else next.delete(column);
+      return next;
+    });
+  };
 
   // ✅ Format tanggal ke bahasa Indonesia
   const formatDate = (dateStr: string) =>
@@ -91,92 +143,245 @@ export default function DataTableNewsFix({
       day: '2-digit', month: 'short', year: 'numeric',
     });
 
+  // ✅ Checkbox: apakah semua baris di halaman ini terpilih?
+  const allPageSelected = useMemo(
+    () => paginatedData.length > 0 && paginatedData.every((row) => selectedRows.has(row.id)),
+    [paginatedData, selectedRows]
+  );
+  const somePageSelected = useMemo(
+    () => paginatedData.some((row) => selectedRows.has(row.id)) && !allPageSelected,
+    [paginatedData, selectedRows, allPageSelected]
+  );
+
+  const toggleAllPage = useCallback(
+    (checked: boolean) => {
+      setSelectedRows((prev) => {
+        const next = new Set(prev);
+        for (const row of paginatedData) {
+          if (checked) next.add(row.id);
+          else next.delete(row.id);
+        }
+        return next;
+      });
+    },
+    [paginatedData]
+  );
+
+  const toggleRow = useCallback((id: number, checked: boolean) => {
+    setSelectedRows((prev) => {
+      const next = new Set(prev);
+      if (checked) next.add(id);
+      else next.delete(id);
+      return next;
+    });
+  }, []);
+
   return (
     <div className="w-full flex-col justify-start gap-6 px-4 lg:px-6">
+      <div className="flex items-center justify-between pb-4">
+        <div className="flex items-center gap-2 flex-1">
+          <Input
+            placeholder="Cari berita..."
+            className="max-w-xs"
+            onChange={(e) => handleChangeSearch(e.target.value)}
+          />
+          <Label htmlFor="category-filter" className="sr-only">
+            Filter Category
+          </Label>
+          <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+            <SelectTrigger size="sm" className="w-36" id="category-filter">
+              <SelectValue placeholder="Kategori" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="all">Semua Kategori</SelectItem>
+                {categories.map((kategori) => (
+                  <SelectItem key={kategori} value={kategori}>
+                    {kategori}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <HugeiconsIcon icon={LeftToRightListBulletIcon} strokeWidth={2} data-icon="inline-start" />
+                Columns
+                <HugeiconsIcon icon={ArrowDown01Icon} strokeWidth={2} data-icon="inline-end" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-36">
+              {HEADERS.filter(col => col !== "" && col !== "Action" && col !== "No").map((col) => (
+                <DropdownMenuCheckboxItem
+                  key={col}
+                  className="capitalize"
+                  checked={visibleColumns.has(col)}
+                  onCheckedChange={(value) => toggleColumnVisibility(col, !!value)}
+                >
+                  {col}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button variant="outline" size="sm">
+            <HugeiconsIcon icon={Add01Icon} strokeWidth={2} />
+            <span className="hidden lg:inline">Tambah Berita</span>
+          </Button>
+        </div>
+      </div>
+
       <div className="overflow-hidden rounded-lg border">
         <Table>
           <TableHeader className="sticky top-0 z-10 bg-muted">
             <TableRow>
-              {HEADERS.map((col) => (
-                <TableHead key={col}>{col}</TableHead>
-              ))}
+              {HEADERS.map((col, i) =>
+                !visibleColumns.has(col) ? null : (
+                  i === 0 ? (
+                    <TableHead key="select-all" className="w-10">
+                      <div className="flex items-center justify-center">
+                        <Checkbox
+                          checked={allPageSelected || (somePageSelected && 'indeterminate')}
+                          onCheckedChange={(value) => toggleAllPage(!!value)}
+                          aria-label="Select all"
+                        />
+                      </div>
+                    </TableHead>
+                  ) : (
+                    <TableHead key={col}>{col}</TableHead>
+                  )
+                )
+              )}
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              Array.from({ length: pageSize }).map((_, rowIndex) => (
+              Array.from({ length: currentLimit }).map((_, rowIndex) => (
                 <TableRow key={`skeleton-row-${rowIndex}`}>
-                  {HEADERS.map((_, colIndex) => (
-                    <TableCell key={`skeleton-col-${rowIndex}-${colIndex}`}>
-                      <Skeleton className={`h-5 ${SKELETON_WIDTHS[colIndex] ?? 'w-20'} rounded-md`} />
-                    </TableCell>
+                  {HEADERS.map((col, colIndex) => (
+                    visibleColumns.has(col) ? (
+                      <TableCell key={`skeleton-col-${rowIndex}-${colIndex}`}>
+                        <Skeleton className={`h-5 ${SKELETON_WIDTHS[colIndex] ?? 'w-20'} rounded-md`} />
+                      </TableCell>
+                    ) : null
                   ))}
                 </TableRow>
               ))
             ) : paginatedData.length > 0 ? (
               paginatedData.map((row, rowIndex) => (
-                <TableRow key={row.id}>
-                  <TableCell>{safePageIndex * pageSize + rowIndex + 1}</TableCell>
+                <TableRow key={row.id} data-state={selectedRows.has(row.id) && "selected"}>
+                  {/* Checkbox per baris */}
+                  {visibleColumns.has("") && (
+                    <TableCell className="w-10">
+                      <div className="flex items-center justify-center">
+                        <Checkbox
+                          checked={selectedRows.has(row.id)}
+                          onCheckedChange={(value) => toggleRow(row.id, !!value)}
+                          aria-label={`Select row ${row.id}`}
+                        />
+                      </div>
+                    </TableCell>
+                  )}
+
+                  {visibleColumns.has("No") && (
+                    <TableCell>{safePageIndex * currentLimit + rowIndex + 1}</TableCell>
+                  )}
 
                   {/* Kolom Judul - DIBATASI, RESPONSIF */}
-                  <TableCell className="max-w-[333px] sm:max-w-[200px] md:max-w-[250px]">
-                    <span className="line-clamp-2">{row.judul}</span>
-                  </TableCell>
+                  {visibleColumns.has("Judul") && (
+                    <TableCell className="max-w-[333px] sm:max-w-[200px] md:max-w-[250px]" title={row.judul}>
+                      <span className="line-clamp-2">{row.judul}</span>
+                    </TableCell>
+                  )}
 
-                  {/* <TableCell className="text-muted-foreground max-w-[80px] truncate" title={row.penulis_id || undefined}>{row.penulis_id || '-'}</TableCell> */}
-                  <TableCell
-                    className="text-muted-foreground max-w-[80px] truncate"
-                    title={row.penulis_nama || undefined}
-                  >
-                    {row.penulis_nama || '-'}
-                  </TableCell>
-                  <TableCell className="max-w-[100px] truncate" title={row.kategori?.nama_kategori || undefined}>{row.kategori?.nama_kategori || '-'}</TableCell>
+                  {visibleColumns.has("Autor") && (
+                    <TableCell
+                      className="max-w-[150px] text-muted-foreground"
+                      title={row.penulis_nama || undefined}
+                    >
+                      <span className="line-clamp-1">{row.penulis_nama || '-'}</span>
+                    </TableCell>
+                  )}
 
-                  {/* Kolom Tags - DIBATASI, RESPONSIF */}
-                  <TableCell className="max-w-[100px] sm:max-w-[150px] break-words">
-                    {row.tags?.join(", ") || '-'}
-                  </TableCell>
+                  {/* Kategori - Badge */}
+                  {visibleColumns.has("Kategori") && (
+                    <TableCell className="max-w-[100px]" title={row.kategori?.nama_kategori || undefined}>
+                      {row.kategori?.nama_kategori ? (
+                        <Badge variant="secondary" className="px-2 font-normal">
+                          {row.kategori.nama_kategori}
+                        </Badge>
+                      ) : '-'}
+                    </TableCell>
+                  )}
 
-                  <TableCell>{formatDate(row.created_at)}</TableCell>
-                  <TableCell>
-                    <StatusBadge status={row.status} />
-                  </TableCell>
-                  <TableCell>
-                    {/* Dropdown bisa diubah menjadi tombol ikon di layar kecil */}
-                    <DropdownNewsAction
-                      menu={[
-                        {
-                          label: (
-                            <span className="flex items-center gap-2">
-                              <HugeiconsIcon icon={ViewIcon} size={16} />
-                              View
-                            </span>
-                          ),
-                          action: () => console.log('View', row),
-                        },
-                        {
-                          label: (
-                            <span className="flex items-center gap-2">
-                              <HugeiconsIcon icon={PencilEdit01Icon} size={16} />
-                              Edit
-                            </span>
-                          ),
-                          action: () => onEdit?.(row),
-                        },
-                        { type: 'separator' },
-                        {
-                          label: (
-                            <span className="flex items-center gap-2">
-                              <HugeiconsIcon icon={Delete02Icon} className="text-red-400" size={16} />
-                              Delete
-                            </span>
-                          ),
-                          variant: 'destructive',
-                          action: () => onDelete?.(row),
-                        },
-                      ]}
-                    />
-                  </TableCell>
+                  {/* Tags - Badge outline, 1 baris */}
+                  {visibleColumns.has("Tags") && (
+                    <TableCell className="max-w-[100px] sm:max-w-[150px]" title={row.tags?.join(', ') || undefined}>
+                      {row.tags && row.tags.length > 0 ? (
+                        <div className="flex flex-nowrap gap-1 overflow-hidden">
+                          {row.tags.map((tag) => (
+                            <Badge key={tag} variant="outline" className="shrink-0 px-1.5 text-xs text-muted-foreground font-normal">
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      ) : '-'}
+                    </TableCell>
+                  )}
+
+                  {/* Tanggal - teks pudar */}
+                  {visibleColumns.has("Dibuat Pada") && (
+                    <TableCell className="text-muted-foreground text-sm tabular-nums">
+                      {formatDate(row.created_at)}
+                    </TableCell>
+                  )}
+
+                  {visibleColumns.has("Status") && (
+                    <TableCell>
+                      <StatusBadge status={row.status} />
+                    </TableCell>
+                  )}
+
+                  {visibleColumns.has("Action") && (
+                    <TableCell>
+                      {/* Dropdown bisa diubah menjadi tombol ikon di layar kecil */}
+                      <DropdownNewsAction
+                        menu={[
+                          {
+                            label: (
+                              <span className="flex items-center gap-2">
+                                <HugeiconsIcon icon={ViewIcon} size={16} />
+                                View
+                              </span>
+                            ),
+                            action: () => console.log('View', row),
+                          },
+                          {
+                            label: (
+                              <span className="flex items-center gap-2">
+                                <HugeiconsIcon icon={PencilEdit01Icon} size={16} />
+                                Edit
+                              </span>
+                            ),
+                            action: () => onEdit?.(row),
+                          },
+                          { type: 'separator' },
+                          {
+                            label: (
+                              <span className="flex items-center gap-2">
+                                <HugeiconsIcon icon={Delete02Icon} className="text-red-400" size={16} />
+                                Delete
+                              </span>
+                            ),
+                            variant: 'destructive',
+                            action: () => onDelete?.(row),
+                          },
+                        ]}
+                      />
+                    </TableCell>
+                  )}
                 </TableRow>
               ))
             ) : (
@@ -191,18 +396,22 @@ export default function DataTableNewsFix({
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-end pt-4">
+      <div className="flex items-center justify-between pt-4">
+        {/* Indikator row terpilih */}
+        <div className="hidden flex-1 text-sm text-muted-foreground lg:flex">
+          {selectedRows.size} of {data.length} row(s) selected.
+        </div>
         <div className="flex w-full items-center gap-8 lg:w-fit">
           <div className="hidden items-center gap-2 lg:flex">
             <Label htmlFor="rows-per-page-category" className="text-sm font-medium">
               Rows per page
             </Label>
             <Select
-              value={`${pageSize}`}
-              onValueChange={(val) => { setPageSize(Number(val)); setPageIndex(0); }}
+              value={`${currentLimit}`}
+              onValueChange={(val) => { handleChangeLimit(Number(val)); }}
             >
               <SelectTrigger size="sm" className="w-20" id="rows-per-page-category">
-                <SelectValue placeholder={`${pageSize}`} />
+                <SelectValue placeholder={`${currentLimit}`} />
               </SelectTrigger>
               <SelectContent side="top">
                 <SelectGroup>
@@ -216,12 +425,12 @@ export default function DataTableNewsFix({
 
           <div className="ml-auto flex items-center gap-2 lg:ml-0">
             <Button variant="outline" className="hidden h-8 w-8 p-0 lg:flex"
-              onClick={() => setPageIndex(0)} disabled={safePageIndex === 0}>
+              onClick={() => handleChangePage(1)} disabled={safePageIndex === 0}>
               <span className="sr-only">Go to first page</span>
               <HugeiconsIcon icon={ArrowLeftDoubleIcon} strokeWidth={2} />
             </Button>
             <Button variant="outline" className="size-8" size="icon"
-              onClick={() => setPageIndex((prev) => Math.max(0, prev - 1))}
+              onClick={() => handleChangePage(Math.max(1, currentPage - 1))}
               disabled={safePageIndex === 0}>
               <span className="sr-only">Go to previous page</span>
               <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} />
@@ -230,13 +439,13 @@ export default function DataTableNewsFix({
               Page {safePageIndex + 1} of {pageCount}
             </div>
             <Button variant="outline" className="size-8" size="icon"
-              onClick={() => setPageIndex((prev) => Math.min(pageCount - 1, prev + 1))}
+              onClick={() => handleChangePage(Math.min(pageCount, currentPage + 1))}
               disabled={safePageIndex >= pageCount - 1}>
               <span className="sr-only">Go to next page</span>
               <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} />
             </Button>
             <Button variant="outline" className="hidden size-8 lg:flex" size="icon"
-              onClick={() => setPageIndex(pageCount - 1)}
+              onClick={() => handleChangePage(pageCount)}
               disabled={safePageIndex >= pageCount - 1}>
               <span className="sr-only">Go to last page</span>
               <HugeiconsIcon icon={ArrowRightDoubleIcon} strokeWidth={2} />

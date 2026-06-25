@@ -1,8 +1,4 @@
--- RLS Supabase:
--- Catatan: Tambah RLS untuk security "SELECT". di tabel editor auth-profiles.
---enable signin di auth provider
-
--- create table profiles
+-- 01. create table profiles
 create table if not exists public.profiles (
   id uuid not null references auth.users on delete cascade,
   name text,

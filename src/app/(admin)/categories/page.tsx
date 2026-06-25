@@ -13,22 +13,22 @@ export default async function CategoryManagementPage() {
     const supabase = await createClient();
 
     return (
-        <PrefetchQueries
-            queries={[
-                {
-                    queryKey: ['categories', 1, 10, ''],
-                    queryFn: async () => {
-                        const { data } = await supabase
-                            .from('kategori')
-                            .select('*')
-                            .range(0, 9)
-                            .order('created_at', { ascending: false });
-                        return data;
-                    },
-                },
-            ]}
-        >
-            <CategoryManagement />
-        </PrefetchQueries>
+        // <PrefetchQueries
+        //     queries={[
+        //         {
+        //             queryKey: ['categories', 1, 10, ''],
+        //             queryFn: async () => {
+        //                 const { data } = await supabase
+        //                     .from('kategori')
+        //                     .select('*')
+        //                     .range(0, 9)
+        //                     .order('created_at', { ascending: false });
+        //                 return data;
+        //             },
+        //         },
+        //     ]}
+        // >
+        <CategoryManagement />
+        // </PrefetchQueries>
     );
 }
