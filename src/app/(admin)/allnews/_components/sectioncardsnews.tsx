@@ -25,8 +25,8 @@ export function SectionCardsNewsFix({ news = [], isLoading = false }: SectionCar
     return ((id * 7919) % 1500) + 120;
   };
   const totalViews = publishedPosts.reduce((sum, item) => sum + getViewsForArticle(item.id), 0);
-  const formattedViews = totalViews >= 1000 
-    ? `${(totalViews / 1000).toFixed(1)}K` 
+  const formattedViews = totalViews >= 1000
+    ? `${(totalViews / 1000).toFixed(1)}K`
     : totalViews.toString();
 
   // 4. Avg. Read Time calculation based on content word count (assuming 200 words per minute reading speed)
@@ -39,7 +39,7 @@ export function SectionCardsNewsFix({ news = [], isLoading = false }: SectionCar
   const avgReadTimeMinutes = publishedCount > 0 ? totalReadTime / publishedCount : 0;
   const min = Math.floor(avgReadTimeMinutes);
   const sec = Math.round((avgReadTimeMinutes - min) * 60);
-  const formattedReadTime = publishedCount > 0 
+  const formattedReadTime = publishedCount > 0
     ? (min > 0 ? `${min}m ${sec}s` : `${sec}s`)
     : '0m';
 
@@ -99,7 +99,7 @@ export function SectionCardsNewsFix({ news = [], isLoading = false }: SectionCar
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Telah dipublikasi ke pembaca <HugeiconsIcon icon={ChartUpIcon} strokeWidth={2} className="size-4" />
+            Telah dipublikasikan <HugeiconsIcon icon={ChartUpIcon} strokeWidth={2} className="size-4" />
           </div>
           <div className="text-muted-foreground">Jumlah artikel berita yang online</div>
         </CardFooter>

@@ -27,6 +27,7 @@ import {
   LeftToRightListBulletIcon,
   ArrowDown01Icon,
   Add01Icon,
+  PencilEdit02Icon,
 } from "@hugeicons/core-free-icons"
 import { Input } from '@/components/ui/input';
 import {
@@ -323,8 +324,8 @@ export default function DataTableNewsFix({
                   {/* Kolom Judul - DIBATASI, RESPONSIF */}
                   {visibleColumns.has("Judul") && (
                     <TableCell className="max-w-[333px] sm:max-w-[200px] md:max-w-[250px]" title={row.judul}>
-                      <span 
-                        className="line-clamp-2 cursor-pointer hover:underline text-primary transition-all" 
+                      <span
+                        className="line-clamp-2 cursor-pointer hover:underline text-primary transition-all"
                         onClick={() => {
                           setQuickEditData(row);
                           setIsQuickEditOpen(true);
@@ -378,7 +379,7 @@ export default function DataTableNewsFix({
                   )}
 
                   {visibleColumns.has("Status") && (
-                    <TableCell>
+                    <TableCell className="max-w-[80px]">
                       <StatusBadge status={row.status} />
                     </TableCell>
                   )}
@@ -393,6 +394,18 @@ export default function DataTableNewsFix({
                               <span className="flex items-center gap-2">
                                 <HugeiconsIcon icon={ViewIcon} size={16} />
                                 View
+                              </span>
+                            ),
+                            action: () => console.log('View', row),
+                          },
+                          {
+                            label: (
+                              <span className="flex items-center gap-2" onClick={() => {
+                                setQuickEditData(row);
+                                setIsQuickEditOpen(true);
+                              }}>
+                                <HugeiconsIcon icon={PencilEdit02Icon} size={16} />
+                                Quick Edit
                               </span>
                             ),
                             action: () => console.log('View', row),
@@ -494,10 +507,10 @@ export default function DataTableNewsFix({
       </div>
 
       {/* Drawer Quick Edit */}
-      <NewsQuickEdit 
-        news={quickEditData} 
-        open={isQuickEditOpen} 
-        onOpenChange={setIsQuickEditOpen} 
+      <NewsQuickEdit
+        news={quickEditData}
+        open={isQuickEditOpen}
+        onOpenChange={setIsQuickEditOpen}
         onSaved={() => {
           queryClient.invalidateQueries({ queryKey: ['news'] });
         }}

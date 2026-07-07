@@ -90,7 +90,7 @@ export default function UserManagement() {
                         {
                             label: (
                                 <span className="flex items-center gap-2">
-                                    <HugeiconsIcon icon={PencilEdit01Icon} size={16}  />
+                                    <HugeiconsIcon icon={PencilEdit01Icon} size={16} />
                                     Edit
                                 </span>
                             ),
@@ -105,7 +105,7 @@ export default function UserManagement() {
                         {
                             label: (
                                 <span className="flex items-center gap-2">
-                                    <HugeiconsIcon icon={Delete02Icon} className="text-red-400" size={16}  />
+                                    <HugeiconsIcon icon={Delete02Icon} className="text-red-400" size={16} />
                                     Delete
                                 </span>
                             ),

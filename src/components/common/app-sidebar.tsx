@@ -59,10 +59,10 @@ const data = {
       url: '#',
       icon: <HugeiconsIcon icon={News01Icon} strokeWidth={2} />,
       items: [
-        { title: 'Semua Berita', url: '/all-news' },
+        { title: 'Semua Berita', url: '/allnews' },
         { title: 'Tambah Berita Baru', url: '/add-news' },
         { title: 'Kategori Berita', url: '/categories' },
-        { title: 'AllNews', url: '/allnews' },
+        // { title: 'All News', url: '/all-news' },
       ],
     },
     {
@@ -98,7 +98,7 @@ const data = {
       url: '#',
       icon: <HugeiconsIcon icon={QuillWrite01Icon} strokeWidth={2} />,
       items: [
-        { title: 'Draft Saya', url: '#' },
+        { title: 'Draft Berita', url: '#' },
         { title: 'Kirim untuk Review', url: '#' },
       ],
     },

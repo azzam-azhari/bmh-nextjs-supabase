@@ -13,6 +13,7 @@ export default async function UserManagementPage() {
   const supabase = await createClient();
 
   return (
+    // ISR (Indefinite Stale-while-revalidate)
     // <PrefetchQueries
     //   queries={[
     //     {

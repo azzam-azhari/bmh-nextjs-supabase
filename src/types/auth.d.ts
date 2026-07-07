@@ -10,6 +10,7 @@ export type AuthFormState = {
   };
 };
 
+// types user management
 export type Profile = {
   id?: string;
   name?: string;
