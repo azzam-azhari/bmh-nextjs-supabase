@@ -41,7 +41,7 @@ export default function HeroSection() {
                             </Link>
                         </Button>
                         <Button size="default" variant="outline" className="text-sm sm:text-base px-5 py-5 lg:px-6 lg:py-6" asChild>
-                            <Link href="/about">
+                            <Link href="/tentang-kami">
                                 Tentang BMH
                             </Link>
                         </Button>

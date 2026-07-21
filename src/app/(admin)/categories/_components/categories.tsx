@@ -37,9 +37,9 @@ export default function CategoryManagement() {
                 .select('*', { count: 'exact' })
                 .order('created_at', { ascending: false });
 
-            // Fitur Pencarian (Search)
+            // Fitur Pencarian (Search) Kategori
             if (currentSearch && currentSearch.trim() !== '') {
-                query = query.ilike('nama_kategori', `%${currentSearch}%`); // Cari berdasarkan nama_kategori
+                query = query.ilike('nama_kategori', `%${currentSearch}%`);
             }
 
             const from = (currentPage - 1) * currentLimit;
@@ -84,9 +84,9 @@ export default function CategoryManagement() {
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 w-full">
                         <div>
                             {/* 3. UBAH TEKS UI */}
-                            <h1 className="text-2xl font-bold tracking-tight">Category Management</h1>
+                            <h1 className="text-2xl font-bold tracking-tight">Manajemen Kategori</h1>
                             <p className="text-sm text-muted-foreground">
-                                Manage your news categories here.
+                                Kelola kategori berita Anda di sini.
                             </p>
                         </div>
                         <div className="flex items-center gap-2">

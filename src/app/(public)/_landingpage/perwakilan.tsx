@@ -21,19 +21,19 @@ const locations = [
     },
     {
         id: 3,
-        name: "BMH Bandung",
+        name: "BMH Jawa Barat   ",
         lng: 107.61791271422778,
         lat: -6.917363331622034,
     },
     {
         id: 4,
-        name: "Jawa Timur",
+        name: "BMH Jawa Timur",
         lng: 112.69911955970185,
         lat: -7.567951689233896,
     },
     {
         id: 5,
-        name: "Jawa Tengah",
+        name: "BMH Jawa Tengah",
         lng: 110.16802462479992,
         lat: -6.998411505181886,
     },

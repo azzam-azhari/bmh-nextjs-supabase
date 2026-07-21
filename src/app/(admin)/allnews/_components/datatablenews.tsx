@@ -47,7 +47,7 @@ const SKELETON_WIDTHS = ['w-5', 'w-7', 'w-48', 'w-40', 'w-12', 'w-28', 'w-8'];
 
 // Status badge component
 function StatusBadge({ status }: { status: string }) {
-  switch (status) {
+  switch (status?.toLowerCase()) {
     case "published":
       return (
         <Badge variant="outline" className="gap-1 px-1.5 text-emerald-600 border-emerald-200 bg-emerald-50 dark:text-emerald-400 dark:border-emerald-800 dark:bg-emerald-950">
@@ -110,6 +110,23 @@ export default function DataTableNewsFix({
   // State untuk Quick Edit Drawer
   const [quickEditData, setQuickEditData] = useState<News | null>(null);
   const [isQuickEditOpen, setIsQuickEditOpen] = useState(false);
+
+  const openQuickEdit = useCallback((news: News) => {
+    setQuickEditData(news);
+    setIsQuickEditOpen(true);
+  }, []);
+
+  const handleNewsUpdated = useCallback((updatedNews: News) => {
+    setQuickEditData(updatedNews);
+
+    queryClient.setQueryData<News[]>(['news'], (currentNews) => {
+      const newsToUpdate = currentNews ?? data;
+
+      return newsToUpdate.map((item) =>
+        item.id === updatedNews.id ? updatedNews : item,
+      );
+    });
+  }, [data, queryClient]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -326,10 +343,7 @@ export default function DataTableNewsFix({
                     <TableCell className="max-w-[333px] sm:max-w-[200px] md:max-w-[250px]" title={row.judul}>
                       <span
                         className="line-clamp-2 cursor-pointer hover:underline text-primary transition-all"
-                        onClick={() => {
-                          setQuickEditData(row);
-                          setIsQuickEditOpen(true);
-                        }}
+                        onClick={() => openQuickEdit(row)}
                       >
                         {row.judul}
                       </span>
@@ -400,15 +414,12 @@ export default function DataTableNewsFix({
                           },
                           {
                             label: (
-                              <span className="flex items-center gap-2" onClick={() => {
-                                setQuickEditData(row);
-                                setIsQuickEditOpen(true);
-                              }}>
+                              <span className="flex items-center gap-2">
                                 <HugeiconsIcon icon={PencilEdit02Icon} size={16} />
                                 Quick Edit
                               </span>
                             ),
-                            action: () => console.log('View', row),
+                            action: () => openQuickEdit(row),
                           },
                           {
                             label: (
@@ -511,9 +522,7 @@ export default function DataTableNewsFix({
         news={quickEditData}
         open={isQuickEditOpen}
         onOpenChange={setIsQuickEditOpen}
-        onSaved={() => {
-          queryClient.invalidateQueries({ queryKey: ['news'] });
-        }}
+        onSaved={handleNewsUpdated}
       />
     </div>
   );

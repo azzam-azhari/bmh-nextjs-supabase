@@ -47,7 +47,7 @@ export default function LanguageSwitcher() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="flex gap-2 h-9 lg:h-10 text-xs lg:text-sm border">
+                <Button variant="outline" size="sm" className="flex gap-2 h-9 lg:h-10 text-xs lg:text-sm border hover:cursor-pointer">
                     {currentLang ? (
                         <>
                             <CountryFlagImage src={currentLang.flag} altText={currentLang.alt} />

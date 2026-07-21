@@ -16,7 +16,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Preview } from '@/types/general';
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Loading01Icon } from "@hugeicons/core-free-icons";
-import { getImageData } from '@/lib/utils';
 
 import { FormEvent } from 'react';
 import { FieldValues, Path, UseFormReturn } from 'react-hook-form';
@@ -114,9 +113,10 @@ export default function FormBerita<T extends FieldValues>({
                                                     onBlur={rest.onBlur}
                                                     disabled={rest.disabled}
                                                     onChange={async (event) => {
-                                                        onChange(event);
-                                                        const { file, displayUrl } = getImageData(event);
+                                                        const file = event.target.files?.[0];
                                                         if (file) {
+                                                            onChange(file);
+                                                            const displayUrl = URL.createObjectURL(file);
                                                             setPreview?.({ file, displayUrl });
                                                         }
                                                     }}

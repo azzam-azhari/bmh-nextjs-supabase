@@ -111,7 +111,7 @@ export default function News() {
             <div className="max-w-2xl mx-auto mb-14">
                 <div className="flex flex-col sm:flex-row gap-3">
                     <div className="relative flex-1">
-                        <HugeiconsIcon icon={Search01Icon} className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"  />
+                        <HugeiconsIcon icon={Search01Icon} className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
                             placeholder="Cari berita atau kategori..."
                             className="pl-10 pr-10 h-11"
@@ -138,10 +138,15 @@ export default function News() {
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
                 {filteredNews.length > 0 ? (
                     filteredNews.map((news) => (
-                        <Card key={news.id} className="flex flex-col overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 duration-300">
-                            {/* Image Placeholder (Ganti dengan <img> jika ada URL gambar) */}
-                            <div className={`aspect-video w-full ${news.image} relative`}>
-                                <Badge className="absolute top-3 left-3 bg-background/90 text-foreground hover:bg-background/90">
+                        <Card key={news.id} className="flex flex-col overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 duration-300 pt-0">
+                            {/* Image */}
+                            <div className="aspect-video w-full bg-muted relative overflow-hidden">
+                                <img
+                                    src={`https://picsum.photos/seed/${news.id}/800/450`}
+                                    alt={news.title}
+                                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                                />
+                                <Badge className="absolute top-3 left-3 z-10 bg-background/90 text-foreground hover:bg-background/90">
                                     {news.category}
                                 </Badge>
                             </div>
@@ -157,11 +162,11 @@ export default function News() {
 
                             <CardFooter className="border-t pt-4 flex items-center justify-between text-sm text-muted-foreground">
                                 <div className="flex items-center gap-1.5">
-                                    <HugeiconsIcon icon={Calendar01Icon} className="h-3.5 w-3.5"  />
+                                    <HugeiconsIcon icon={Calendar01Icon} className="h-3.5 w-3.5" />
                                     <span>{news.date}</span>
                                 </div>
                                 <div className="flex items-center gap-1.5">
-                                    <HugeiconsIcon icon={UserIcon} className="h-3.5 w-3.5"  />
+                                    <HugeiconsIcon icon={UserIcon} className="h-3.5 w-3.5" />
                                     <span className="line-clamp-1">{news.author}</span>
                                 </div>
                             </CardFooter>
@@ -177,7 +182,7 @@ export default function News() {
             {/* Pagination / Load More */}
             <div className="flex justify-center">
                 <Button variant="outline" size="lg" className="gap-2">
-                    Muat Lebih Banyak <HugeiconsIcon icon={ArrowRight01Icon} className="h-4 w-4"  />
+                    Muat Lebih Banyak <HugeiconsIcon icon={ArrowRight01Icon} className="h-4 w-4" />
                 </Button>
             </div>
 

@@ -58,5 +58,8 @@ export async function login(prevState: AuthFormState, formData: FormData | null)
   }
 
   revalidatePath('/', 'layout');
-  redirect('/dashboard');
+
+  const role = profile?.role?.toLowerCase();
+
+  redirect(role === 'user' ? '/' : '/dashboard');
 }

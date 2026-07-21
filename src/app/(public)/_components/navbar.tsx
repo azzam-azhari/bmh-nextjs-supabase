@@ -15,10 +15,10 @@ import { useAuthStore } from '@/stores/auth-store';
 
 const navLinks = [
     { href: '/', label: 'Beranda' },
+    { href: '/tentang-kami', label: 'Tentang Kami' },
     { href: '/news', label: 'Berita' },
-    { href: '/research', label: 'Riset' },
-    { href: '/about', label: 'Tentang' },
-    { href: '/contact', label: 'Kontak' },
+    { href: '/riset-pengembangan', label: 'Riset & Pengembangan' },
+    { href: '/donasi', label: 'Donasi' },
 ];
 
 export default function Navbar() {
@@ -56,7 +56,7 @@ export default function Navbar() {
                     <Sheet open={isOpen} onOpenChange={setIsOpen}>
                         <SheetTrigger asChild className="md:hidden">
                             <Button variant="ghost" size="icon" aria-label="Toggle menu" className="h-10 w-10">
-                                <HugeiconsIcon icon={Menu01Icon} className="h-5 w-5"  />
+                                <HugeiconsIcon icon={Menu01Icon} className="h-5 w-5" />
                             </Button>
                         </SheetTrigger>
                         <SheetContent side="left" className="w-[280px] sm:w-[320px] p-0 flex flex-col">
@@ -95,7 +95,7 @@ export default function Navbar() {
                             <div className="border-t p-4 mt-auto">
                                 <Button variant="outline" className="w-full justify-center gap-2 h-11" asChild>
                                     <Link href={buttonHref} onClick={() => setIsOpen(false)}>
-                                        <HugeiconsIcon icon={UserIcon} className="h-4 w-4"  /> {isLoggedIn ? buttonText : 'Masuk / Daftar'}
+                                        <HugeiconsIcon icon={UserIcon} className="h-4 w-4" /> {isLoggedIn ? buttonText : 'Masuk / Daftar'}
                                     </Link>
                                 </Button>
                             </div>
@@ -130,13 +130,17 @@ export default function Navbar() {
                 {/* Right Actions */}
                 <div className="flex items-center gap-1 sm:gap-2 lg:gap-4">
                     <Button variant="ghost" size="icon" aria-label="Search" className="h-9 w-9 lg:h-10 lg:w-10">
-                        <HugeiconsIcon icon={Search01Icon} className="h-4 w-4 lg:h-5 lg:w-5"  />
+                        <HugeiconsIcon icon={Search01Icon} className="h-4 w-4 lg:h-5 lg:w-5" />
                     </Button>
 
                     {/* Language Switcher - Sekarang ditempatkan langsung di div actions */}
                     <LanguageSwitcher />
 
-                    <Button size="sm" className="hidden md:flex h-9 lg:h-10 px-4 lg:px-6 text-xs lg:text-sm" asChild>
+                    <Button
+                        size="sm"
+                        className="hidden md:inline-flex h-9 lg:h-10 w-[112px] px-0 justify-center text-xs lg:text-sm whitespace-nowrap"
+                        asChild
+                    >
                         <Link href={buttonHref}>{buttonText}</Link>
                     </Button>
                 </div>

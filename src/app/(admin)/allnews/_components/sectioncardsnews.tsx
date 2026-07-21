@@ -14,11 +14,11 @@ export interface SectionCardsNewsFixProps {
 
 export function SectionCardsNewsFix({ news = [], isLoading = false }: SectionCardsNewsFixProps) {
   // 1. Published posts
-  const publishedPosts = news.filter((item) => item.status === 'published');
+  const publishedPosts = news.filter((item) => item.status?.toLowerCase() === 'published');
   const publishedCount = publishedPosts.length;
 
   // 2. Pending drafts
-  const pendingDraftsCount = news.filter((item) => item.status === 'draft').length;
+  const pendingDraftsCount = news.filter((item) => item.status?.toLowerCase() === 'draft').length;
 
   // 3. Simulated/calculated page views (Since views aren't in the schema, we simulate based on ID)
   const getViewsForArticle = (id: number) => {

@@ -1,5 +1,5 @@
 // app/(admin)/layout.tsx
-import { AppSidebar } from '@/components/common/app-sidebar';
+import { AppSidebar } from '@/app/(admin)/_components/app-sidebar';
 import { SiteHeader } from '@/app/(admin)/_components/site-header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { ThemeProvider } from '@/providers/theme-provider';

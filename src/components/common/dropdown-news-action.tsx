@@ -42,7 +42,7 @@ export default function DropdownNewsAction({
                             key={`dropdown-action-${index}`}
                             variant={item.variant || 'default'}
                             asChild={item.type === 'link'}
-                            onClick={item.action}
+                            onSelect={item.action}
                         >
                             {item.label}
                         </DropdownMenuItem>

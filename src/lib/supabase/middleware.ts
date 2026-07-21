@@ -29,7 +29,7 @@ export async function updateSession(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // Daftar awalan path untuk area admin (wajib login)
-  const protectedPathPrefixes = ['/dashboard', '/user-management', '/permissions', '/all-news', '/add-news', '/categories', '/allnews'];
+  const protectedPathPrefixes = ['/dashboard', '/user-management', '/permissions', '/all-news', '/add-news', '/categories', '/allnews', '/profile'];
   const isProtectedPath = protectedPathPrefixes.some((prefix) => path.startsWith(prefix));
 
   // 1. Jika belum login & akses halaman admin -> Lempar ke Login
@@ -38,8 +38,23 @@ export async function updateSession(request: NextRequest) {
   }
 
   // 2. Jika sudah login & akses halaman login -> Lempar ke Dashboard
-  if (user && path === '/login') {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+  const isPageNavigation =
+    request.method === 'GET' &&
+    request.headers.get('accept')?.includes('text/html') &&
+    !request.headers.has('next-action') &&
+    request.headers.get('rsc') !== '1';
+
+  if (user && path === '/login' && isPageNavigation) {
+    let role = '';
+
+    try {
+      const profileCookie = request.cookies.get('user_profile')?.value;
+      role = profileCookie ? JSON.parse(profileCookie)?.role?.toLowerCase() : '';
+    } catch {
+      role = '';
+    }
+
+    return NextResponse.redirect(new URL(role === 'user' ? '/' : '/dashboard', request.url));
   }
 
   return supabaseResponse;

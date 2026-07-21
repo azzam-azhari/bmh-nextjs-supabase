@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  INITIAL_UPDATE_BERITA_FORM,
   INITIAL_STATE_UPDATE_BERITA,
 } from '@/constants/berita-constant';
 import {
@@ -8,7 +9,13 @@ import {
   updateBeritaSchema,
 } from '@/validations/berita-validation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { startTransition, useActionState, useEffect, useState } from 'react';
+import {
+  startTransition,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { Drawer } from '@/components/ui/drawer';
@@ -19,21 +26,28 @@ import { Preview } from '@/types/general';
 import { Berita } from '@/types/berita';
 import { News } from '@/types/general';
 import FormBerita from './form-berita';
-import { useBeritaStore } from "@/stores/berita-store";
+import { useBeritaStore } from '@/stores/berita-store';
+
+type CategoryRow = {
+  id: number;
+  nama_kategori: string;
+};
 
 interface NewsQuickEditProps {
   news: News | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSaved?: () => void;
+  onSaved?: (updatedNews: News) => void;
 }
 
 export function NewsQuickEdit({ news, open, onOpenChange, onSaved }: NewsQuickEditProps) {
   const isMobile = useIsMobile();
   const setCurrentBerita = useBeritaStore((state) => state.setCurrentBerita);
+  const onSavedRef = useRef(onSaved);
 
   const form = useForm<UpdateBeritaForm>({
     resolver: zodResolver(updateBeritaSchema),
+    defaultValues: INITIAL_UPDATE_BERITA_FORM,
   });
 
   const [updateBeritaState, updateBeritaAction, isPendingUpdateBerita] =
@@ -42,8 +56,13 @@ export function NewsQuickEdit({ news, open, onOpenChange, onSaved }: NewsQuickEd
   const [preview, setPreview] = useState<Preview | undefined>(undefined);
   const [categories, setCategories] = useState<{ value: string; label: string }[]>([]);
 
-  // Fetch categories on mount
   useEffect(() => {
+    onSavedRef.current = onSaved;
+  }, [onSaved]);
+
+  useEffect(() => {
+    let isActive = true;
+
     const fetchKategori = async () => {
       const supabase = createClient();
       const { data, error } = await supabase
@@ -51,66 +70,68 @@ export function NewsQuickEdit({ news, open, onOpenChange, onSaved }: NewsQuickEd
         .select('id, nama_kategori')
         .order('nama_kategori', { ascending: true });
 
-      if (data && !error) {
-        setCategories(data.map((kat: any) => ({
+      if (error) {
+        toast.error('Gagal mengambil kategori', {
+          description: error.message,
+        });
+        return;
+      }
+
+      if (isActive && data) {
+        setCategories((data as CategoryRow[]).map((kat) => ({
           value: kat.id.toString(),
-          label: kat.nama_kategori
+          label: kat.nama_kategori,
         })));
       }
     };
+
     fetchKategori();
+
+    return () => {
+      isActive = false;
+    };
   }, []);
 
-    const onSubmit = form.handleSubmit((data) => {
-        const formData = new FormData();
+  const onSubmit = form.handleSubmit((data) => {
+    if (!news?.id) {
+      toast.error('Gagal memperbarui berita', {
+        description: 'ID berita tidak valid.',
+      });
+      return;
+    }
 
-        // Cek apakah user memilih gambar baru (file asli punya size > 0,
-        // placeholder File dari URL lama punya size === 0)
-        const isNewImage = preview?.file && preview.file.size > 0;
+    const formData = new FormData();
+    formData.append('id', String(news.id));
+    formData.append('judul', data.judul);
+    formData.append('kategori_id', data.kategori_id ?? '');
+    formData.append('tags', data.tags ?? '');
+    formData.append('status', data.status);
+    formData.append('created_at', data.created_at ?? '');
 
-        if (isNewImage) {
-            // Gambar baru dipilih: kirim File object untuk gambar_url
-            Object.entries(data).forEach(([key, value]) => {
-                if (value !== undefined && value !== null) {
-                    formData.append(
-                        key,
-                        key === 'gambar_url' ? preview!.file! : (value as any).toString()
-                    );
-                }
-            });
-            formData.append('old_gambar_url', news?.gambar_url ?? '');
-        } else {
-            // Gambar tidak berubah: kirim semua sebagai string
-            Object.entries(data).forEach(([key, value]) => {
-                if (key === 'gambar_url') {
-                    // Kirim URL gambar lama (bukan FileList dari input)
-                    formData.append(key, news?.gambar_url ?? '');
-                } else if (value !== undefined && value !== null) {
-                    formData.append(key, (value as any).toString());
-                }
-            });
-        }
+    if (preview?.file && preview.file.size > 0) {
+      formData.append('gambar_url', preview.file);
+    } else {
+      formData.append('gambar_url', news.gambar_url ?? '');
+    }
 
-        formData.append('id', news?.id?.toString() ?? '');
-        formData.append('old_status', news?.status ?? '');
-        formData.append('old_published_at', news?.published_at ?? '');
-        formData.append('original_created_at', news?.created_at ?? '');
-
-        startTransition(() => {
-            updateBeritaAction(formData);
-        });
+    startTransition(() => {
+      updateBeritaAction(formData);
     });
+  });
 
-  // Populate form when news prop changes
   useEffect(() => {
     if (news && open) {
       setCurrentBerita(news as Berita);
-      form.setValue('judul', news.judul || '');
-      form.setValue('kategori_id', news.kategori_id?.toString() || '');
-      form.setValue('tags', (news.tags || []).join(', '));
-      form.setValue('status', news.status || 'draft');
-      form.setValue('created_at', news.created_at ? new Date(news.created_at).toISOString().split('T')[0] : '');
-      form.setValue('gambar_url', news.gambar_url || '');
+      form.reset({
+        judul: news.judul ?? '',
+        kategori_id: news.kategori_id?.toString() ?? '',
+        tags: (news.tags ?? []).join(', '),
+        status: news.status ?? 'draft',
+        created_at: news.created_at
+          ? new Date(news.created_at).toISOString().split('T')[0]
+          : '',
+        gambar_url: news.gambar_url ?? '',
+      });
 
       if (news.gambar_url) {
         setPreview({
@@ -123,7 +144,6 @@ export function NewsQuickEdit({ news, open, onOpenChange, onSaved }: NewsQuickEd
     }
   }, [news, open, setCurrentBerita, form]);
 
-  // Handle Server Action Response
   useEffect(() => {
     if (updateBeritaState?.status === 'error') {
       toast.error('Gagal memperbarui berita', {
@@ -132,12 +152,36 @@ export function NewsQuickEdit({ news, open, onOpenChange, onSaved }: NewsQuickEd
     }
 
     if (updateBeritaState?.status === 'success') {
+      if (!updateBeritaState.data) {
+        toast.error('Gagal memperbarui tampilan berita', {
+          description: 'Data terbaru tidak diterima dari server.',
+        });
+        return;
+      }
+
       toast.success('Berita berhasil diperbarui');
       form.reset();
+      setPreview(undefined);
+      setCurrentBerita(null);
       onOpenChange(false);
-      onSaved?.();
+      onSavedRef.current?.(updateBeritaState.data);
     }
-  }, [updateBeritaState]);
+  }, [
+    updateBeritaState,
+    form,
+    onOpenChange,
+    setCurrentBerita,
+  ]);
+
+  useEffect(() => {
+    const displayUrl = preview?.displayUrl;
+
+    return () => {
+      if (displayUrl?.startsWith('blob:')) {
+        URL.revokeObjectURL(displayUrl);
+      }
+    };
+  }, [preview?.displayUrl]);
 
   if (!news) return null;
 
