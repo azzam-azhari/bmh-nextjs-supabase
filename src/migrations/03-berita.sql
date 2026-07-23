@@ -87,8 +87,8 @@ BEGIN
     WHERE id = NEW.penulis_id;
   END IF;
 
-  -- Auto-generate slug unik
-  IF NEW.slug IS NULL OR NEW.slug = '' THEN
+  -- Auto-generate slug unik jika judul berubah atau slug masih kosong
+  IF TG_OP = 'INSERT' OR OLD.judul IS DISTINCT FROM NEW.judul OR NEW.slug IS NULL OR NEW.slug = '' THEN
     base_slug  := public.generate_slug(NEW.judul);
     final_slug := base_slug;
 
@@ -126,35 +126,37 @@ LANGUAGE plpgsql
 AS $$
 BEGIN
   IF TG_OP = 'INSERT' THEN
+    -- Tambah jika berita baru berstatus published
     IF NEW.kategori_id IS NOT NULL AND NEW.status = 'published' THEN
-      UPDATE public.kategori SET jumlah = jumlah + 1 WHERE id = NEW.kategori_id;
+      UPDATE public.kategori 
+      SET jumlah = jumlah + 1 
+      WHERE id = NEW.kategori_id;
     END IF;
 
   ELSIF TG_OP = 'DELETE' THEN
+    -- Kurangi jika berita yang dihapus berstatus published
     IF OLD.kategori_id IS NOT NULL AND OLD.status = 'published' THEN
-      UPDATE public.kategori SET jumlah = jumlah - 1 WHERE id = OLD.kategori_id;
+      UPDATE public.kategori 
+      SET jumlah = GREATEST(0, jumlah - 1) 
+      WHERE id = OLD.kategori_id;
     END IF;
 
   ELSIF TG_OP = 'UPDATE' THEN
-
-    -- draft → published
-    IF OLD.status != 'published' AND NEW.status = 'published'
-      AND NEW.kategori_id IS NOT NULL THEN
-      UPDATE public.kategori SET jumlah = jumlah + 1 WHERE id = NEW.kategori_id;
-
-    -- published → non-published
-    ELSIF OLD.status = 'published' AND NEW.status != 'published'
-      AND OLD.kategori_id IS NOT NULL THEN
-      UPDATE public.kategori SET jumlah = jumlah - 1 WHERE id = OLD.kategori_id;
-
-    -- pindah kategori (keduanya published)
-    ELSIF OLD.status = 'published' AND NEW.status = 'published'
-      AND OLD.kategori_id IS DISTINCT FROM NEW.kategori_id THEN
-      IF OLD.kategori_id IS NOT NULL THEN
-        UPDATE public.kategori SET jumlah = jumlah - 1 WHERE id = OLD.kategori_id;
+    -- Kurangi dari kategori lama jika sebelumnya berstatus published dan sekarang berubah kategori atau berubah status (bukan published lagi)
+    IF OLD.status = 'published' AND OLD.kategori_id IS NOT NULL THEN
+      IF OLD.kategori_id IS DISTINCT FROM NEW.kategori_id OR NEW.status != 'published' THEN
+        UPDATE public.kategori 
+        SET jumlah = GREATEST(0, jumlah - 1) 
+        WHERE id = OLD.kategori_id;
       END IF;
-      IF NEW.kategori_id IS NOT NULL THEN
-        UPDATE public.kategori SET jumlah = jumlah + 1 WHERE id = NEW.kategori_id;
+    END IF;
+
+    -- Tambah ke kategori baru jika sekarang berstatus published dan sebelumnya beda kategori atau dari non-published
+    IF NEW.status = 'published' AND NEW.kategori_id IS NOT NULL THEN
+      IF OLD.kategori_id IS DISTINCT FROM NEW.kategori_id OR OLD.status != 'published' THEN
+        UPDATE public.kategori 
+        SET jumlah = jumlah + 1 
+        WHERE id = NEW.kategori_id;
       END IF;
     END IF;
 
@@ -195,11 +197,15 @@ CREATE TRIGGER trg_profile_name_update
 
 
 -- ─────────────────────────────────────────────────────────────
--- F. Backfill: isi penulis_nama untuk data berita yang sudah ada
+-- F. Backfill & Sync Data
 -- ─────────────────────────────────────────────────────────────
 
+-- 1. Isi penulis_nama untuk data berita yang sudah ada
 UPDATE public.berita b
 SET penulis_nama = p.name
 FROM public.profiles p
 WHERE b.penulis_id = p.id
   AND (b.penulis_nama IS NULL OR b.penulis_nama = '');
+
+-- 2. Hitung & sinkronkan ulang jumlah berita published per kategori
+SELECT public.recalculate_kategori_jumlah();

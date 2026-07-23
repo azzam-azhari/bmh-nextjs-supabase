@@ -3,8 +3,8 @@
 
 import { createClient } from '@/lib/supabase/client';
 import { useQuery } from '@tanstack/react-query';
-import { SectionCardsNewsFix } from './sectioncardsnews';
-import DataTableNewsFix from './datatablenews';
+import { SectionCardsNewsFix } from './section-cards-news';
+import DataTableNewsFix from './data-table-news';
 import { toast } from 'sonner';
 import { News } from '@/types/general';
 

@@ -28,7 +28,7 @@ export async function createCategory(prevState: formState, formData: FormData) {
         .insert({
             nama_kategori: validatedFields.data.nama_kategori,
             slug: validatedFields.data.slug,
-            jumlah: validatedFields.data.jumlah,
+            jumlah: validatedFields.data.jumlah ?? 0,
         });
 
     if (error) {
@@ -71,7 +71,6 @@ export async function updateCategory(prevState: formState, formData: FormData) {
         .update({
             nama_kategori: validatedFields.data.nama_kategori,
             slug: validatedFields.data.slug,
-            jumlah: validatedFields.data.jumlah,
         })
         .eq('id', Number(id));
 

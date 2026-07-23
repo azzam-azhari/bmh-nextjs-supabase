@@ -13,9 +13,11 @@ import {
     DrawerTitle,
 } from '@/components/ui/drawer';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
 import { Preview } from '@/types/general';
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Loading01Icon } from "@hugeicons/core-free-icons";
+import { Calendar01Icon, Loading01Icon } from "@hugeicons/core-free-icons";
 
 import { FormEvent } from 'react';
 import { FieldValues, Path, UseFormReturn } from 'react-hook-form';
@@ -182,11 +184,56 @@ export default function FormBerita<T extends FieldValues>({
                             placeholder="Contoh: inovasi, pendidikan, terbaru"
                         />
 
-                        <FormInput
-                            form={form}
+                        <FormField
+                            control={form.control}
                             name={'created_at' as Path<T>}
-                            label="Tanggal"
-                            type="date"
+                            render={({ field }) => {
+                                const dateVal = field.value ? new Date(field.value) : new Date();
+                                const isValidDate = !isNaN(dateVal.getTime());
+                                const displayDate = isValidDate ? dateVal : new Date();
+
+                                const formattedDisplay = displayDate.toLocaleDateString('id-ID', {
+                                    day: 'numeric',
+                                    month: 'long',
+                                    year: 'numeric',
+                                });
+
+                                return (
+                                    <FormItem className="space-y-2">
+                                        <FormLabel>Tanggal</FormLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <FormControl>
+                                                    <Button
+                                                        type="button"
+                                                        variant="outline"
+                                                        className="w-full justify-between font-normal text-left h-10 px-3 border-input bg-background hover:bg-accent/50 cursor-pointer"
+                                                    >
+                                                        <span className="text-sm font-medium text-foreground">
+                                                            {formattedDisplay}
+                                                        </span>
+                                                        <HugeiconsIcon icon={Calendar01Icon} className="size-4 text-muted-foreground" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-auto p-0" side="top" align="start">
+                                                <Calendar
+                                                    selected={displayDate}
+                                                    onSelect={(date) => {
+                                                        if (date) {
+                                                            const year = date.getFullYear();
+                                                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                                                            const day = String(date.getDate()).padStart(2, '0');
+                                                            field.onChange(`${year}-${month}-${day}`);
+                                                        }
+                                                    }}
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+                                        <FormMessage className="text-xs" />
+                                    </FormItem>
+                                );
+                            }}
                         />
                     </div>
 

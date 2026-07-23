@@ -103,6 +103,7 @@ export default function DataTableNewsFix({
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
   const [searchValue, setSearchValue] = useState(currentSearch);
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
   const [visibleColumns, setVisibleColumns] = useState<Set<string>>(new Set(HEADERS));
   const [categories, setCategories] = useState<string[]>([]);
   const supabase = createClient();
@@ -142,9 +143,10 @@ export default function DataTableNewsFix({
     return data.filter((item) => {
       const matchSearch = item.judul.toLowerCase().includes(currentSearch.toLowerCase());
       const matchCategory = categoryFilter === 'all' || item.kategori?.nama_kategori === categoryFilter;
-      return matchSearch && matchCategory;
+      const matchStatus = statusFilter === 'all' || item.status === statusFilter;
+      return matchSearch && matchCategory && matchStatus;
     });
-  }, [data, currentSearch, categoryFilter]);
+  }, [data, currentSearch, categoryFilter, statusFilter]);
 
   const totalItems = filteredData.length;
   const pageCount = Math.ceil(totalItems / currentLimit) || 1;
@@ -229,7 +231,28 @@ export default function DataTableNewsFix({
             </button>
           )}
         </div>
+        {/* filter */}
         <div className="grid grid-cols-3 gap-2 w-full md:flex md:w-auto md:items-center md:gap-2">
+          {/* filter status */}
+          <div>
+            <Label htmlFor="status-filter" className="sr-only">
+              Filter Status
+            </Label>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger size="sm" className="w-full md:w-36" id="status-filter">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="all">Semua Status </SelectItem>
+                  <SelectItem value="published">Published ({data.filter((item) => item.status === 'published').length})</SelectItem>
+                  <SelectItem value="draft">Draft ({data.filter((item) => item.status === 'draft').length})</SelectItem>
+                  <SelectItem value="archived">Archived ({data.filter((item) => item.status === 'archived').length})</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          {/* filter category */}
           <div className="col-span-1">
             <Label htmlFor="category-filter" className="sr-only">
               Filter Category
@@ -274,8 +297,8 @@ export default function DataTableNewsFix({
             </DropdownMenu>
           </div>
           <div className="col-span-1">
-            <Button variant="outline" size="sm" className="w-full md:w-auto flex justify-center items-center gap-1">
-              <HugeiconsIcon icon={Add01Icon} strokeWidth={2} />
+            <Button variant="outline" size="sm" className="w-full md:w-auto flex justify-center items-center gap-1 bg-gray-200 border-border hover:bg-gray-200/90 text-gray-600 hover:text-gray-700 cursor-pointer transition-all duration-200 ease-in-out">
+              <HugeiconsIcon icon={Add01Icon} strokeWidth={2} className="size-4" />
               <span className="hidden sm:inline">Tambah Berita</span>
             </Button>
           </div>

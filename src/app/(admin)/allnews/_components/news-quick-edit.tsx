@@ -17,15 +17,15 @@ import {
   useState,
 } from 'react';
 import { useForm } from 'react-hook-form';
+import { updateBerita } from '../actions';
 import { toast } from 'sonner';
+import { Preview } from '@/types/general';
+import FormBerita from './form-berita';
 import { Drawer } from '@/components/ui/drawer';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { createClient } from '@/lib/supabase/client';
-import { updateBerita } from '../actions';
-import { Preview } from '@/types/general';
 import { Berita } from '@/types/berita';
 import { News } from '@/types/general';
-import FormBerita from './form-berita';
 import { useBeritaStore } from '@/stores/berita-store';
 
 type CategoryRow = {
@@ -100,16 +100,26 @@ export function NewsQuickEdit({ news, open, onOpenChange, onSaved }: NewsQuickEd
       return;
     }
 
+    // Deteksi apakah ada perubahan nyata pada data berita
+    const originalTags = (news.tags ?? []).join(', ');
+    const hasImageChanged = !!(preview?.file && preview.file.size > 0);
+    const hasDataChanged =
+      data.judul !== (news.judul ?? '') ||
+      (data.kategori_id ?? '') !== (news.kategori_id?.toString() ?? '') ||
+      (data.tags ?? '') !== originalTags ||
+      data.status !== (news.status ?? 'draft') ||
+      hasImageChanged;
+
     const formData = new FormData();
     formData.append('id', String(news.id));
     formData.append('judul', data.judul);
     formData.append('kategori_id', data.kategori_id ?? '');
     formData.append('tags', data.tags ?? '');
     formData.append('status', data.status);
-    formData.append('created_at', data.created_at ?? '');
+    formData.append('has_changes', hasDataChanged ? 'true' : 'false');
 
-    if (preview?.file && preview.file.size > 0) {
-      formData.append('gambar_url', preview.file);
+    if (hasImageChanged) {
+      formData.append('gambar_url', preview!.file!);
     } else {
       formData.append('gambar_url', news.gambar_url ?? '');
     }
@@ -129,7 +139,7 @@ export function NewsQuickEdit({ news, open, onOpenChange, onSaved }: NewsQuickEd
         status: news.status ?? 'draft',
         created_at: news.created_at
           ? new Date(news.created_at).toISOString().split('T')[0]
-          : '',
+          : new Date().toISOString().split('T')[0],
         gambar_url: news.gambar_url ?? '',
       });
 
