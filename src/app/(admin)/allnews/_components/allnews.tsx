@@ -16,7 +16,7 @@ export default function AllNews() {
         queryFn: async () => {
             const { data, error } = await supabase
                 .from('berita')
-                .select('*, kategori(id, nama_kategori)')
+                .select('*, kategori(id, nama_kategori), profiles:penulis_id(name)')
                 .order('created_at', { ascending: false });
 
             if (error) {

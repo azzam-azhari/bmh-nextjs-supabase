@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { AuthFormState } from '@/types/auth';
 import { createUserSchema, updateUserSchema } from '@/validations/auth-validation';
 import { cookies } from 'next/headers';
+import { revalidatePath } from 'next/cache';
 
 export async function createUser(prevState: AuthFormState, formData: FormData) {
     let validatedFields = createUserSchema.safeParse({
@@ -153,6 +154,18 @@ export async function updateUser(prevState: AuthFormState, formData: FormData) {
             },
         };
     }
+
+    // 1b. SINKRONKAN TABEL BERITA (penulis_nama) UNTUK AUTHOR TERSEBUT
+    const { error: beritaSyncError } = await supabase
+        .from('berita')
+        .update({ penulis_nama: validatedFields.data.name })
+        .eq('penulis_id', userId);
+
+    if (beritaSyncError) {
+        console.error('Gagal membarui penulis_nama di tabel berita:', beritaSyncError.message);
+    }
+
+    revalidatePath('/allnews');
 
     // 2. UPDATE USER METADATA (Ini yang membuat nav-user terupdate)
     const { error: authError } = await supabase.auth.admin.updateUserById(userId, {

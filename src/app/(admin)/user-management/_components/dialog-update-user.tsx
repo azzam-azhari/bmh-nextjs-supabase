@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import {
     INITIAL_STATE_UPDATE_USER,
 } from '@/constants/auth-constant';
@@ -27,6 +28,7 @@ export default function DialogUpdateUser({
     open?: boolean;
     handleChangeAction?: (open: boolean) => void;
 }) {
+    const queryClient = useQueryClient();
     const form = useForm<UpdateUserForm>({
         resolver: zodResolver(updateUserSchema),
     });
@@ -71,9 +73,10 @@ export default function DialogUpdateUser({
             toast.success('Update User Success');
             form.reset();
             handleChangeAction?.(false);
+            queryClient.invalidateQueries({ queryKey: ['news'] });
             refetch();
         }
-    }, [updateUserState]);
+    }, [updateUserState, queryClient, refetch, handleChangeAction, form]);
 
     useEffect(() => {
         if (currentData) {

@@ -31,6 +31,7 @@ export type News = {
   kategori?: { id: number; nama_kategori: string } | null;
   penulis_id: string | null;
   penulis_nama: string | null;
+  profiles?: { name: string } | null;
   tags: string[];
   status: 'draft' | 'published' | 'archived';
   published_at: string | null;

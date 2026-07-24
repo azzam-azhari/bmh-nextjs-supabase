@@ -34,6 +34,8 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import useDataTable from '@/hooks/use-data-table';
@@ -205,6 +207,55 @@ export default function DataTableNewsFix({
     });
   }, []);
 
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [categorySearch, setCategorySearch] = useState("");
+  const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
+
+  const filteredCategories = categories.filter((kategori) =>
+    kategori.toLowerCase().includes(categorySearch.toLowerCase())
+  );
+
+  // Auto-highlight first result when search changes
+  const handleCategorySearchChange = useCallback((value: string) => {
+    setCategorySearch(value);
+    setHighlightedIndex(value.trim() === "" ? null : 0);
+  }, []);
+
+  const handleCategoryInputKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      // Prevent Radix from intercepting arrow keys / Enter on the input
+      event.stopPropagation();
+
+      const total = filteredCategories.length;
+
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        setHighlightedIndex((prev) =>
+          prev === null ? 0 : Math.min(prev + 1, total - 1)
+        );
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        setHighlightedIndex((prev) =>
+          prev === null ? total - 1 : Math.max(prev - 1, 0)
+        );
+      } else if (event.key === "Enter") {
+        event.preventDefault();
+        if (highlightedIndex !== null && filteredCategories[highlightedIndex]) {
+          const kategori = filteredCategories[highlightedIndex];
+          setSelectedCategory(kategori);
+          setCategoryFilter(kategori);
+          setCategorySearch("");
+          setHighlightedIndex(null);
+        }
+      } else if (event.key === "Escape") {
+        // Let Radix handle Escape to close the dropdown
+        setCategorySearch("");
+        setHighlightedIndex(null);
+      }
+    },
+    [filteredCategories, highlightedIndex]
+  );
+
   return (
     <div className="w-full flex-col justify-start gap-6 px-4 lg:px-6">
       <div className="flex flex-col gap-3 pb-4 md:flex-row md:items-center md:justify-between">
@@ -231,75 +282,166 @@ export default function DataTableNewsFix({
             </button>
           )}
         </div>
-        {/* filter */}
-        <div className="grid grid-cols-3 gap-2 w-full md:flex md:w-auto md:items-center md:gap-2">
-          {/* filter status */}
-          <div>
-            <Label htmlFor="status-filter" className="sr-only">
-              Filter Status
-            </Label>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger size="sm" className="w-full md:w-36" id="status-filter">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="all">Semua Status </SelectItem>
-                  <SelectItem value="published">Published ({data.filter((item) => item.status === 'published').length})</SelectItem>
-                  <SelectItem value="draft">Draft ({data.filter((item) => item.status === 'draft').length})</SelectItem>
-                  <SelectItem value="archived">Archived ({data.filter((item) => item.status === 'archived').length})</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-          {/* filter category */}
-          <div className="col-span-1">
-            <Label htmlFor="category-filter" className="sr-only">
-              Filter Category
-            </Label>
-            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger size="sm" className="w-full md:w-36" id="category-filter">
-                <SelectValue placeholder="Kategori" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="all">Semua Kategori</SelectItem>
-                  {categories.map((kategori) => (
-                    <SelectItem key={kategori} value={kategori}>
-                      {kategori}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="col-span-1">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="w-full md:w-auto flex justify-center items-center gap-1">
-                  <HugeiconsIcon icon={LeftToRightListBulletIcon} strokeWidth={2} data-icon="inline-start" />
-                  <span className="truncate">Columns</span>
-                  <HugeiconsIcon icon={ArrowDown01Icon} strokeWidth={2} data-icon="inline-end" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-36">
-                {HEADERS.filter(col => col !== "" && col !== "Action" && col !== "No").map((col) => (
-                  <DropdownMenuCheckboxItem
-                    key={col}
-                    className="capitalize"
-                    checked={visibleColumns.has(col)}
-                    onCheckedChange={(value) => toggleColumnVisibility(col, !!value)}
+        <div className='md:flex gap-2'>
+          {/* filter */}
+          <div className="grid grid-cols-3 gap-2 w-full md:flex md:w-auto md:items-center md:gap-2">
+            {/* filter status */}
+            <div>
+              <Label htmlFor="status-filter" className="sr-only">
+                Filter Status
+              </Label>
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger size="sm" className="w-full md:w-36" id="status-filter">
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="all">Semua Status </SelectItem>
+                    <SelectItem value="published">Published ({data.filter((item) => item.status === 'published').length})</SelectItem>
+                    <SelectItem value="draft">Draft ({data.filter((item) => item.status === 'draft').length})</SelectItem>
+                    <SelectItem value="archived">Archived ({data.filter((item) => item.status === 'archived').length})</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            {/* filter category */}
+            {/* <div className="col-span-1">
+              <Label htmlFor="category-filter" className="sr-only">
+                Filter Category
+              </Label>
+              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                <SelectTrigger size="sm" className="w-full md:w-36" id="category-filter">
+                  <SelectValue placeholder="Kategori" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <input type="search" placeholder="Cari Kategori" className="w-full border-none outline-none bg-transparent focus:ring-0 focus:outline-none" />
+                    <SelectItem value="all">Semua Kategori</SelectItem>
+                    {categories.map((kategori) => (
+                      <SelectItem key={kategori} value={kategori}>
+                        {kategori}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div> */}
+            <div className="col-span-1">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex w-full items-center justify-center gap-1 md:w-auto"
                   >
-                    {col}
-                  </DropdownMenuCheckboxItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+                    <HugeiconsIcon
+                      icon={LeftToRightListBulletIcon}
+                      strokeWidth={2}
+                    />
+
+                    <span className="max-w-32 truncate">
+                      {selectedCategory === "all"
+                        ? "Semua Kategori"
+                        : selectedCategory}
+                    </span>
+
+                    <HugeiconsIcon
+                      icon={ArrowDown01Icon}
+                      strokeWidth={2}
+                    />
+                  </Button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent
+                  align="end"
+                  className="w-56"
+                  onCloseAutoFocus={(event) => event.preventDefault()}
+                >
+                  <div className="p-1">
+                    <Input
+                      placeholder="Cari kategori..."
+                      value={categorySearch}
+                      autoFocus
+                      onChange={(event) =>
+                        handleCategorySearchChange(event.target.value)
+                      }
+                      onKeyDown={handleCategoryInputKeyDown}
+                      className="h-8"
+                    />
+                  </div>
+
+                  <DropdownMenuSeparator />
+
+                  {/* "Semua Kategori" hanya tampil saat tidak ada pencarian */}
+                  {categorySearch.trim() === "" && (
+                    <DropdownMenuItem
+                      onSelect={() => {
+                        setSelectedCategory("all");
+                        setCategoryFilter("all");
+                        setCategorySearch("");
+                        setHighlightedIndex(null);
+                      }}
+                    >
+                      Semua Kategori
+                    </DropdownMenuItem>
+                  )}
+
+                  {filteredCategories.map((kategori, index) => (
+                    <DropdownMenuItem
+                      key={kategori}
+                      onSelect={() => {
+                        setSelectedCategory(kategori);
+                        setCategoryFilter(kategori);
+                        setCategorySearch("");
+                        setHighlightedIndex(null);
+                      }}
+                      onPointerEnter={() => setHighlightedIndex(index)}
+                      className={
+                        highlightedIndex === index
+                          ? "bg-accent text-accent-foreground"
+                          : ""
+                      }
+                    >
+                      {kategori}
+                    </DropdownMenuItem>
+                  ))}
+
+                  {filteredCategories.length === 0 && (
+                    <div className="py-6 text-center text-sm text-muted-foreground">
+                      Kategori tidak ditemukan.
+                    </div>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+            <div className="col-span-1">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="w-full md:w-auto flex justify-center items-center gap-1">
+                    <HugeiconsIcon icon={LeftToRightListBulletIcon} strokeWidth={2} data-icon="inline-start" />
+                    <span className="truncate">Columns</span>
+                    <HugeiconsIcon icon={ArrowDown01Icon} strokeWidth={2} data-icon="inline-end" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-36">
+                  {HEADERS.filter(col => col !== "" && col !== "Action" && col !== "No").map((col) => (
+                    <DropdownMenuCheckboxItem
+                      key={col}
+                      className="capitalize"
+                      checked={visibleColumns.has(col)}
+                      onCheckedChange={(value) => toggleColumnVisibility(col, !!value)}
+                    >
+                      {col}
+                    </DropdownMenuCheckboxItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
-          <div className="col-span-1">
-            <Button variant="outline" size="sm" className="w-full md:w-auto flex justify-center items-center gap-1 bg-gray-200 border-border hover:bg-gray-200/90 text-gray-600 hover:text-gray-700 cursor-pointer transition-all duration-200 ease-in-out">
+          <div className="mt-3 md:mt-0">
+            <Button variant="outline" size="sm" className="w-full flex justify-center items-center gap-1 bg-gray-200 border-border hover:bg-gray-200/90 text-gray-600 hover:text-gray-700 cursor-pointer transition-all duration-200 ease-in-out">
               <HugeiconsIcon icon={Add01Icon} strokeWidth={2} className="size-4" />
-              <span className="hidden sm:inline">Tambah Berita</span>
+              <span className="">Tambah Berita</span>
             </Button>
           </div>
         </div>
@@ -376,9 +518,9 @@ export default function DataTableNewsFix({
                   {visibleColumns.has("Autor") && (
                     <TableCell
                       className="max-w-[150px] text-muted-foreground"
-                      title={row.penulis_nama || undefined}
+                      title={row.profiles?.name || row.penulis_nama || undefined}
                     >
-                      <span className="line-clamp-1">{row.penulis_nama || '-'}</span>
+                      <span className="line-clamp-1">{row.profiles?.name || row.penulis_nama || '-'}</span>
                     </TableCell>
                   )}
 
