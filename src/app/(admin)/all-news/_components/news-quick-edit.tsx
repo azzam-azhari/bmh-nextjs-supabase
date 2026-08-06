@@ -206,7 +206,7 @@ export function NewsQuickEdit({ news, open, onOpenChange, onSaved }: NewsQuickEd
         setPreview={setPreview}
         categories={categories}
         isMobile={isMobile}
-        penulisNama={news.penulis_nama}
+        penulisNama={news.profiles?.name || news.penulis_nama}
       />
     </Drawer>
   );

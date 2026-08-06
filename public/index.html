@@ -1,0 +1,1912 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="BMH menghadirkan kemudahan menunaikan zakat, infak, dan sedekah untuk menguatkan kehidupan saudara kita di seluruh Indonesia."
+    />
+    <meta name="theme-color" content="#0B5147" />
+    <title>BMH — Berbagi Kebaikan, Menguatkan Kehidupan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #0b5147;
+        --muted: #5f766f;
+        --green-950: #0b5147;
+        --green-900: #0b5147;
+        --green-800: #0b5147;
+        --green-600: #3ec68f;
+        --mint: #e8f9f2;
+        --mint-2: #d8f5e9;
+        --lime: #ffb839;
+        --yellow: #ffb839;
+        --cream: #fffbf4;
+        --white: #ffffff;
+        --line: rgba(11, 81, 71, 0.11);
+        --shadow: 0 24px 70px rgba(11, 81, 71, 0.13);
+        --radius-lg: 32px;
+        --radius-md: 22px;
+        --container: 1200px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        overflow-x: hidden;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 7% 9%, rgba(255, 184, 57, 0.18), transparent 25rem),
+          linear-gradient(180deg, #fffcf6 0%, #f7fcf9 100%);
+        font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body.menu-open {
+        overflow: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .container {
+        width: min(calc(100% - 40px), var(--container));
+        margin-inline: auto;
+      }
+
+      .site-header {
+        position: fixed;
+        z-index: 50;
+        top: 0;
+        left: 0;
+        width: 100%;
+        transition: background 300ms ease, box-shadow 300ms ease, transform 300ms ease;
+      }
+
+      .site-header.scrolled {
+        background: rgba(255, 252, 246, 0.88);
+        box-shadow: 0 1px 0 rgba(11, 81, 71, 0.08);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+      }
+
+      .nav-wrap {
+        height: 88px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 28px;
+      }
+
+      .brand {
+        display: inline-flex;
+        flex: 0 0 auto;
+        align-items: center;
+        gap: 11px;
+      }
+
+      .brand img {
+        width: 44px;
+        height: 44px;
+        object-fit: contain;
+      }
+
+      .brand-copy {
+        display: grid;
+        line-height: 1;
+      }
+
+      .brand-copy strong {
+        color: var(--green-900);
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: 0.13em;
+      }
+
+      .brand-copy small {
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 34px;
+        margin-left: auto;
+      }
+
+      .nav-links a {
+        position: relative;
+        color: #486d66;
+        font-size: 14px;
+        font-weight: 700;
+        transition: color 180ms ease;
+      }
+
+      .nav-links a::after {
+        position: absolute;
+        right: 0;
+        bottom: -8px;
+        left: 0;
+        height: 2px;
+        border-radius: 99px;
+        background: var(--green-600);
+        content: "";
+        transform: scaleX(0);
+        transition: transform 180ms ease;
+      }
+
+      .nav-links a:hover,
+      .nav-links a:focus-visible {
+        color: var(--green-900);
+      }
+
+      .nav-links a:hover::after,
+      .nav-links a:focus-visible::after {
+        transform: scaleX(1);
+      }
+
+      .nav-cta,
+      .primary-btn,
+      .secondary-btn,
+      .calculate-btn,
+      .program-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        border: 0;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 800;
+        transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      }
+
+      .nav-cta {
+        min-height: 46px;
+        padding: 0 21px;
+        color: var(--white);
+        background: var(--green-900);
+        box-shadow: 0 10px 24px rgba(11, 81, 71, 0.17);
+        font-size: 14px;
+      }
+
+      .nav-cta:hover,
+      .primary-btn:hover,
+      .calculate-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 30px rgba(11, 81, 71, 0.23);
+      }
+
+      .menu-btn {
+        display: none;
+        width: 46px;
+        height: 46px;
+        padding: 0;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        color: var(--green-900);
+        background: rgba(255, 255, 255, 0.72);
+        cursor: pointer;
+      }
+
+      .menu-btn svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      .hero {
+        position: relative;
+        min-height: 100svh;
+        overflow: hidden;
+        padding: 142px 0 88px;
+      }
+
+      .hero::before {
+        position: absolute;
+        z-index: -2;
+        top: 58%;
+        right: -10%;
+        width: min(57vw, 840px);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(62, 198, 143, 0.14) 0 43%, rgba(62, 198, 143, 0.05) 44% 62%, transparent 63%);
+        content: "";
+        transform: translateY(-50%);
+      }
+
+      .hero::after {
+        position: absolute;
+        z-index: -1;
+        right: 7%;
+        bottom: -250px;
+        width: 620px;
+        height: 420px;
+        border-radius: 50%;
+        background: rgba(255, 184, 57, 0.18);
+        filter: blur(80px);
+        content: "";
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.93fr) minmax(500px, 1.07fr);
+        align-items: center;
+        gap: clamp(42px, 6vw, 92px);
+      }
+
+      .hero-copy {
+        position: relative;
+        z-index: 3;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 38px;
+        margin-bottom: 25px;
+        padding: 0 15px 0 9px;
+        border: 1px solid rgba(62, 198, 143, 0.2);
+        border-radius: 999px;
+        color: var(--green-800);
+        background: rgba(232, 249, 242, 0.76);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        animation: fade-up 700ms 100ms both;
+      }
+
+      .eyebrow-icon {
+        display: grid;
+        width: 24px;
+        height: 24px;
+        place-items: center;
+        border-radius: 50%;
+        color: var(--green-950);
+        background: var(--lime);
+      }
+
+      .eyebrow-icon svg {
+        width: 13px;
+        height: 13px;
+      }
+
+      h1 {
+        max-width: 680px;
+        margin: 0;
+        color: var(--green-950);
+        font-size: clamp(48px, 5.3vw, 76px);
+        font-weight: 800;
+        letter-spacing: -0.065em;
+        line-height: 0.99;
+        animation: fade-up 800ms 180ms both;
+      }
+
+      .accent-word {
+        position: relative;
+        display: inline-block;
+        color: var(--green-600);
+      }
+
+      .accent-word::after {
+        position: absolute;
+        z-index: -1;
+        right: -5px;
+        bottom: 2px;
+        left: 1px;
+        height: 13px;
+        border-radius: 30% 70% 50% 40%;
+        background: var(--lime);
+        content: "";
+        opacity: 0.75;
+        transform: rotate(-1.2deg) scaleX(0);
+        transform-origin: left;
+        animation: underline-in 800ms 900ms forwards;
+      }
+
+      .hero-lead {
+        max-width: 570px;
+        margin: 28px 0 0;
+        color: var(--muted);
+        font-size: clamp(16px, 1.5vw, 18px);
+        line-height: 1.75;
+        animation: fade-up 800ms 280ms both;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 13px;
+        margin-top: 35px;
+        animation: fade-up 800ms 370ms both;
+      }
+
+      .primary-btn,
+      .secondary-btn {
+        min-height: 56px;
+        padding: 0 24px;
+        font-size: 15px;
+      }
+
+      .primary-btn {
+        color: var(--white);
+        background: var(--green-900);
+        box-shadow: 0 13px 30px rgba(11, 81, 71, 0.2);
+      }
+
+      .primary-btn .arrow-circle {
+        display: grid;
+        width: 27px;
+        height: 27px;
+        place-items: center;
+        border-radius: 50%;
+        color: var(--green-950);
+        background: var(--lime);
+        transition: transform 180ms ease;
+      }
+
+      .primary-btn:hover .arrow-circle {
+        transform: translateX(3px) rotate(-8deg);
+      }
+
+      .secondary-btn {
+        border: 1px solid rgba(11, 81, 71, 0.13);
+        color: var(--green-900);
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .secondary-btn:hover {
+        background: var(--white);
+        box-shadow: 0 12px 30px rgba(11, 81, 71, 0.08);
+        transform: translateY(-2px);
+      }
+
+      .play-icon {
+        display: grid;
+        width: 29px;
+        height: 29px;
+        place-items: center;
+        border-radius: 50%;
+        color: var(--white);
+        background: var(--green-600);
+      }
+
+      .trust-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 16px 25px;
+        margin-top: 38px;
+        animation: fade-up 800ms 460ms both;
+      }
+
+      .donor-stack {
+        display: flex;
+        padding-left: 9px;
+      }
+
+      .donor-stack span {
+        display: grid;
+        width: 35px;
+        height: 35px;
+        margin-left: -9px;
+        place-items: center;
+        border: 3px solid #fffcf6;
+        border-radius: 50%;
+        color: var(--white);
+        background: var(--green-600);
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .donor-stack span:nth-child(2) {
+        background: var(--yellow);
+      }
+
+      .donor-stack span:nth-child(3) {
+        background: #83dbb6;
+      }
+
+      .donor-stack span:nth-child(4) {
+        color: var(--green-950);
+        background: var(--lime);
+      }
+
+      .trust-copy strong,
+      .trust-copy span {
+        display: block;
+      }
+
+      .trust-copy strong {
+        color: var(--green-950);
+        font-size: 13px;
+      }
+
+      .trust-copy span {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .hero-visual {
+        position: relative;
+        z-index: 2;
+        min-height: 610px;
+        animation: visual-in 950ms 250ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
+
+      .visual-blob {
+        position: absolute;
+        inset: 36px 10px 18px 55px;
+        border-radius: 48% 52% 42% 58% / 50% 38% 62% 50%;
+        background:
+          linear-gradient(145deg, rgba(255, 255, 255, 0.7), rgba(232, 249, 242, 0.48)),
+          var(--mint);
+        box-shadow: inset 0 0 0 1px rgba(62, 198, 143, 0.09);
+        animation: blob-morph 10s ease-in-out infinite alternate;
+      }
+
+      .visual-dots {
+        position: absolute;
+        top: 44px;
+        right: 4px;
+        width: 132px;
+        height: 132px;
+        opacity: 0.55;
+        background-image: radial-gradient(var(--green-600) 1.5px, transparent 1.5px);
+        background-size: 14px 14px;
+        mask-image: linear-gradient(135deg, black, transparent 75%);
+        -webkit-mask-image: linear-gradient(135deg, black, transparent 75%);
+      }
+
+      .calculator-card {
+        position: absolute;
+        z-index: 3;
+        top: 50%;
+        left: 50%;
+        width: min(84%, 430px);
+        padding: 26px;
+        border: 1px solid rgba(255, 255, 255, 0.85);
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        transform: translate(-50%, -50%);
+      }
+
+      .card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 22px;
+      }
+
+      .card-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .card-title-icon {
+        display: grid;
+        width: 44px;
+        height: 44px;
+        place-items: center;
+        border-radius: 14px;
+        color: var(--green-950);
+        background: var(--lime);
+        box-shadow: inset 0 0 0 1px rgba(11, 81, 71, 0.08);
+      }
+
+      .card-title-icon svg {
+        width: 23px;
+        height: 23px;
+      }
+
+      .card-title strong,
+      .card-title small {
+        display: block;
+      }
+
+      .card-title strong {
+        color: var(--green-950);
+        font-size: 17px;
+      }
+
+      .card-title small {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .secure-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        color: var(--green-800);
+        background: var(--mint);
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .secure-pill svg {
+        width: 12px;
+        height: 12px;
+      }
+
+      .calc-label {
+        display: block;
+        margin: 0 0 8px 2px;
+        color: #496d65;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+      }
+
+      .money-field {
+        display: flex;
+        align-items: center;
+        height: 55px;
+        margin-bottom: 15px;
+        border: 1px solid rgba(11, 81, 71, 0.12);
+        border-radius: 15px;
+        background: #fcfefd;
+        transition: border 180ms ease, box-shadow 180ms ease;
+      }
+
+      .money-field:focus-within {
+        border-color: var(--green-600);
+        box-shadow: 0 0 0 4px rgba(62, 198, 143, 0.12);
+      }
+
+      .money-field span {
+        padding: 0 13px 0 15px;
+        color: var(--green-800);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .money-field input {
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        padding: 0 14px 0 0;
+        border: 0;
+        outline: 0;
+        color: var(--green-950);
+        background: transparent;
+        font-size: 15px;
+        font-weight: 800;
+      }
+
+      .money-field input::placeholder {
+        color: #91a8a2;
+        font-weight: 650;
+      }
+
+      .calc-result {
+        position: relative;
+        overflow: hidden;
+        margin-top: 7px;
+        padding: 17px 18px;
+        border-radius: 17px;
+        color: var(--white);
+        background: var(--green-900);
+      }
+
+      .calc-result::after {
+        position: absolute;
+        top: -34px;
+        right: -24px;
+        width: 100px;
+        height: 100px;
+        border: 18px solid rgba(255, 184, 57, 0.14);
+        border-radius: 50%;
+        content: "";
+      }
+
+      .result-top {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .result-label {
+        display: block;
+        color: rgba(255, 255, 255, 0.68);
+        font-size: 10px;
+        font-weight: 750;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .result-value {
+        display: block;
+        margin-top: 5px;
+        color: var(--lime);
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: -0.035em;
+      }
+
+      .percent-badge {
+        padding: 6px 9px;
+        border: 1px solid rgba(255, 255, 255, 0.13);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .calculate-btn {
+        width: 100%;
+        min-height: 50px;
+        margin-top: 13px;
+        color: var(--green-950);
+        background: var(--lime);
+        font-size: 13px;
+      }
+
+      .calc-note {
+        margin: 12px 0 0;
+        color: #7d9690;
+        font-size: 9px;
+        line-height: 1.5;
+        text-align: center;
+      }
+
+      .float-card {
+        position: absolute;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 13px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        border-radius: 17px;
+        background: rgba(255, 255, 255, 0.91);
+        box-shadow: 0 16px 40px rgba(11, 81, 71, 0.12);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+
+      .float-card .mini-icon {
+        display: grid;
+        flex: 0 0 auto;
+        width: 37px;
+        height: 37px;
+        place-items: center;
+        border-radius: 12px;
+      }
+
+      .float-card svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .float-card strong,
+      .float-card small {
+        display: block;
+        white-space: nowrap;
+      }
+
+      .float-card strong {
+        color: var(--green-950);
+        font-size: 12px;
+      }
+
+      .float-card small {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 9px;
+      }
+
+      .float-card.education {
+        top: 92px;
+        right: -4px;
+        animation: float-y 4.4s ease-in-out infinite;
+      }
+
+      .education .mini-icon {
+        color: var(--green-950);
+        background: #fff1d8;
+      }
+
+      .float-card.food {
+        bottom: 86px;
+        left: 0;
+        animation: float-y 4.9s 650ms ease-in-out infinite;
+      }
+
+      .food .mini-icon {
+        color: var(--green-900);
+        background: var(--mint-2);
+      }
+
+      .giving-orbit {
+        position: absolute;
+        z-index: 4;
+        top: 58px;
+        left: 44px;
+        width: 82px;
+        height: 82px;
+        animation: orbit-float 6s ease-in-out infinite;
+      }
+
+      .orbit-ring {
+        position: absolute;
+        inset: 0;
+        border: 1px dashed rgba(11, 81, 71, 0.28);
+        border-radius: 50%;
+        animation: spin 12s linear infinite;
+      }
+
+      .orbit-core {
+        position: absolute;
+        inset: 15px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        color: var(--white);
+        background: var(--green-900);
+        box-shadow: 0 12px 30px rgba(11, 81, 71, 0.2);
+      }
+
+      .orbit-core svg {
+        width: 25px;
+        height: 25px;
+      }
+
+      .orbit-dot {
+        position: absolute;
+        top: 4px;
+        left: 8px;
+        width: 13px;
+        height: 13px;
+        border: 3px solid var(--cream);
+        border-radius: 50%;
+        background: var(--yellow);
+      }
+
+      .scroll-cue {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: #789087;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        transform: translateX(-50%);
+      }
+
+      .scroll-mouse {
+        position: relative;
+        width: 19px;
+        height: 29px;
+        border: 1.5px solid #84a298;
+        border-radius: 99px;
+      }
+
+      .scroll-mouse::after {
+        position: absolute;
+        top: 6px;
+        left: 50%;
+        width: 3px;
+        height: 5px;
+        border-radius: 99px;
+        background: var(--green-600);
+        content: "";
+        transform: translateX(-50%);
+        animation: scroll-dot 1.7s ease-in-out infinite;
+      }
+
+      .impact-strip {
+        position: relative;
+        z-index: 4;
+        margin-top: -28px;
+      }
+
+      .impact-inner {
+        display: grid;
+        grid-template-columns: 1.2fr repeat(3, 1fr);
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: 24px;
+        color: var(--white);
+        background: var(--green-900);
+        box-shadow: 0 24px 60px rgba(11, 81, 71, 0.17);
+      }
+
+      .impact-intro,
+      .impact-item {
+        min-height: 124px;
+        padding: 26px 30px;
+      }
+
+      .impact-intro {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .impact-intro svg {
+        flex: 0 0 auto;
+        width: 33px;
+        height: 33px;
+        color: var(--lime);
+      }
+
+      .impact-intro strong,
+      .impact-intro span {
+        display: block;
+      }
+
+      .impact-intro strong {
+        font-size: 14px;
+      }
+
+      .impact-intro span {
+        margin-top: 6px;
+        color: rgba(255, 255, 255, 0.63);
+        font-size: 11px;
+        line-height: 1.5;
+      }
+
+      .impact-item {
+        position: relative;
+        display: grid;
+        align-content: center;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .impact-item strong {
+        color: var(--lime);
+        font-size: clamp(24px, 2.3vw, 34px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+      }
+
+      .impact-item span {
+        margin-top: 7px;
+        color: rgba(255, 255, 255, 0.66);
+        font-size: 11px;
+      }
+
+      .programs {
+        padding: 112px 0 105px;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 36px;
+      }
+
+      .section-kicker {
+        display: block;
+        margin-bottom: 12px;
+        color: var(--green-600);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      .section-head h2 {
+        max-width: 580px;
+        margin: 0;
+        color: var(--green-950);
+        font-size: clamp(34px, 4vw, 52px);
+        font-weight: 800;
+        letter-spacing: -0.05em;
+        line-height: 1.05;
+      }
+
+      .section-head p {
+        max-width: 390px;
+        margin: 0 0 4px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .program-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+
+      .program-card {
+        position: relative;
+        min-height: 320px;
+        overflow: hidden;
+        padding: 28px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.75);
+        transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease;
+      }
+
+      .program-card:hover {
+        border-color: rgba(62, 198, 143, 0.28);
+        box-shadow: 0 22px 50px rgba(11, 81, 71, 0.1);
+        transform: translateY(-7px);
+      }
+
+      .program-card::after {
+        position: absolute;
+        right: -60px;
+        bottom: -75px;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: var(--mint);
+        content: "";
+        transition: transform 300ms ease;
+      }
+
+      .program-card:hover::after {
+        transform: scale(1.2);
+      }
+
+      .program-icon {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        width: 53px;
+        height: 53px;
+        margin-bottom: 52px;
+        place-items: center;
+        border-radius: 17px;
+        color: var(--green-900);
+        background: var(--mint-2);
+      }
+
+      .program-card:nth-child(2) .program-icon {
+        color: var(--green-950);
+        background: #fff0cf;
+      }
+
+      .program-card:nth-child(3) .program-icon {
+        color: var(--green-950);
+        background: var(--mint);
+      }
+
+      .program-icon svg {
+        width: 27px;
+        height: 27px;
+      }
+
+      .program-card h3 {
+        position: relative;
+        z-index: 1;
+        margin: 0;
+        color: var(--green-950);
+        font-size: 21px;
+        letter-spacing: -0.025em;
+      }
+
+      .program-card p {
+        position: relative;
+        z-index: 1;
+        margin: 11px 0 23px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      .program-link {
+        position: relative;
+        z-index: 2;
+        justify-content: flex-start;
+        padding: 0;
+        color: var(--green-800);
+        background: transparent;
+        font-size: 12px;
+      }
+
+      .program-link svg {
+        width: 16px;
+        height: 16px;
+        transition: transform 180ms ease;
+      }
+
+      .program-link:hover svg {
+        transform: translateX(4px);
+      }
+
+      .closing-cta {
+        padding: 0 0 90px;
+      }
+
+      .closing-inner {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 38px;
+        overflow: hidden;
+        padding: 55px 60px;
+        border-radius: 30px;
+        color: var(--white);
+        background: var(--green-950);
+      }
+
+      .closing-inner::before,
+      .closing-inner::after {
+        position: absolute;
+        border-radius: 50%;
+        content: "";
+      }
+
+      .closing-inner::before {
+        top: -95px;
+        right: 13%;
+        width: 220px;
+        height: 220px;
+        border: 35px solid rgba(255, 184, 57, 0.1);
+      }
+
+      .closing-inner::after {
+        right: -60px;
+        bottom: -120px;
+        width: 250px;
+        height: 250px;
+        background: rgba(62, 198, 143, 0.2);
+      }
+
+      .closing-copy {
+        position: relative;
+        z-index: 1;
+      }
+
+      .closing-copy small {
+        color: var(--lime);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      .closing-copy h2 {
+        max-width: 650px;
+        margin: 11px 0 0;
+        font-size: clamp(29px, 3.6vw, 46px);
+        letter-spacing: -0.045em;
+        line-height: 1.08;
+      }
+
+      .closing-inner .primary-btn {
+        position: relative;
+        z-index: 1;
+        flex: 0 0 auto;
+        color: var(--green-950);
+        background: var(--lime);
+      }
+
+      footer {
+        padding: 0 0 42px;
+      }
+
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+        padding-top: 28px;
+        border-top: 1px solid var(--line);
+      }
+
+      .footer-inner p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 22px;
+        color: #4f7169;
+        font-size: 11px;
+        font-weight: 750;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(25px);
+        transition: opacity 700ms ease, transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @keyframes fade-up {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes visual-in {
+        from {
+          opacity: 0;
+          transform: translateY(30px) scale(0.96);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @keyframes underline-in {
+        to {
+          transform: rotate(-1.2deg) scaleX(1);
+        }
+      }
+
+      @keyframes blob-morph {
+        0% {
+          border-radius: 48% 52% 42% 58% / 50% 38% 62% 50%;
+          transform: rotate(0deg);
+        }
+        100% {
+          border-radius: 56% 44% 53% 47% / 40% 51% 49% 60%;
+          transform: rotate(2deg);
+        }
+      }
+
+      @keyframes float-y {
+        0%,
+        100% {
+          transform: translateY(0) rotate(-1deg);
+        }
+        50% {
+          transform: translateY(-11px) rotate(1deg);
+        }
+      }
+
+      @keyframes orbit-float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(9px);
+        }
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes scroll-dot {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -2px);
+        }
+        35% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, 9px);
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .hero {
+          min-height: auto;
+          padding-bottom: 106px;
+        }
+
+        .hero-grid {
+          grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+          gap: 25px;
+        }
+
+        .hero-visual {
+          min-height: 560px;
+        }
+
+        .calculator-card {
+          width: 82%;
+        }
+
+        .float-card.education {
+          right: -10px;
+        }
+
+        .impact-intro,
+        .impact-item {
+          padding: 22px;
+        }
+
+        .scroll-cue {
+          display: none;
+        }
+      }
+
+      @media (max-width: 840px) {
+        .container {
+          width: min(calc(100% - 32px), var(--container));
+        }
+
+        .nav-wrap {
+          height: 76px;
+        }
+
+        .menu-btn {
+          position: relative;
+          z-index: 52;
+          display: grid;
+          place-items: center;
+          margin-left: auto;
+        }
+
+        .nav-cta {
+          display: none;
+        }
+
+        .nav-links {
+          position: fixed;
+          z-index: 51;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 28px;
+          margin: 0;
+          background: rgba(255, 252, 246, 0.97);
+          opacity: 0;
+          pointer-events: none;
+          transform: translateY(-12px);
+          transition: opacity 240ms ease, transform 240ms ease;
+          backdrop-filter: blur(18px);
+        }
+
+        .nav-links.open {
+          opacity: 1;
+          pointer-events: auto;
+          transform: translateY(0);
+        }
+
+        .nav-links a {
+          color: var(--green-950);
+          font-size: 22px;
+        }
+
+        .hero {
+          padding: 120px 0 82px;
+        }
+
+        .hero-grid {
+          grid-template-columns: 1fr;
+          gap: 45px;
+        }
+
+        .hero-copy {
+          max-width: 680px;
+        }
+
+        h1 {
+          max-width: 700px;
+        }
+
+        .hero-lead {
+          max-width: 630px;
+        }
+
+        .hero-visual {
+          min-height: 570px;
+        }
+
+        .calculator-card {
+          width: min(76%, 450px);
+        }
+
+        .visual-blob {
+          inset: 20px 10% 5px;
+        }
+
+        .giving-orbit {
+          left: 12%;
+        }
+
+        .float-card.education {
+          right: 8%;
+        }
+
+        .float-card.food {
+          left: 8%;
+        }
+
+        .impact-strip {
+          margin-top: 0;
+        }
+
+        .impact-inner {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .impact-intro {
+          grid-column: 1 / -1;
+          min-height: auto;
+        }
+
+        .impact-item {
+          min-height: 108px;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .program-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .program-card {
+          min-height: 260px;
+        }
+
+        .program-icon {
+          margin-bottom: 32px;
+        }
+
+        .section-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .closing-inner {
+          align-items: flex-start;
+          flex-direction: column;
+          padding: 48px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .container {
+          width: min(calc(100% - 24px), var(--container));
+        }
+
+        .brand-copy small {
+          display: none;
+        }
+
+        .brand-copy strong {
+          font-size: 18px;
+        }
+
+        .brand img {
+          width: 38px;
+          height: 38px;
+        }
+
+        .hero {
+          padding: 105px 0 64px;
+        }
+
+        h1 {
+          font-size: clamp(42px, 13.5vw, 58px);
+          line-height: 1;
+        }
+
+        .hero-lead {
+          margin-top: 22px;
+          font-size: 15px;
+        }
+
+        .hero-actions {
+          align-items: stretch;
+          flex-direction: column;
+          margin-top: 28px;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+          width: 100%;
+        }
+
+        .trust-row {
+          margin-top: 29px;
+        }
+
+        .hero-visual {
+          min-height: 535px;
+          margin-inline: -5px;
+        }
+
+        .visual-blob {
+          inset: 14px 0 9px;
+        }
+
+        .calculator-card {
+          width: calc(100% - 28px);
+          padding: 21px;
+        }
+
+        .card-head {
+          margin-bottom: 18px;
+        }
+
+        .card-title-icon {
+          width: 40px;
+          height: 40px;
+        }
+
+        .card-title strong {
+          font-size: 15px;
+        }
+
+        .secure-pill {
+          display: none;
+        }
+
+        .float-card {
+          padding: 10px 12px;
+        }
+
+        .float-card .mini-icon {
+          width: 32px;
+          height: 32px;
+        }
+
+        .float-card.education {
+          top: 9px;
+          right: 0;
+        }
+
+        .float-card.food {
+          bottom: 10px;
+          left: 1px;
+        }
+
+        .giving-orbit {
+          top: 12px;
+          left: 5px;
+          width: 67px;
+          height: 67px;
+        }
+
+        .impact-inner {
+          grid-template-columns: 1fr;
+        }
+
+        .impact-intro {
+          grid-column: auto;
+        }
+
+        .impact-item {
+          min-height: 92px;
+          border-left: 0;
+        }
+
+        .programs {
+          padding: 82px 0 76px;
+        }
+
+        .section-head {
+          margin-bottom: 27px;
+        }
+
+        .program-card {
+          min-height: 285px;
+          padding: 24px;
+        }
+
+        .closing-cta {
+          padding-bottom: 65px;
+        }
+
+        .closing-inner {
+          padding: 38px 27px;
+        }
+
+        .closing-inner .primary-btn {
+          width: 100%;
+        }
+
+        .footer-inner {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header" id="siteHeader">
+      <div class="container nav-wrap">
+        <a class="brand" href="#beranda" aria-label="BMH - kembali ke beranda">
+          <img src="/logo/bmh.png" alt="Logo BMH" />
+          <span class="brand-copy">
+            <strong>BMH</strong>
+            <small>Baitul Maal Hidayatullah</small>
+          </span>
+        </a>
+
+        <nav class="nav-links" id="navLinks" aria-label="Navigasi utama">
+          <a href="#beranda">Beranda</a>
+          <a href="#program">Program</a>
+          <a href="#dampak">Dampak</a>
+          <a href="#tentang">Tentang Kami</a>
+        </nav>
+
+        <a class="nav-cta" href="#kalkulator">Tunaikan Zakat</a>
+        <button class="menu-btn" id="menuBtn" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="navLinks">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path class="menu-line-one" d="M4 7h16" />
+            <path class="menu-line-two" d="M4 12h16" />
+            <path class="menu-line-three" d="M4 17h16" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="beranda">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow">
+              <span class="eyebrow-icon">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10Z" />
+                </svg>
+              </span>
+              Kebaikanmu, harapan mereka
+            </div>
+
+            <h1>Berbagi kebaikan, <span class="accent-word">menguatkan</span> kehidupan.</h1>
+            <p class="hero-lead">
+              Bersama BMH, zakat, infak, dan sedekah Anda bergerak menjadi pendidikan, pangan, kesehatan, serta kemandirian bagi saudara kita.
+            </p>
+
+            <div class="hero-actions">
+              <a class="primary-btn" href="#kalkulator">
+                Tunaikan Sekarang
+                <span class="arrow-circle" aria-hidden="true">→</span>
+              </a>
+              <a class="secondary-btn" href="#dampak">
+                <span class="play-icon" aria-hidden="true">▶</span>
+                Lihat Dampak Kebaikan
+              </a>
+            </div>
+
+            <div class="trust-row" aria-label="Kepercayaan donatur">
+              <div class="donor-stack" aria-hidden="true">
+                <span>AN</span><span>RF</span><span>DS</span><span>+</span>
+              </div>
+              <div class="trust-copy">
+                <strong>Tumbuh bersama para donatur</strong>
+                <span>Amanah disalurkan, dampaknya dikabarkan.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual" id="kalkulator" aria-label="Kalkulator estimasi zakat penghasilan">
+            <div class="visual-blob" aria-hidden="true"></div>
+            <div class="visual-dots" aria-hidden="true"></div>
+
+            <div class="giving-orbit" aria-hidden="true">
+              <div class="orbit-ring"></div>
+              <div class="orbit-dot"></div>
+              <div class="orbit-core">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.8 8.2c.8 4.8-2.5 9.5-7.3 10.3-3 .5-5.9-.5-7.8-2.6" />
+                  <path d="M3.2 15.8C2.4 11 5.7 6.3 10.5 5.5c3-.5 5.9.5 7.8 2.6" />
+                  <path d="m18.5 4 .3 4.3-4.2.2M5.5 20l-.3-4.3 4.2-.2" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="float-card education" aria-hidden="true">
+              <span class="mini-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m3 10 9-5 9 5-9 5-9-5Z" />
+                  <path d="M7 12.5V17c2.7 2 7.3 2 10 0v-4.5M21 10v6" />
+                </svg>
+              </span>
+              <span><strong>Pendidikan</strong><small>Menyalakan masa depan</small></span>
+            </div>
+
+            <div class="calculator-card">
+              <div class="card-head">
+                <div class="card-title">
+                  <span class="card-title-icon">
+                    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
+                      <path d="M8 7h8M8 12h2m4 0h2M8 16h2m4 0h2" />
+                    </svg>
+                  </span>
+                  <span><strong>Kalkulator Zakat</strong><small>Penghasilan bulanan</small></span>
+                </div>
+                <span class="secure-pill">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 11V8a5 5 0 0 1 10 0v3M5 11h14v10H5z" />
+                  </svg>
+                  Aman
+                </span>
+              </div>
+
+              <label class="calc-label" for="income">Penghasilan per bulan</label>
+              <div class="money-field">
+                <span>Rp</span>
+                <input id="income" type="text" inputmode="numeric" autocomplete="off" placeholder="10.000.000" value="10.000.000" />
+              </div>
+
+              <label class="calc-label" for="needs">Kebutuhan pokok &amp; kewajiban</label>
+              <div class="money-field">
+                <span>Rp</span>
+                <input id="needs" type="text" inputmode="numeric" autocomplete="off" placeholder="2.500.000" value="2.500.000" />
+              </div>
+
+              <div class="calc-result" aria-live="polite">
+                <div class="result-top">
+                  <span>
+                    <span class="result-label">Estimasi zakat Anda</span>
+                    <strong class="result-value" id="zakatResult">Rp187.500</strong>
+                  </span>
+                  <span class="percent-badge">2,5%</span>
+                </div>
+              </div>
+
+              <button class="calculate-btn" id="calculateBtn" type="button">
+                Hitung &amp; Tunaikan Zakat
+                <span aria-hidden="true">→</span>
+              </button>
+              <p class="calc-note">Perhitungan ini merupakan estimasi sederhana. Konsultasikan ketentuan nisab dengan amil BMH.</p>
+            </div>
+
+            <div class="float-card food" aria-hidden="true">
+              <span class="mini-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 11h16a8 8 0 0 1-16 0Z" />
+                  <path d="M12 3c-1.8 1-2 2.4-.5 4M7.5 4.5C6.5 5.3 6.4 6.2 7 7" />
+                </svg>
+              </span>
+              <span><strong>Pangan Berdaya</strong><small>Menguatkan keluarga</small></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="scroll-cue" aria-hidden="true">
+          <span class="scroll-mouse"></span>
+          Jelajahi
+        </div>
+      </section>
+
+      <section class="impact-strip reveal" id="dampak" aria-label="Dampak program BMH">
+        <div class="container impact-inner">
+          <div class="impact-intro">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10Z" />
+            </svg>
+            <span><strong>Kebaikan yang terus bergerak</strong><span>Setiap titipan membuka lebih banyak pintu harapan.</span></span>
+          </div>
+          <div class="impact-item"><strong>4 Pilar</strong><span>Program kebaikan terpadu</span></div>
+          <div class="impact-item"><strong>34</strong><span>Provinsi dalam jangkauan</span></div>
+          <div class="impact-item"><strong>1 Tujuan</strong><span>Menguatkan kehidupan</span></div>
+        </div>
+      </section>
+
+      <section class="programs" id="program">
+        <div class="container">
+          <div class="section-head reveal">
+            <div>
+              <span class="section-kicker">Program Kebaikan</span>
+              <h2>Dari zakat, lahir lebih banyak kesempatan.</h2>
+            </div>
+            <p>Pilih jalan kebaikan yang paling dekat dengan hati Anda. BMH membantu menyalurkannya kepada yang membutuhkan.</p>
+          </div>
+
+          <div class="program-grid">
+            <article class="program-card reveal">
+              <span class="program-icon">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 20V9l8-5 8 5v11M2 20h20" />
+                  <path d="M9 20v-6h6v6M8 10h.01M16 10h.01" />
+                </svg>
+              </span>
+              <h3>Pendidikan</h3>
+              <p>Mendampingi lahirnya generasi berilmu melalui beasiswa, sarana belajar, dan pembinaan.</p>
+              <a class="program-link" href="#kalkulator">Ikut ambil bagian
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14m-5-5 5 5-5 5" /></svg>
+              </a>
+            </article>
+
+            <article class="program-card reveal">
+              <span class="program-icon">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10Z" />
+                  <path d="M9.5 12.5h5M12 10v5" />
+                </svg>
+              </span>
+              <h3>Kemanusiaan</h3>
+              <p>Menghadirkan bantuan cepat dan bermartabat bagi saudara terdampak bencana serta krisis.</p>
+              <a class="program-link" href="#kalkulator">Ikut ambil bagian
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14m-5-5 5 5-5 5" /></svg>
+              </a>
+            </article>
+
+            <article class="program-card reveal">
+              <span class="program-icon">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20V10M12 15c-4 0-7-2-7-6 4 0 7 2 7 6ZM12 11c4 0 7-2 7-6-4 0-7 2-7 6Z" />
+                  <path d="M7 20h10" />
+                </svg>
+              </span>
+              <h3>Ekonomi Berdaya</h3>
+              <p>Membuka akses modal, keterampilan, dan pendampingan agar keluarga dapat tumbuh mandiri.</p>
+              <a class="program-link" href="#kalkulator">Ikut ambil bagian
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14m-5-5 5 5-5 5" /></svg>
+              </a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="closing-cta" id="tentang">
+        <div class="container closing-inner reveal">
+          <div class="closing-copy">
+            <small>Satu langkah, banyak arti</small>
+            <h2>Mulai kebaikan Anda hari ini, biarkan manfaatnya terus hidup.</h2>
+          </div>
+          <a class="primary-btn" href="#kalkulator">
+            Tunaikan Zakat
+            <span class="arrow-circle" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-inner">
+        <a class="brand" href="#beranda" aria-label="BMH - kembali ke beranda">
+          <img src="/logo/bmh.png" alt="" />
+          <span class="brand-copy"><strong>BMH</strong><small>Baitul Maal Hidayatullah</small></span>
+        </a>
+        <p>© <span id="currentYear"></span> BMH. Kebaikan untuk semua.</p>
+        <div class="footer-links"><a href="#program">Program</a><a href="#dampak">Dampak</a><a href="#beranda">Kembali ke atas ↑</a></div>
+      </div>
+    </footer>
+
+    <script>
+      const header = document.getElementById("siteHeader");
+      const menuButton = document.getElementById("menuBtn");
+      const navLinks = document.getElementById("navLinks");
+      const incomeInput = document.getElementById("income");
+      const needsInput = document.getElementById("needs");
+      const resultElement = document.getElementById("zakatResult");
+      const calculateButton = document.getElementById("calculateBtn");
+
+      const rupiah = new Intl.NumberFormat("id-ID");
+      const onlyNumber = (value) => Number(String(value).replace(/[^0-9]/g, "")) || 0;
+      const formatField = (input) => {
+        const value = onlyNumber(input.value);
+        input.value = value ? rupiah.format(value) : "";
+      };
+
+      const calculateZakat = () => {
+        const netIncome = Math.max(0, onlyNumber(incomeInput.value) - onlyNumber(needsInput.value));
+        const zakat = Math.round(netIncome * 0.025);
+        resultElement.textContent = `Rp${rupiah.format(zakat)}`;
+        resultElement.animate(
+          [
+            { opacity: 0.35, transform: "translateY(5px)" },
+            { opacity: 1, transform: "translateY(0)" }
+          ],
+          { duration: 320, easing: "ease-out" }
+        );
+      };
+
+      [incomeInput, needsInput].forEach((input) => {
+        input.addEventListener("input", () => {
+          formatField(input);
+          calculateZakat();
+        });
+      });
+
+      calculateButton.addEventListener("click", calculateZakat);
+
+      const closeMenu = () => {
+        navLinks.classList.remove("open");
+        document.body.classList.remove("menu-open");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.setAttribute("aria-label", "Buka menu");
+      };
+
+      menuButton.addEventListener("click", () => {
+        const isOpen = navLinks.classList.toggle("open");
+        document.body.classList.toggle("menu-open", isOpen);
+        menuButton.setAttribute("aria-expanded", String(isOpen));
+        menuButton.setAttribute("aria-label", isOpen ? "Tutup menu" : "Buka menu");
+      });
+
+      navLinks.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+
+      const onScroll = () => header.classList.toggle("scrolled", window.scrollY > 18);
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.13 }
+      );
+
+      document.querySelectorAll(".reveal").forEach((element, index) => {
+        element.style.transitionDelay = `${Math.min(index % 4, 3) * 80}ms`;
+        revealObserver.observe(element);
+      });
+
+      document.getElementById("currentYear").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,818 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b503e" />
+    <meta name="description" content="Perbandingan tiga pilihan font untuk landing page BMH." />
+    <title>Pilihan Font Landing Page BMH</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --green-950: #073d31;
+        --green-900: #0b503e;
+        --green-700: #187155;
+        --green-500: #2baf7c;
+        --mint: #e8f7ee;
+        --lime: #d5ee61;
+        --cream: #f8f9f2;
+        --white: #ffffff;
+        --ink: #15362d;
+        --muted: #667d75;
+        --line: rgba(7, 61, 49, 0.12);
+        --shadow: 0 20px 55px rgba(7, 61, 49, 0.11);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 4% 0%, rgba(213, 238, 97, 0.26), transparent 31rem),
+          var(--cream);
+        font-family: "DM Sans", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      button,
+      a {
+        font: inherit;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .container {
+        width: min(calc(100% - 40px), 1180px);
+        margin-inline: auto;
+      }
+
+      header {
+        position: sticky;
+        z-index: 30;
+        top: 0;
+        border-bottom: 1px solid rgba(7, 61, 49, 0.08);
+        background: rgba(248, 249, 242, 0.86);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+      }
+
+      .nav {
+        min-height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--green-900);
+        text-decoration: none;
+      }
+
+      .brand img {
+        width: 39px;
+        height: 39px;
+        object-fit: contain;
+      }
+
+      .brand strong {
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+      }
+
+      .selection-status {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        min-height: 39px;
+        padding: 0 15px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--green-700);
+        background: rgba(255, 255, 255, 0.8);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #b7c6c0;
+        box-shadow: 0 0 0 4px rgba(183, 198, 192, 0.16);
+      }
+
+      .selection-status.selected .status-dot {
+        background: var(--green-500);
+        box-shadow: 0 0 0 4px rgba(43, 175, 124, 0.15);
+      }
+
+      .intro {
+        padding: 76px 0 50px;
+        text-align: center;
+      }
+
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 36px;
+        padding: 0 14px;
+        border: 1px solid rgba(43, 175, 124, 0.2);
+        border-radius: 999px;
+        color: var(--green-700);
+        background: var(--mint);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .kicker::before {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--lime);
+        box-shadow: 0 0 0 4px rgba(213, 238, 97, 0.3);
+        content: "";
+      }
+
+      .intro h1 {
+        max-width: 820px;
+        margin: 23px auto 0;
+        color: var(--green-950);
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-size: clamp(40px, 5.7vw, 68px);
+        font-weight: 800;
+        letter-spacing: -0.055em;
+        line-height: 1.03;
+      }
+
+      .intro p {
+        max-width: 650px;
+        margin: 20px auto 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      .tip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 25px;
+        color: #80938d;
+        font-size: 11px;
+      }
+
+      .tip svg {
+        width: 15px;
+        height: 15px;
+      }
+
+      .font-list {
+        display: grid;
+        gap: 28px;
+        padding: 20px 0 90px;
+      }
+
+      .font-option {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 30px;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 10px 35px rgba(7, 61, 49, 0.05);
+        transition: border-color 250ms ease, box-shadow 250ms ease, transform 250ms ease;
+      }
+
+      .font-option:hover {
+        box-shadow: var(--shadow);
+        transform: translateY(-3px);
+      }
+
+      .font-option.is-selected {
+        border-color: var(--green-500);
+        box-shadow: 0 0 0 4px rgba(43, 175, 124, 0.09), var(--shadow);
+      }
+
+      .option-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 22px 25px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(248, 251, 246, 0.8);
+      }
+
+      .option-name {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .option-number {
+        display: grid;
+        flex: 0 0 auto;
+        width: 40px;
+        height: 40px;
+        place-items: center;
+        border-radius: 13px;
+        color: var(--green-950);
+        background: var(--lime);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .option-name strong,
+      .option-name small {
+        display: block;
+      }
+
+      .option-name strong {
+        color: var(--green-950);
+        font-size: 17px;
+      }
+
+      .option-name small {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .personality {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 7px;
+      }
+
+      .personality span {
+        padding: 7px 10px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: #587269;
+        background: var(--white);
+        font-size: 10px;
+        font-weight: 700;
+      }
+
+      .preview {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+        align-items: center;
+        gap: clamp(36px, 6vw, 76px);
+        padding: clamp(35px, 5vw, 62px);
+      }
+
+      .font-jakarta {
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+
+      .font-manrope {
+        font-family: "Manrope", sans-serif;
+      }
+
+      .font-sora {
+        font-family: "Sora", sans-serif;
+      }
+
+      .preview-copy .mini-kicker {
+        display: block;
+        margin-bottom: 15px;
+        color: var(--green-500);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      .preview-copy h2 {
+        max-width: 680px;
+        margin: 0;
+        color: var(--green-950);
+        font-size: clamp(37px, 5.1vw, 64px);
+        font-weight: 800;
+        letter-spacing: -0.055em;
+        line-height: 1.01;
+      }
+
+      .preview-copy h2 span {
+        position: relative;
+        color: var(--green-500);
+      }
+
+      .preview-copy h2 span::after {
+        position: absolute;
+        z-index: -1;
+        right: 0;
+        bottom: 1px;
+        left: 0;
+        height: 10px;
+        border-radius: 99px;
+        background: var(--lime);
+        content: "";
+        opacity: 0.75;
+      }
+
+      .preview-copy p {
+        max-width: 620px;
+        margin: 22px 0 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.75;
+      }
+
+      .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 27px;
+      }
+
+      .demo-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        min-height: 50px;
+        padding: 0 20px;
+        border: 0;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .demo-button.primary {
+        color: var(--white);
+        background: var(--green-900);
+        box-shadow: 0 12px 27px rgba(11, 80, 62, 0.17);
+      }
+
+      .demo-button.secondary {
+        border: 1px solid var(--line);
+        color: var(--green-900);
+        background: var(--white);
+      }
+
+      .arrow {
+        display: grid;
+        width: 25px;
+        height: 25px;
+        place-items: center;
+        border-radius: 50%;
+        color: var(--green-950);
+        background: var(--lime);
+      }
+
+      .sample-card {
+        position: relative;
+        overflow: hidden;
+        padding: 25px;
+        border-radius: 23px;
+        color: var(--white);
+        background: var(--green-900);
+        box-shadow: 0 22px 50px rgba(7, 61, 49, 0.16);
+      }
+
+      .sample-card::after {
+        position: absolute;
+        top: -60px;
+        right: -55px;
+        width: 150px;
+        height: 150px;
+        border: 24px solid rgba(213, 238, 97, 0.11);
+        border-radius: 50%;
+        content: "";
+      }
+
+      .sample-icon {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        width: 43px;
+        height: 43px;
+        margin-bottom: 34px;
+        place-items: center;
+        border-radius: 14px;
+        color: var(--green-950);
+        background: var(--lime);
+      }
+
+      .sample-icon svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      .sample-card small,
+      .sample-card strong,
+      .sample-card span {
+        position: relative;
+        z-index: 1;
+        display: block;
+      }
+
+      .sample-card small {
+        color: rgba(255, 255, 255, 0.66);
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .sample-card strong {
+        margin-top: 6px;
+        color: var(--lime);
+        font-size: 29px;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+      }
+
+      .sample-card span {
+        margin-top: 8px;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 10px;
+      }
+
+      .alphabet {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px 15px;
+        margin-top: 19px;
+        padding-top: 17px;
+        border-top: 1px solid rgba(255, 255, 255, 0.13);
+        color: rgba(255, 255, 255, 0.76);
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .choose-area {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 22px;
+        padding: 18px 25px;
+        border-top: 1px solid var(--line);
+        background: rgba(248, 251, 246, 0.72);
+      }
+
+      .choose-area p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .choose-button {
+        flex: 0 0 auto;
+        min-height: 42px;
+        padding: 0 18px;
+        border: 0;
+        border-radius: 999px;
+        color: var(--white);
+        background: var(--green-900);
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 800;
+        transition: background 180ms ease, transform 180ms ease;
+      }
+
+      .choose-button:hover {
+        background: var(--green-700);
+        transform: translateY(-2px);
+      }
+
+      .is-selected .choose-button {
+        color: var(--green-950);
+        background: var(--lime);
+      }
+
+      .recommendation {
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        right: 36px;
+        padding: 8px 14px 9px;
+        border-radius: 0 0 12px 12px;
+        color: var(--green-950);
+        background: var(--lime);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      footer {
+        padding: 30px 0 45px;
+        border-top: 1px solid var(--line);
+      }
+
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .back-link {
+        color: var(--green-700);
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      @media (max-width: 820px) {
+        .preview {
+          grid-template-columns: 1fr;
+        }
+
+        .sample-card {
+          max-width: 440px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .container {
+          width: min(calc(100% - 24px), 1180px);
+        }
+
+        .nav {
+          min-height: 67px;
+        }
+
+        .selection-status {
+          max-width: 175px;
+          padding-inline: 12px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .intro {
+          padding: 57px 0 35px;
+          text-align: left;
+        }
+
+        .intro h1 {
+          font-size: 42px;
+        }
+
+        .intro p {
+          font-size: 14px;
+        }
+
+        .option-bar,
+        .choose-area {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .personality {
+          justify-content: flex-start;
+        }
+
+        .preview {
+          gap: 34px;
+          padding: 34px 23px;
+        }
+
+        .preview-copy h2 {
+          font-size: 40px;
+        }
+
+        .button-row {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .demo-button {
+          width: 100%;
+        }
+
+        .choose-button {
+          width: 100%;
+        }
+
+        .recommendation {
+          right: 20px;
+        }
+
+        .footer-inner {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <a class="brand" href="/index.html" aria-label="Kembali ke landing page BMH">
+          <img src="/logo/bmh.png" alt="Logo BMH" />
+          <strong>BMH</strong>
+        </a>
+        <div class="selection-status" id="selectionStatus" aria-live="polite">
+          <span class="status-dot"></span>
+          <span id="selectionText">Belum ada pilihan</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro">
+        <div class="container">
+          <span class="kicker">Eksplorasi tipografi</span>
+          <h1>Tiga karakter font untuk wajah baru BMH.</h1>
+          <p>Bandingkan rasa setiap font pada judul, teks isi, tombol, label, dan angka. Pilih satu yang paling mencerminkan BMH: amanah, hangat, dan berdampak.</p>
+          <span class="tip">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9" /><path d="M12 11v5m0-8h.01" />
+            </svg>
+            Semua contoh menggunakan ukuran dan susunan yang sama agar mudah dibandingkan.
+          </span>
+        </div>
+      </section>
+
+      <section class="container font-list" aria-label="Pilihan font">
+        <article class="font-option" data-font="Plus Jakarta Sans">
+          <span class="recommendation">Rekomendasi</span>
+          <div class="option-bar">
+            <div class="option-name">
+              <span class="option-number">01</span>
+              <span><strong>Plus Jakarta Sans</strong><small>Geometris dengan sentuhan humanis</small></span>
+            </div>
+            <div class="personality" aria-label="Karakter font"><span>Hangat</span><span>Modern</span><span>Terpercaya</span></div>
+          </div>
+
+          <div class="preview font-jakarta">
+            <div class="preview-copy">
+              <span class="mini-kicker">Kebaikanmu, harapan mereka</span>
+              <h2>Berbagi kebaikan, <span>menguatkan</span> kehidupan.</h2>
+              <p>Bersama BMH, zakat, infak, dan sedekah Anda bergerak menjadi pendidikan, pangan, kesehatan, serta kemandirian bagi saudara kita.</p>
+              <div class="button-row">
+                <span class="demo-button primary">Tunaikan Sekarang <span class="arrow">→</span></span>
+                <span class="demo-button secondary">Lihat Dampak Kebaikan</span>
+              </div>
+            </div>
+            <div class="sample-card">
+              <span class="sample-icon">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" /><path d="M8 7h8M8 12h2m4 0h2M8 16h2m4 0h2" />
+                </svg>
+              </span>
+              <small>Estimasi zakat Anda</small>
+              <strong>Rp187.500</strong>
+              <span>Penghasilan bulanan · 2,5%</span>
+              <div class="alphabet">Aa Bb Cc Dd Ee Ff <b>1234567890</b></div>
+            </div>
+          </div>
+
+          <div class="choose-area">
+            <p>Cocok bila BMH ingin terasa bersahabat, relevan, dan mudah didekati semua generasi.</p>
+            <button class="choose-button" type="button">Pilih font ini</button>
+          </div>
+        </article>
+
+        <article class="font-option" data-font="Manrope">
+          <div class="option-bar">
+            <div class="option-name">
+              <span class="option-number">02</span>
+              <span><strong>Manrope</strong><small>Bersih, terbuka, dan sangat terbaca</small></span>
+            </div>
+            <div class="personality" aria-label="Karakter font"><span>Profesional</span><span>Tenang</span><span>Transparan</span></div>
+          </div>
+
+          <div class="preview font-manrope">
+            <div class="preview-copy">
+              <span class="mini-kicker">Kebaikanmu, harapan mereka</span>
+              <h2>Berbagi kebaikan, <span>menguatkan</span> kehidupan.</h2>
+              <p>Bersama BMH, zakat, infak, dan sedekah Anda bergerak menjadi pendidikan, pangan, kesehatan, serta kemandirian bagi saudara kita.</p>
+              <div class="button-row">
+                <span class="demo-button primary">Tunaikan Sekarang <span class="arrow">→</span></span>
+                <span class="demo-button secondary">Lihat Dampak Kebaikan</span>
+              </div>
+            </div>
+            <div class="sample-card">
+              <span class="sample-icon">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" /><path d="M8 7h8M8 12h2m4 0h2M8 16h2m4 0h2" />
+                </svg>
+              </span>
+              <small>Estimasi zakat Anda</small>
+              <strong>Rp187.500</strong>
+              <span>Penghasilan bulanan · 2,5%</span>
+              <div class="alphabet">Aa Bb Cc Dd Ee Ff <b>1234567890</b></div>
+            </div>
+          </div>
+
+          <div class="choose-area">
+            <p>Cocok bila BMH ingin menonjolkan kesan profesional, transparan, dan sangat mudah dibaca.</p>
+            <button class="choose-button" type="button">Pilih font ini</button>
+          </div>
+        </article>
+
+        <article class="font-option" data-font="Sora">
+          <div class="option-bar">
+            <div class="option-name">
+              <span class="option-number">03</span>
+              <span><strong>Sora</strong><small>Tegas dengan karakter digital kontemporer</small></span>
+            </div>
+            <div class="personality" aria-label="Karakter font"><span>Berani</span><span>Progresif</span><span>Digital</span></div>
+          </div>
+
+          <div class="preview font-sora">
+            <div class="preview-copy">
+              <span class="mini-kicker">Kebaikanmu, harapan mereka</span>
+              <h2>Berbagi kebaikan, <span>menguatkan</span> kehidupan.</h2>
+              <p>Bersama BMH, zakat, infak, dan sedekah Anda bergerak menjadi pendidikan, pangan, kesehatan, serta kemandirian bagi saudara kita.</p>
+              <div class="button-row">
+                <span class="demo-button primary">Tunaikan Sekarang <span class="arrow">→</span></span>
+                <span class="demo-button secondary">Lihat Dampak Kebaikan</span>
+              </div>
+            </div>
+            <div class="sample-card">
+              <span class="sample-icon">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" /><path d="M8 7h8M8 12h2m4 0h2M8 16h2m4 0h2" />
+                </svg>
+              </span>
+              <small>Estimasi zakat Anda</small>
+              <strong>Rp187.500</strong>
+              <span>Penghasilan bulanan · 2,5%</span>
+              <div class="alphabet">Aa Bb Cc Dd Ee Ff <b>1234567890</b></div>
+            </div>
+          </div>
+
+          <div class="choose-area">
+            <p>Cocok bila BMH ingin tampil lebih berani, progresif, dan kuat sebagai platform zakat digital.</p>
+            <button class="choose-button" type="button">Pilih font ini</button>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-inner">
+        <span>Perbandingan tipografi untuk landing page BMH.</span>
+        <a class="back-link" href="/index.html">← Kembali ke landing page</a>
+      </div>
+    </footer>
+
+    <script>
+      const options = document.querySelectorAll(".font-option");
+      const status = document.getElementById("selectionStatus");
+      const statusText = document.getElementById("selectionText");
+      const savedFont = localStorage.getItem("bmh-font-choice");
+
+      const selectFont = (selectedOption) => {
+        const fontName = selectedOption.dataset.font;
+
+        options.forEach((option) => {
+          const isSelected = option === selectedOption;
+          option.classList.toggle("is-selected", isSelected);
+          const button = option.querySelector(".choose-button");
+          button.textContent = isSelected ? "✓ Font dipilih" : "Pilih font ini";
+          button.setAttribute("aria-pressed", String(isSelected));
+        });
+
+        status.classList.add("selected");
+        statusText.textContent = `Pilihan: ${fontName}`;
+        localStorage.setItem("bmh-font-choice", fontName);
+      };
+
+      options.forEach((option) => {
+        option.querySelector(".choose-button").addEventListener("click", () => selectFont(option));
+      });
+
+      if (savedFont) {
+        const savedOption = Array.from(options).find((option) => option.dataset.font === savedFont);
+        if (savedOption) selectFont(savedOption);
+      }
+    </script>
+  </body>
+</html>

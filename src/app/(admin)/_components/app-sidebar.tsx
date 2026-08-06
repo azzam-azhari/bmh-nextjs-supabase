@@ -59,10 +59,9 @@ const data = {
       url: '#',
       icon: <HugeiconsIcon icon={News01Icon} strokeWidth={2} />,
       items: [
-        { title: 'Semua Berita', url: '/allnews' },
+        { title: 'Semua Berita', url: '/all-news' },
         { title: 'Tambah Berita Baru', url: '/add-news' },
         { title: 'Kategori Berita', url: '/categories' },
-        // { title: 'All News', url: '/all-news' },
       ],
     },
     {

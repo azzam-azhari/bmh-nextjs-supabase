@@ -2,6 +2,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
@@ -12,6 +13,7 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils'; // Pastikan Anda memiliki cn dari shadcn (lib/utils.ts)
 import LanguageSwitcher from './language-switcher';
 import { useAuthStore } from '@/stores/auth-store';
+import { GradientButton } from '@/components/common/gradient-button';
 
 const navLinks = [
     { href: '/', label: 'Beranda' },
@@ -93,18 +95,26 @@ export default function Navbar() {
 
                             {/* Mobile Footer */}
                             <div className="border-t p-4 mt-auto">
-                                <Button variant="outline" className="w-full justify-center gap-2 h-11" asChild>
+                                {/* <Button variant="outline" className="w-full justify-center gap-2 h-11" asChild> */}
+                                <GradientButton theme="light" size="default" className="w-full cursor-pointer justify-center gap-2 h-11" asChild>
                                     <Link href={buttonHref} onClick={() => setIsOpen(false)}>
                                         <HugeiconsIcon icon={UserIcon} className="h-4 w-4" /> {isLoggedIn ? buttonText : 'Masuk / Daftar'}
                                     </Link>
-                                </Button>
+                                </GradientButton>
                             </div>
                         </SheetContent>
                     </Sheet>
 
                     {/* Desktop Logo */}
                     <Link href="/" className="flex items-center space-x-2">
-                        <span className="text-xl font-bold tracking-tight lg:text-2xl">BMH</span>
+                        <Image
+                            src="/logo/logo-bmh.png"
+                            alt="Logo BMH"
+                            width={65}
+                            height={65}
+                            className="object-contain"
+                            priority
+                        />
                     </Link>
                 </div>
 
@@ -136,13 +146,19 @@ export default function Navbar() {
                     {/* Language Switcher - Sekarang ditempatkan langsung di div actions */}
                     <LanguageSwitcher />
 
-                    <Button
+                    {/* <Button
                         size="sm"
                         className="hidden md:inline-flex h-9 lg:h-10 w-[112px] px-0 justify-center text-xs lg:text-sm whitespace-nowrap"
                         asChild
+                    > */}
+                    <GradientButton
+                        theme="dark"
+                        size="default"
+                        className="hidden md:inline-flex h-9 gap-2 px-5 text-sm sm:h-10 sm:px-6 sm:text-base"
+                        asChild
                     >
                         <Link href={buttonHref}>{buttonText}</Link>
-                    </Button>
+                    </GradientButton>
                 </div>
             </div>
         </header>

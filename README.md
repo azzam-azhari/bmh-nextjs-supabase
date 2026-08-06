@@ -31,8 +31,7 @@ Area publik:
 Area admin:
 - Login di `/login`
 - Dashboard di `/dashboard`
-- Manajemen berita di `/allnews`
-- Halaman berita alternatif/prototipe di `/all-news`
+- Manajemen berita di `/all-news`
 - Tambah berita di `/add-news`
 - Manajemen kategori di `/categories`
 - Manajemen pengguna di `/user-management`
@@ -160,8 +159,7 @@ http://localhost:3000
 - `/news`: daftar berita publik.
 - `/login`: login admin.
 - `/dashboard`: dashboard admin.
-- `/allnews`: manajemen berita utama.
-- `/all-news`: halaman alternatif/prototipe manajemen berita.
+- `/all-news`: manajemen berita utama.
 - `/add-news`: tambah berita.
 - `/categories`: manajemen kategori.
 - `/user-management`: manajemen pengguna.
@@ -179,7 +177,6 @@ Route admin yang dilindungi oleh `src/proxy.ts`:
 - `/all-news`
 - `/add-news`
 - `/categories`
-- `/allnews`
 
 Role yang tersedia di kode:
 - `admin`

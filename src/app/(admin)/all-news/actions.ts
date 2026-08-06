@@ -203,7 +203,7 @@ export async function updateBerita(
       }
     }
 
-    revalidatePath('/allnews');
+    revalidatePath('/all-news');
 
     return {
       status: 'success',

@@ -38,10 +38,10 @@ export default function DialogDelete({
                     </DialogHeader>
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button variant="outline">Cancel</Button>
+                            <Button variant="outline" className="cursor-pointer">Cancel</Button>
                         </DialogClose>
-                        <Button variant="destructive" formAction={onSubmit}>
-                            {isLoading ? <HugeiconsIcon icon={Loading01Icon} className="animate-spin"  /> : 'Delete'}
+                        <Button variant="destructive" formAction={onSubmit} className="cursor-pointer">
+                            {isLoading ? <HugeiconsIcon icon={Loading01Icon} className="animate-spin" /> : 'Delete'}
                         </Button>
                     </DialogFooter>
                 </form>

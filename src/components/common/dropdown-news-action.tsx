@@ -26,7 +26,7 @@ export default function DropdownNewsAction({
             <DropdownMenuTrigger asChild>
                 <Button
                     variant="ghost"
-                    className="text-muted-foreground size-8"
+                    className="text-muted-foreground size-8 cursor-pointer"
                     size="icon"
                 >
                     <HugeiconsIcon icon={MoreVerticalIcon} />
@@ -43,6 +43,7 @@ export default function DropdownNewsAction({
                             variant={item.variant || 'default'}
                             asChild={item.type === 'link'}
                             onSelect={item.action}
+                            className="cursor-pointer"
                         >
                             {item.label}
                         </DropdownMenuItem>

@@ -3,22 +3,24 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { useQueryClient } from '@tanstack/react-query';
-import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
-} from '@/components/ui/table';
-import { Label } from "@/components/ui/label";
-import {
-  Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Checkbox } from "@/components/ui/checkbox";
-import { HugeiconsIcon } from "@hugeicons/react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Checkbox } from '@/components/ui/checkbox';
+import { HugeiconsIcon } from '@hugeicons/react';
 import DropdownNewsAction from '@/components/common/dropdown-news-action';
 import { News } from '@/types/general';
 import { Badge } from '@/components/ui/badge';
 import {
-  ArrowLeftDoubleIcon, ArrowLeft01Icon, ArrowRight01Icon, ArrowRightDoubleIcon, PencilEdit01Icon, Delete02Icon, ViewIcon,
+  ArrowLeftDoubleIcon,
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  ArrowRightDoubleIcon,
+  PencilEdit01Icon,
+  Delete02Icon,
+  ViewIcon,
   CheckmarkCircle01Icon,
   Loading03Icon,
   SentIcon,
@@ -28,21 +30,16 @@ import {
   ArrowDown01Icon,
   Add01Icon,
   PencilEdit02Icon,
-} from "@hugeicons/core-free-icons"
+} from '@hugeicons/core-free-icons';
 import { Input } from '@/components/ui/input';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import useDataTable from '@/hooks/use-data-table';
 import { NewsQuickEdit } from './news-quick-edit';
+import { GradientButton } from '@/components/common/gradient-button';
+import Link from 'next/link';
 
 // ✅ Header sesuai kolom tabel News
-const HEADERS = ["", "No", "Judul", "Autor", "Kategori", "Tags", "Dibuat Pada", "Status", "Action"];
+const HEADERS = ['', 'No', 'Judul', 'Autor', 'Kategori', 'Tags', 'Dibuat Pada', 'Status', 'Action'];
 
 // ✅ Skeleton width disesuaikan per kolom News
 const SKELETON_WIDTHS = ['w-5', 'w-7', 'w-48', 'w-40', 'w-12', 'w-28', 'w-8'];
@@ -50,55 +47,38 @@ const SKELETON_WIDTHS = ['w-5', 'w-7', 'w-48', 'w-40', 'w-12', 'w-28', 'w-8'];
 // Status badge component
 function StatusBadge({ status }: { status: string }) {
   switch (status?.toLowerCase()) {
-    case "published":
+    case 'published':
       return (
         <Badge variant="outline" className="gap-1 px-1.5 text-emerald-600 border-emerald-200 bg-emerald-50 dark:text-emerald-400 dark:border-emerald-800 dark:bg-emerald-950">
           <HugeiconsIcon icon={CheckmarkCircle01Icon} strokeWidth={2} className="size-3 fill-emerald-500/20" />
           Published
         </Badge>
-      )
-    case "draft":
+      );
+    case 'draft':
       return (
         <Badge variant="outline" className="gap-1 px-1.5 text-muted-foreground">
           <HugeiconsIcon icon={Edit01Icon} strokeWidth={2} className="size-3" />
           Draft
         </Badge>
-      )
-    case "archived":
+      );
+    case 'archived':
       return (
         <Badge variant="outline" className="gap-1 px-1.5 text-amber-600 border-amber-200 bg-amber-50 dark:text-amber-400 dark:border-amber-800 dark:bg-amber-950">
           <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} className="size-3" />
           Archived
         </Badge>
-      )
+      );
     default:
       return (
         <Badge variant="outline" className="px-1.5 text-muted-foreground capitalize">
           {status}
         </Badge>
-      )
+      );
   }
 }
 
-export default function DataTableNewsFix({
-  data = [],
-  isLoading,
-  onEdit,
-  onDelete,
-}: {
-  data: News[];
-  isLoading?: boolean;
-  onEdit?: (category: News) => void;
-  onDelete?: (category: News) => void;
-}) {
-  const {
-    currentPage,
-    currentLimit,
-    currentSearch,
-    handleChangePage,
-    handleChangeLimit,
-    handleChangeSearch,
-  } = useDataTable();
+export default function DataTableNewsFix({ data = [], isLoading, onEdit, onDelete }: { data: News[]; isLoading?: boolean; onEdit?: (category: News) => void; onDelete?: (category: News) => void }) {
+  const { currentPage, currentLimit, currentSearch, handleChangePage, handleChangeLimit, handleChangeSearch } = useDataTable();
 
   const queryClient = useQueryClient();
 
@@ -119,23 +99,24 @@ export default function DataTableNewsFix({
     setIsQuickEditOpen(true);
   }, []);
 
-  const handleNewsUpdated = useCallback((updatedNews: News) => {
-    setQuickEditData(updatedNews);
+  const handleNewsUpdated = useCallback(
+    (updatedNews: News) => {
+      setQuickEditData(updatedNews);
 
-    queryClient.setQueryData<News[]>(['news'], (currentNews) => {
-      const newsToUpdate = currentNews ?? data;
+      queryClient.setQueryData<News[]>(['news'], (currentNews) => {
+        const newsToUpdate = currentNews ?? data;
 
-      return newsToUpdate.map((item) =>
-        item.id === updatedNews.id ? updatedNews : item,
-      );
-    });
-  }, [data, queryClient]);
+        return newsToUpdate.map((item) => (item.id === updatedNews.id ? updatedNews : item));
+      });
+    },
+    [data, queryClient],
+  );
 
   useEffect(() => {
     const fetchCategories = async () => {
       const { data, error } = await supabase.from('kategori').select('nama_kategori');
       if (data && !error) {
-        setCategories(data.map(cat => cat.nama_kategori));
+        setCategories(data.map((cat) => cat.nama_kategori));
       }
     };
     fetchCategories();
@@ -154,10 +135,7 @@ export default function DataTableNewsFix({
   const pageCount = Math.ceil(totalItems / currentLimit) || 1;
   const safePageIndex = Math.max(0, Math.min(currentPage - 1, pageCount - 1));
 
-  const paginatedData = filteredData.slice(
-    safePageIndex * currentLimit,
-    (safePageIndex + 1) * currentLimit
-  );
+  const paginatedData = filteredData.slice(safePageIndex * currentLimit, (safePageIndex + 1) * currentLimit);
 
   const toggleColumnVisibility = (column: string, isVisible: boolean) => {
     setVisibleColumns((prev) => {
@@ -171,18 +149,14 @@ export default function DataTableNewsFix({
   // ✅ Format tanggal ke bahasa Indonesia
   const formatDate = (dateStr: string) =>
     new Date(dateStr).toLocaleDateString('id-ID', {
-      day: '2-digit', month: 'short', year: 'numeric',
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
     });
 
   // ✅ Checkbox: apakah semua baris di halaman ini terpilih?
-  const allPageSelected = useMemo(
-    () => paginatedData.length > 0 && paginatedData.every((row) => selectedRows.has(row.id)),
-    [paginatedData, selectedRows]
-  );
-  const somePageSelected = useMemo(
-    () => paginatedData.some((row) => selectedRows.has(row.id)) && !allPageSelected,
-    [paginatedData, selectedRows, allPageSelected]
-  );
+  const allPageSelected = useMemo(() => paginatedData.length > 0 && paginatedData.every((row) => selectedRows.has(row.id)), [paginatedData, selectedRows]);
+  const somePageSelected = useMemo(() => paginatedData.some((row) => selectedRows.has(row.id)) && !allPageSelected, [paginatedData, selectedRows, allPageSelected]);
 
   const toggleAllPage = useCallback(
     (checked: boolean) => {
@@ -195,7 +169,7 @@ export default function DataTableNewsFix({
         return next;
       });
     },
-    [paginatedData]
+    [paginatedData],
   );
 
   const toggleRow = useCallback((id: number, checked: boolean) => {
@@ -207,18 +181,16 @@ export default function DataTableNewsFix({
     });
   }, []);
 
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [categorySearch, setCategorySearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [categorySearch, setCategorySearch] = useState('');
   const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
 
-  const filteredCategories = categories.filter((kategori) =>
-    kategori.toLowerCase().includes(categorySearch.toLowerCase())
-  );
+  const filteredCategories = categories.filter((kategori) => kategori.toLowerCase().includes(categorySearch.toLowerCase()));
 
   // Auto-highlight first result when search changes
   const handleCategorySearchChange = useCallback((value: string) => {
     setCategorySearch(value);
-    setHighlightedIndex(value.trim() === "" ? null : 0);
+    setHighlightedIndex(value.trim() === '' ? null : 0);
   }, []);
 
   const handleCategoryInputKeyDown = useCallback(
@@ -228,32 +200,28 @@ export default function DataTableNewsFix({
 
       const total = filteredCategories.length;
 
-      if (event.key === "ArrowDown") {
+      if (event.key === 'ArrowDown') {
         event.preventDefault();
-        setHighlightedIndex((prev) =>
-          prev === null ? 0 : Math.min(prev + 1, total - 1)
-        );
-      } else if (event.key === "ArrowUp") {
+        setHighlightedIndex((prev) => (prev === null ? 0 : Math.min(prev + 1, total - 1)));
+      } else if (event.key === 'ArrowUp') {
         event.preventDefault();
-        setHighlightedIndex((prev) =>
-          prev === null ? total - 1 : Math.max(prev - 1, 0)
-        );
-      } else if (event.key === "Enter") {
+        setHighlightedIndex((prev) => (prev === null ? total - 1 : Math.max(prev - 1, 0)));
+      } else if (event.key === 'Enter') {
         event.preventDefault();
         if (highlightedIndex !== null && filteredCategories[highlightedIndex]) {
           const kategori = filteredCategories[highlightedIndex];
           setSelectedCategory(kategori);
           setCategoryFilter(kategori);
-          setCategorySearch("");
+          setCategorySearch('');
           setHighlightedIndex(null);
         }
-      } else if (event.key === "Escape") {
+      } else if (event.key === 'Escape') {
         // Let Radix handle Escape to close the dropdown
-        setCategorySearch("");
+        setCategorySearch('');
         setHighlightedIndex(null);
       }
     },
-    [filteredCategories, highlightedIndex]
+    [filteredCategories, highlightedIndex],
   );
 
   return (
@@ -282,7 +250,7 @@ export default function DataTableNewsFix({
             </button>
           )}
         </div>
-        <div className='md:flex gap-2'>
+        <div className="md:flex gap-2">
           {/* filter */}
           <div className="grid grid-cols-3 gap-2 w-full md:flex md:w-auto md:items-center md:gap-2">
             {/* filter status */}
@@ -329,56 +297,29 @@ export default function DataTableNewsFix({
             <div className="col-span-1">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex w-full items-center justify-center gap-1 md:w-auto"
-                  >
-                    <HugeiconsIcon
-                      icon={LeftToRightListBulletIcon}
-                      strokeWidth={2}
-                    />
+                  <Button variant="outline" size="sm" className="flex w-full items-center justify-center gap-1 md:w-auto">
+                    <HugeiconsIcon icon={LeftToRightListBulletIcon} strokeWidth={2} />
 
-                    <span className="max-w-32 truncate">
-                      {selectedCategory === "all"
-                        ? "Semua Kategori"
-                        : selectedCategory}
-                    </span>
+                    <span className="max-w-32 truncate">{selectedCategory === 'all' ? 'Semua Kategori' : selectedCategory}</span>
 
-                    <HugeiconsIcon
-                      icon={ArrowDown01Icon}
-                      strokeWidth={2}
-                    />
+                    <HugeiconsIcon icon={ArrowDown01Icon} strokeWidth={2} />
                   </Button>
                 </DropdownMenuTrigger>
 
-                <DropdownMenuContent
-                  align="end"
-                  className="w-56"
-                  onCloseAutoFocus={(event) => event.preventDefault()}
-                >
+                <DropdownMenuContent align="end" className="w-56" onCloseAutoFocus={(event) => event.preventDefault()}>
                   <div className="p-1">
-                    <Input
-                      placeholder="Cari kategori..."
-                      value={categorySearch}
-                      autoFocus
-                      onChange={(event) =>
-                        handleCategorySearchChange(event.target.value)
-                      }
-                      onKeyDown={handleCategoryInputKeyDown}
-                      className="h-8"
-                    />
+                    <Input placeholder="Cari kategori..." value={categorySearch} autoFocus onChange={(event) => handleCategorySearchChange(event.target.value)} onKeyDown={handleCategoryInputKeyDown} className="h-8" />
                   </div>
 
                   <DropdownMenuSeparator />
 
                   {/* "Semua Kategori" hanya tampil saat tidak ada pencarian */}
-                  {categorySearch.trim() === "" && (
+                  {categorySearch.trim() === '' && (
                     <DropdownMenuItem
                       onSelect={() => {
-                        setSelectedCategory("all");
-                        setCategoryFilter("all");
-                        setCategorySearch("");
+                        setSelectedCategory('all');
+                        setCategoryFilter('all');
+                        setCategorySearch('');
                         setHighlightedIndex(null);
                       }}
                     >
@@ -392,25 +333,17 @@ export default function DataTableNewsFix({
                       onSelect={() => {
                         setSelectedCategory(kategori);
                         setCategoryFilter(kategori);
-                        setCategorySearch("");
+                        setCategorySearch('');
                         setHighlightedIndex(null);
                       }}
                       onPointerEnter={() => setHighlightedIndex(index)}
-                      className={
-                        highlightedIndex === index
-                          ? "bg-accent text-accent-foreground"
-                          : ""
-                      }
+                      className={highlightedIndex === index ? 'bg-accent text-accent-foreground' : ''}
                     >
                       {kategori}
                     </DropdownMenuItem>
                   ))}
 
-                  {filteredCategories.length === 0 && (
-                    <div className="py-6 text-center text-sm text-muted-foreground">
-                      Kategori tidak ditemukan.
-                    </div>
-                  )}
+                  {filteredCategories.length === 0 && <div className="py-6 text-center text-sm text-muted-foreground">Kategori tidak ditemukan.</div>}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -424,13 +357,8 @@ export default function DataTableNewsFix({
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-36">
-                  {HEADERS.filter(col => col !== "" && col !== "Action" && col !== "No").map((col) => (
-                    <DropdownMenuCheckboxItem
-                      key={col}
-                      className="capitalize"
-                      checked={visibleColumns.has(col)}
-                      onCheckedChange={(value) => toggleColumnVisibility(col, !!value)}
-                    >
+                  {HEADERS.filter((col) => col !== '' && col !== 'Action' && col !== 'No').map((col) => (
+                    <DropdownMenuCheckboxItem key={col} className="capitalize" checked={visibleColumns.has(col)} onCheckedChange={(value) => toggleColumnVisibility(col, !!value)}>
                       {col}
                     </DropdownMenuCheckboxItem>
                   ))}
@@ -439,10 +367,20 @@ export default function DataTableNewsFix({
             </div>
           </div>
           <div className="mt-3 md:mt-0">
-            <Button variant="outline" size="sm" className="w-full flex justify-center items-center gap-1 bg-gray-200 border-border hover:bg-gray-200/90 text-gray-600 hover:text-gray-700 cursor-pointer transition-all duration-200 ease-in-out">
+            {/* <Button
+              variant="outline"
+              size="sm"
+              className="flex w-full cursor-pointer items-center justify-center gap-1 bg-foreground text-background hover:bg-foreground/90 hover:text-background"
+            >
               <HugeiconsIcon icon={Add01Icon} strokeWidth={2} className="size-4" />
               <span className="">Tambah Berita</span>
-            </Button>
+            </Button> */}
+            <GradientButton theme="inverse" size="sm" className="w-full cursor-pointer gap-1" asChild>
+              <Link href="/add-news">
+                <HugeiconsIcon icon={Add01Icon} strokeWidth={2} className="size-4" />
+                <span>Tambah Berita</span>
+              </Link>
+            </GradientButton>
           </div>
         </div>
       </div>
@@ -452,21 +390,15 @@ export default function DataTableNewsFix({
           <TableHeader className="sticky top-0 z-10 bg-muted">
             <TableRow>
               {HEADERS.map((col, i) =>
-                !visibleColumns.has(col) ? null : (
-                  i === 0 ? (
-                    <TableHead key="select-all" className="w-10">
-                      <div className="flex items-center justify-center">
-                        <Checkbox
-                          checked={allPageSelected || (somePageSelected && 'indeterminate')}
-                          onCheckedChange={(value) => toggleAllPage(!!value)}
-                          aria-label="Select all"
-                        />
-                      </div>
-                    </TableHead>
-                  ) : (
-                    <TableHead key={col}>{col}</TableHead>
-                  )
-                )
+                !visibleColumns.has(col) ? null : i === 0 ? (
+                  <TableHead key="select-all" className="w-10">
+                    <div className="flex items-center justify-center">
+                      <Checkbox checked={allPageSelected || (somePageSelected && 'indeterminate')} onCheckedChange={(value) => toggleAllPage(!!value)} aria-label="Select all" />
+                    </div>
+                  </TableHead>
+                ) : (
+                  <TableHead key={col}>{col}</TableHead>
+                ),
               )}
             </TableRow>
           </TableHeader>
@@ -474,69 +406,59 @@ export default function DataTableNewsFix({
             {isLoading ? (
               Array.from({ length: currentLimit }).map((_, rowIndex) => (
                 <TableRow key={`skeleton-row-${rowIndex}`}>
-                  {HEADERS.map((col, colIndex) => (
+                  {HEADERS.map((col, colIndex) =>
                     visibleColumns.has(col) ? (
                       <TableCell key={`skeleton-col-${rowIndex}-${colIndex}`}>
                         <Skeleton className={`h-5 ${SKELETON_WIDTHS[colIndex] ?? 'w-20'} rounded-md`} />
                       </TableCell>
-                    ) : null
-                  ))}
+                    ) : null,
+                  )}
                 </TableRow>
               ))
             ) : paginatedData.length > 0 ? (
               paginatedData.map((row, rowIndex) => (
-                <TableRow key={row.id} data-state={selectedRows.has(row.id) && "selected"}>
+                <TableRow key={row.id} data-state={selectedRows.has(row.id) && 'selected'}>
                   {/* Checkbox per baris */}
-                  {visibleColumns.has("") && (
+                  {visibleColumns.has('') && (
                     <TableCell className="w-10">
                       <div className="flex items-center justify-center">
-                        <Checkbox
-                          checked={selectedRows.has(row.id)}
-                          onCheckedChange={(value) => toggleRow(row.id, !!value)}
-                          aria-label={`Select row ${row.id}`}
-                        />
+                        <Checkbox checked={selectedRows.has(row.id)} onCheckedChange={(value) => toggleRow(row.id, !!value)} aria-label={`Select row ${row.id}`} />
                       </div>
                     </TableCell>
                   )}
 
-                  {visibleColumns.has("No") && (
-                    <TableCell>{safePageIndex * currentLimit + rowIndex + 1}</TableCell>
-                  )}
+                  {visibleColumns.has('No') && <TableCell>{safePageIndex * currentLimit + rowIndex + 1}</TableCell>}
 
                   {/* Kolom Judul - DIBATASI, RESPONSIF */}
-                  {visibleColumns.has("Judul") && (
+                  {visibleColumns.has('Judul') && (
                     <TableCell className="max-w-[333px] sm:max-w-[200px] md:max-w-[250px]" title={row.judul}>
-                      <span
-                        className="line-clamp-2 cursor-pointer hover:underline text-primary transition-all"
-                        onClick={() => openQuickEdit(row)}
-                      >
+                      <span className="line-clamp-2 cursor-pointer hover:underline text-primary transition-all" onClick={() => openQuickEdit(row)}>
                         {row.judul}
                       </span>
                     </TableCell>
                   )}
 
-                  {visibleColumns.has("Autor") && (
-                    <TableCell
-                      className="max-w-[150px] text-muted-foreground"
-                      title={row.profiles?.name || row.penulis_nama || undefined}
-                    >
+                  {visibleColumns.has('Autor') && (
+                    <TableCell className="max-w-[150px] text-muted-foreground" title={row.profiles?.name || row.penulis_nama || undefined}>
                       <span className="line-clamp-1">{row.profiles?.name || row.penulis_nama || '-'}</span>
                     </TableCell>
                   )}
 
                   {/* Kategori - Badge */}
-                  {visibleColumns.has("Kategori") && (
+                  {visibleColumns.has('Kategori') && (
                     <TableCell className="max-w-[100px]" title={row.kategori?.nama_kategori || undefined}>
                       {row.kategori?.nama_kategori ? (
                         <Badge variant="secondary" className="px-2 font-normal">
                           {row.kategori.nama_kategori}
                         </Badge>
-                      ) : '-'}
+                      ) : (
+                        '-'
+                      )}
                     </TableCell>
                   )}
 
                   {/* Tags - Badge outline, 1 baris */}
-                  {visibleColumns.has("Tags") && (
+                  {visibleColumns.has('Tags') && (
                     <TableCell className="max-w-[100px] sm:max-w-[150px]" title={row.tags?.join(', ') || undefined}>
                       {row.tags && row.tags.length > 0 ? (
                         <div className="flex flex-nowrap gap-1 overflow-hidden">
@@ -546,24 +468,22 @@ export default function DataTableNewsFix({
                             </Badge>
                           ))}
                         </div>
-                      ) : '-'}
+                      ) : (
+                        '-'
+                      )}
                     </TableCell>
                   )}
 
                   {/* Tanggal - teks pudar */}
-                  {visibleColumns.has("Dibuat Pada") && (
-                    <TableCell className="text-muted-foreground text-sm tabular-nums">
-                      {formatDate(row.created_at)}
-                    </TableCell>
-                  )}
+                  {visibleColumns.has('Dibuat Pada') && <TableCell className="text-muted-foreground text-sm tabular-nums">{formatDate(row.created_at)}</TableCell>}
 
-                  {visibleColumns.has("Status") && (
+                  {visibleColumns.has('Status') && (
                     <TableCell className="max-w-[80px]">
                       <StatusBadge status={row.status} />
                     </TableCell>
                   )}
 
-                  {visibleColumns.has("Action") && (
+                  {visibleColumns.has('Action') && (
                     <TableCell>
                       {/* Dropdown bisa diubah menjadi tombol ikon di layar kecil */}
                       <DropdownNewsAction
@@ -636,7 +556,9 @@ export default function DataTableNewsFix({
             </Label>
             <Select
               value={`${currentLimit}`}
-              onValueChange={(val) => { handleChangeLimit(Number(val)); }}
+              onValueChange={(val) => {
+                handleChangeLimit(Number(val));
+              }}
             >
               <SelectTrigger size="sm" className="w-20" id="rows-per-page-category">
                 <SelectValue placeholder={`${currentLimit}`} />
@@ -644,7 +566,9 @@ export default function DataTableNewsFix({
               <SelectContent side="top">
                 <SelectGroup>
                   {[10, 20, 30, 40, 50].map((size) => (
-                    <SelectItem key={size} value={`${size}`}>{size}</SelectItem>
+                    <SelectItem key={size} value={`${size}`}>
+                      {size}
+                    </SelectItem>
                   ))}
                 </SelectGroup>
               </SelectContent>
@@ -652,29 +576,22 @@ export default function DataTableNewsFix({
           </div>
 
           <div className="ml-auto flex items-center gap-2 lg:ml-0">
-            <Button variant="outline" className="hidden h-8 w-8 p-0 lg:flex"
-              onClick={() => handleChangePage(1)} disabled={safePageIndex === 0}>
+            <Button variant="outline" className="hidden h-8 w-8 p-0 lg:flex" onClick={() => handleChangePage(1)} disabled={safePageIndex === 0}>
               <span className="sr-only">Go to first page</span>
               <HugeiconsIcon icon={ArrowLeftDoubleIcon} strokeWidth={2} />
             </Button>
-            <Button variant="outline" className="size-8" size="icon"
-              onClick={() => handleChangePage(Math.max(1, currentPage - 1))}
-              disabled={safePageIndex === 0}>
+            <Button variant="outline" className="size-8" size="icon" onClick={() => handleChangePage(Math.max(1, currentPage - 1))} disabled={safePageIndex === 0}>
               <span className="sr-only">Go to previous page</span>
               <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} />
             </Button>
             <div className="flex w-fit items-center justify-center text-sm font-medium">
               Page {safePageIndex + 1} of {pageCount}
             </div>
-            <Button variant="outline" className="size-8" size="icon"
-              onClick={() => handleChangePage(Math.min(pageCount, currentPage + 1))}
-              disabled={safePageIndex >= pageCount - 1}>
+            <Button variant="outline" className="size-8" size="icon" onClick={() => handleChangePage(Math.min(pageCount, currentPage + 1))} disabled={safePageIndex >= pageCount - 1}>
               <span className="sr-only">Go to next page</span>
               <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} />
             </Button>
-            <Button variant="outline" className="hidden size-8 lg:flex" size="icon"
-              onClick={() => handleChangePage(pageCount)}
-              disabled={safePageIndex >= pageCount - 1}>
+            <Button variant="outline" className="hidden size-8 lg:flex" size="icon" onClick={() => handleChangePage(pageCount)} disabled={safePageIndex >= pageCount - 1}>
               <span className="sr-only">Go to last page</span>
               <HugeiconsIcon icon={ArrowRightDoubleIcon} strokeWidth={2} />
             </Button>
@@ -683,12 +600,7 @@ export default function DataTableNewsFix({
       </div>
 
       {/* Drawer Quick Edit */}
-      <NewsQuickEdit
-        news={quickEditData}
-        open={isQuickEditOpen}
-        onOpenChange={setIsQuickEditOpen}
-        onSaved={handleNewsUpdated}
-      />
+      <NewsQuickEdit news={quickEditData} open={isQuickEditOpen} onOpenChange={setIsQuickEditOpen} onSaved={handleNewsUpdated} />
     </div>
   );
 }

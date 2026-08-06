@@ -29,7 +29,7 @@ export async function updateSession(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // Daftar awalan path untuk area admin (wajib login)
-  const protectedPathPrefixes = ['/dashboard', '/user-management', '/permissions', '/all-news', '/add-news', '/categories', '/allnews', '/profile'];
+  const protectedPathPrefixes = ['/dashboard', '/user-management', '/permissions', '/all-news', '/add-news', '/categories', '/profile'];
   const isProtectedPath = protectedPathPrefixes.some((prefix) => path.startsWith(prefix));
 
   // 1. Jika belum login & akses halaman admin -> Lempar ke Login

@@ -165,7 +165,7 @@ export async function updateUser(prevState: AuthFormState, formData: FormData) {
         console.error('Gagal membarui penulis_nama di tabel berita:', beritaSyncError.message);
     }
 
-    revalidatePath('/allnews');
+    revalidatePath('/all-news');
 
     // 2. UPDATE USER METADATA (Ini yang membuat nav-user terupdate)
     const { error: authError } = await supabase.auth.admin.updateUserById(userId, {

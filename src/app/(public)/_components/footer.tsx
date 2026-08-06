@@ -5,6 +5,7 @@ import { Mail01Icon, Call02Icon, Location01Icon, Facebook01Icon, NewTwitterIcon,
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 export default function Footer() {
     return (
@@ -15,7 +16,15 @@ export default function Footer() {
                 {/* Top Section: Newsletter & Brand */}
                 <div className="flex flex-col lg:flex-row justify-between gap-8 lg:gap-12 mb-12 pb-10 border-b">
                     <div className="space-y-4 text-left max-w-md">
-                        <h3 className="text-2xl lg:text-3xl font-bold tracking-tight">BMH</h3>
+                        {/* <span className='text-2xl font-bold'>BMH</span> */}
+                        <Image
+                            src="/logo/logo-bmh.png"
+                            alt="Logo BMH"
+                            width={80}
+                            height={80}
+                            className="object-contain"
+                            priority
+                        />
                         <p className="text-sm lg:text-base text-muted-foreground leading-relaxed">
                             Portal berita resmi yang menyajikan informasi terkini, riset, dan pengembangan untuk Indonesia dan Dunia.
                         </p>

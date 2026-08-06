@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { ImageUploadIcon, CheckmarkCircle01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
-import { createClient } from "@/lib/supabase/client";
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ImageUploadIcon, CheckmarkCircle01Icon, Cancel01Icon } from '@hugeicons/core-free-icons';
+import { createClient } from '@/lib/supabase/client';
 
 export default function AddNews() {
   // 1. Siapkan "Kotak Penyimpanan" (State) untuk data kategori
@@ -21,12 +21,10 @@ export default function AddNews() {
   useEffect(() => {
     const ambilDataKategori = async () => {
       // "Hai Supabase, tolong ambilkan id dan nama_kategori dari tabel kategori"
-      const { data, error } = await supabase
-        .from('kategori')
-        .select('id, nama_kategori');
+      const { data, error } = await supabase.from('kategori').select('id, nama_kategori');
 
       if (error) {
-        console.error("Gagal mengambil kategori:", error);
+        console.error('Gagal mengambil kategori:', error);
       } else if (data) {
         // Masukkan data dari database ke "Kotak Penyimpanan" kita
         setKategoriList(data);
@@ -40,9 +38,9 @@ export default function AddNews() {
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
+    if (e.type === 'dragenter' || e.type === 'dragover') {
       setDragActive(true);
-    } else if (e.type === "dragleave") {
+    } else if (e.type === 'dragleave') {
       setDragActive(false);
     }
   };
@@ -56,14 +54,11 @@ export default function AddNews() {
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6">
-
       {/* HEADER STANDAR */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 w-full">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Add News</h1>
-          <p className="text-sm text-muted-foreground">
-            Create a new article or news to be published.
-          </p>
+          <h1 className="text-2xl font-bold tracking-tight">Tambah Berita Baru</h1>
+          <p className="text-sm text-muted-foreground">Gunakan form di bawah ini untuk menambahkan berita baru ke dalam sistem.</p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline">
@@ -82,9 +77,7 @@ export default function AddNews() {
           <Card>
             <CardHeader>
               <CardTitle>General Information</CardTitle>
-              <CardDescription>
-                Provide the basic information for the news article.
-              </CardDescription>
+              <CardDescription>Provide the basic information for the news article.</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
               <div className="flex flex-col gap-2">
@@ -106,20 +99,18 @@ export default function AddNews() {
                   <Label htmlFor="category">Category</Label>
 
                   {/* Nantinya value yang disimpan adalah ID kategori (angka), bukan teksnya */}
-                  <Select onValueChange={(value) => console.log("Kategori ID yang dipilih:", value)}>
+                  <Select onValueChange={(value) => console.log('Kategori ID yang dipilih:', value)}>
                     <SelectTrigger id="category">
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-
                         {/* 3. Di sinilah sihirnya terjadi! Kita gunakan .map() untuk melooping (mengulang) baris data */}
                         {kategoriList.map((kat) => (
                           <SelectItem key={kat.id} value={kat.id.toString()}>
                             {kat.nama_kategori}
                           </SelectItem>
                         ))}
-
                       </SelectGroup>
                     </SelectContent>
                   </Select>
@@ -131,9 +122,7 @@ export default function AddNews() {
           <Card>
             <CardHeader>
               <CardTitle>Tags</CardTitle>
-              <CardDescription>
-                Add keywords to help users find this article.
-              </CardDescription>
+              <CardDescription>Add keywords to help users find this article.</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col gap-2">
@@ -148,25 +137,18 @@ export default function AddNews() {
           <Card>
             <CardHeader>
               <CardTitle>Cover Image</CardTitle>
-              <CardDescription>
-                Upload an image for the news thumbnail.
-              </CardDescription>
+              <CardDescription>Upload an image for the news thumbnail.</CardDescription>
             </CardHeader>
             <CardContent>
               <div
-                className={`mt-2 flex justify-center rounded-lg border border-dashed px-6 py-10 transition-colors ${dragActive ? "border-primary bg-primary/5" : "border-muted-foreground/25"
-                  }`}
+                className={`mt-2 flex justify-center rounded-lg border border-dashed px-6 py-10 transition-colors ${dragActive ? 'border-primary bg-primary/5' : 'border-muted-foreground/25'}`}
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
               >
                 <div className="text-center">
-                  <HugeiconsIcon
-                    icon={ImageUploadIcon}
-                    strokeWidth={1.5}
-                    className="mx-auto h-12 w-12 text-muted-foreground/50"
-                  />
+                  <HugeiconsIcon icon={ImageUploadIcon} strokeWidth={1.5} className="mx-auto h-12 w-12 text-muted-foreground/50" />
                   <div className="mt-4 flex text-sm leading-6 text-muted-foreground justify-center">
                     <label
                       htmlFor="file-upload"
@@ -177,9 +159,7 @@ export default function AddNews() {
                     </label>
                     <p className="pl-1">or drag and drop</p>
                   </div>
-                  <p className="text-xs leading-5 text-muted-foreground">
-                    PNG, JPG, GIF up to 10MB
-                  </p>
+                  <p className="text-xs leading-5 text-muted-foreground">PNG, JPG, GIF up to 10MB</p>
                 </div>
               </div>
             </CardContent>
